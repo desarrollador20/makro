@@ -10,11 +10,12 @@ import { LoginForm } from "../../../components/Auth";
 
 export function LoginScreen() {
   const navigation = useNavigation();
-  const [valueRadio, setValueRadio] = React.useState('first');
+  const [valueRadio, setValueRadio] = React.useState('pt');
 
   const changeLanguage = (newValue) => {
     setValueRadio(newValue);
     storageResult.setItemValueLanguage(newValue);
+
   };
 
   return (

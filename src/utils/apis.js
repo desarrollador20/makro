@@ -5,6 +5,8 @@ const GlobalContainerApis = {
     url_list_question: "https://demo.pulsecloud.app:44372/api/Surveys/GetSurveysMovilQuestions",
     url_list_incidents_risk: "https://demo.pulsecloud.app:44372/api/Surveys/GetIncidentsRisk",
     url_list_incidents_risk_severity: "https://demo.pulsecloud.app:44372/api/Surveys/GetIncidentsRiskSeverity",
+    url_list_country: "",
+    url_save: "https://demo.pulsecloud.app:44372/api/Surveys/InsertSurveysMovilDetails",
 };
 
 

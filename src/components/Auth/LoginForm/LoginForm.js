@@ -11,6 +11,7 @@ import { styles } from "./LoginForm.styles";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [downloadingData, setDownloadingData] = useState(false);
   const navigation = useNavigation();
 
   const { control, handleSubmit, formState: { errors } } = useForm({
@@ -21,11 +22,13 @@ export function LoginForm() {
   });
 
   const onSubmit = (data) => {
+    setDownloadingData(true);
     Login(data);
   }
 
   const Login = async (data) => {
 
+    let dataUserId;
     axios.post(apis.GlobalApis.url_token, {
       userName: data.userName,
       password: data.userPassword
@@ -38,11 +41,64 @@ export function LoginForm() {
           // key: "value"
         };
 
-        const requestlistCheckList = axios.get(apis.GlobalApis.url_check_list, config, bodyParameters);
-        const requestlistCategory = axios.get(apis.GlobalApis.url_list_category, config, bodyParameters);
-        const requestlistQuestion = axios.get(apis.GlobalApis.url_list_question, config, bodyParameters);
-        const requestIncidentsRisk = axios.get(apis.GlobalApis.url_list_incidents_risk, config, bodyParameters);
-        const requestIncidentsRiskSeverity = axios.get(apis.GlobalApis.url_list_incidents_risk_severity, config, bodyParameters);
+        dataUserId = response.data.userId;
+
+        // all requests
+
+        const requestlistCheckList = axios.get(apis.GlobalApis.url_check_list, config, bodyParameters).catch(errors => {
+          setDownloadingData(false);
+          console.error('Error ', apis.GlobalApis.url_check_list, errors);
+          return Toast.show({
+            type: "error",
+            position: "bottom",
+            text1: "Aviso",
+            text2: "Erro ao carregar dados CHK",
+          });
+        });
+
+        const requestlistCategory = axios.get(apis.GlobalApis.url_list_category, config, bodyParameters).catch(errors => {
+          setDownloadingData(false);
+          console.error('Error ', apis.GlobalApis.url_list_category, errors);
+          return Toast.show({
+            type: "error",
+            position: "bottom",
+            text1: "Aviso",
+            text2: "Erro ao carregar dados CT",
+          });
+        });
+
+        const requestlistQuestion = axios.get(apis.GlobalApis.url_list_question, config, bodyParameters).catch(errors => {
+          setDownloadingData(false);
+          console.error('Error ', apis.GlobalApis.url_list_question, errors);
+          return Toast.show({
+            type: "error",
+            position: "bottom",
+            text1: "Aviso",
+            text2: "Erro ao carregar dados QTS",
+          });
+        });
+
+        const requestIncidentsRisk = axios.get(apis.GlobalApis.url_list_incidents_risk, config, bodyParameters).catch(errors => {
+          setDownloadingData(false);
+          console.error('Error ', apis.GlobalApis.url_list_question, errors);
+          return Toast.show({
+            type: "error",
+            position: "bottom",
+            text1: "Aviso",
+            text2: "Erro ao carregar dados RISK",
+          });
+        });
+
+        const requestIncidentsRiskSeverity = axios.get(apis.GlobalApis.url_list_incidents_risk_severity, config, bodyParameters).catch(errors => {
+          setDownloadingData(false);
+          console.error('Error ', apis.GlobalApis.url_list_question, errors);
+          return Toast.show({
+            type: "error",
+            position: "bottom",
+            text1: "Aviso",
+            text2: "Erro ao carregar dados SEVERITY",
+          });
+        });
 
         axios
           .all([requestlistCheckList, requestlistCategory, requestlistQuestion, requestIncidentsRisk, requestIncidentsRiskSeverity])
@@ -87,22 +143,39 @@ export function LoginForm() {
                 dataIncidentsRiskSeverity: responseIncidentsRiskSeverity.data
               };
 
+
               await storageResult.storeData('@Session', DataSession);
+              await storageResult.storeData('@userId', dataUserId);
               const DatosStorage = await storageResult.getDataFormat('@Session');
               await storageResult.removeItemValue('@SessionResponse');
               await storageResult.removeItemValue('@SessionResponseImages');
-
+              setDownloadingData(false);
               navigation.navigate(screen.account.tab, { screen: screen.account.geocalizacion })
 
             })
           )
           .catch(errors => {
+            setDownloadingData(false);
             console.error('Error ', errors);
+            return Toast.show({
+              type: "error",
+              position: "bottom",
+              text1: "Aviso",
+              text2: "Erro ao carregar dados aninhados",
+            });
           });
 
       })
       .catch(function (error) {
-        console.log(error);
+        setDownloadingData(false);
+        console.log('Error cascada peticiones ', error);
+        return Toast.show({
+          type: "info",
+          position: "bottom",
+          text1: "Aviso",
+          text2: "Usuário ou contrasenha incorreta",
+        });
+
       });
 
   }
@@ -168,6 +241,9 @@ export function LoginForm() {
         buttonStyle={styles.btnLogin}
         titleStyle={styles.fontCustom}
         onPress={handleSubmit(onSubmit)}
+        loading={downloadingData}
+        disabled={downloadingData}
+        disabledStyle={styles.btnLogin}
       />
     </View>
   );

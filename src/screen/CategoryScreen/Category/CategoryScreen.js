@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, SafeAreaView, FlatList, ScrollView, LogBox } from 'react-native';
+import { View, Text, SafeAreaView, FlatList, ScrollView, LogBox, Alert } from 'react-native';
 import normalize from 'react-native-normalize';
 import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
@@ -7,8 +7,9 @@ import { Footer, HeaderPercentage, Loading, Modal } from '../../../components';
 import { ItemHome } from '../../../components/home';
 import CustomerHeader from '../../../navigation/CustomerHeader';
 import { styles } from './CategoryScreen.style';
-import { screen, stylesGlobal, storageResult, theme } from '../../../utils';
+import { screen, stylesGlobal, storageResult, theme, apis } from '../../../utils';
 import { Button } from 'react-native-elements';
+import axios from 'axios';
 
 export function CategoryScreen(props) {
 
@@ -19,6 +20,7 @@ export function CategoryScreen(props) {
   const [completedChecklist, setCompletedChecklist] = useState(false);
   const [renderComponent, setRenderComponent] = useState(null);
   const [language, setLanguage] = useState('');
+  const [test, setTest] = useState('');
 
   useEffect(() => {
     getData();
@@ -108,18 +110,19 @@ export function CategoryScreen(props) {
     if (typeof StorageResponse !== undefined && StorageResponse) {
       //json base
       const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
+      const DatauserId = await storageResult.getDataFormat('@userId');
       const dataSendJSON = {
-        'CreatedBy': 'falta que venga en el endpoint',
-        'IdState': '1',
-        'IdIndicatorsLanguages': DataLenguage,
-        'IdIndicatorsCountry': '2',
+        'CreatedBy': DatauserId,
         'IdIncidentsStore': '53',
+        'IdIndicatorsCountry': '2',
+        'IdIndicatorsLanguages': DataLenguage,
+        'IdState': '1',
+        'SurveysMovilDetailsClassificationQuestions': [],
         'SurveysMovilDetailsQuestions': [],
-        'SurveysMovilDetailsQuestionsPhotos': [],
-        'SurveysMovilDetailsClassificationQuestions': []
+        'SurveysMovilDetailsQuestionsPhotos': []
       };
 
-      // primer formato
+      // creacion de la data de SurveysMovilDetailsQuestions
 
       Object.entries(StorageResponse).forEach(([key, value]) => {
         const keyObj = key?.split('|');
@@ -127,16 +130,16 @@ export function CategoryScreen(props) {
         if (!idQuestions.includes(keyObj[2])) {
           if (keyObj[2] != '0') {
             objDataSend[keyObj[2]] = {
-              'IdSurveysMovilDetails': '', // se envia vacio
+              'IdIncidentsRisk': '',
+              'IdIncidentsRiskSeverity': '',
+              'IdIncidentsSector': '',
               'IdSurveysMovil': keyObj[1],
+              'IdSurveysMovilDetails': '', // se envia vacio
               'IdSurveysMovilQuestions': keyObj[2],
               'IdSurveysMovilResponses': value,
+              'IsRiskAnalysis': '0',
               'Observations': '',
               'ObservationsProposed': '',
-              'IdIncidentsRisk': '',
-              'IsRiskAnalysis': false,
-              'IdIncidentsSector': '',
-              'IdIncidentsRiskSeverity': '',
             };
           } else {
             objDataSendCategory[keyObj[1]] = {
@@ -145,7 +148,13 @@ export function CategoryScreen(props) {
           }
 
         } else {
-          objDataSend[keyObj[2]][keyObj[3]] = value;
+          if (keyObj[3] == 'IsRiskAnalysis') {
+            const valueConvert = (value === true) ? "1" : "0";
+            objDataSend[keyObj[2]][keyObj[3]] = valueConvert;
+          } else {
+            objDataSend[keyObj[2]][keyObj[3]] = value;
+          }
+
         }
 
         if (keyObj[2] != '0') idQuestions.push(keyObj[2]);
@@ -167,9 +176,9 @@ export function CategoryScreen(props) {
         Object.entries(StorageResponseImages).forEach(([keyImg, valueImg]) => {
           const keyObjImg = keyImg?.split('|');
           data_formate_image.push({
+            'FileBinary': 'valueImg', // valueImg
             'FileName': keyObjImg[3],
             'FileType': 'image/' + '' + keyObjImg[3]?.split('.')[keyObjImg[3]?.split('.').length - 1],
-            'FileBinary': 'valuebase64', // valueImg
           });
         });
 
@@ -182,21 +191,36 @@ export function CategoryScreen(props) {
       if (typeof objDataSendCategory !== undefined && objDataSendCategory) {
         Object.entries(objDataSendCategory).forEach(([keyComments, valueComents]) => {
           data_formate_comment_category.push({
-            "IdSurveysMovilClassificationQuestions": keyComments,
-            "Observations": valueComents.ObservationsClassificationQuestions,
+            "idSurveysMovilClassificationQuestions": keyComments,
+            "observations": valueComents.ObservationsClassificationQuestions
           });
         });
       }
 
       dataSendJSON.SurveysMovilDetailsClassificationQuestions = data_formate_comment_category;
+
+
       console.log(dataSendJSON);
+      setTest(dataSendJSON);
       return;
 
-      const DataSessionSend = {
-        SurveysMovilDetails: data_formate_three,
-      };
+      axios.post(apis.GlobalApis.url_save, {
+        dataSendJSON
+      })
+        .then(function (res) {
+          if (res.status == 200) {
+            console.log('estatus 200 ', res.data);
+          }
+          console.log('entro aqui ', res);
+        })
+        .catch(function (err) {
+          console.log('Error de conexión ' + err);
+        })
+        .then(function () {
 
-      console.log(JSON.stringify(DataSessionSend, null, 3));
+        });
+
+      // console.log(JSON.stringify(DataSessionSend, null, 3));
 
       if (1 !== 1) {
         // le dio guardar y no tenia internet 
@@ -237,6 +261,7 @@ export function CategoryScreen(props) {
                   idCheckList={route.params.idCheckList}
                 />
                 <View style={{ ...stylesGlobal.contentView, ...styles.container, }}>
+                  <Text>{JSON.stringify(test, null, 3)}</Text>
                   <FlatList
                     ListHeaderComponent={<Text style={styles.titleCategory}>Seleccione una categoría</Text>}
                     data={dataCategoriesCheckList}
