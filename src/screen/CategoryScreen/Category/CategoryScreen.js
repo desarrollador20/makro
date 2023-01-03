@@ -10,6 +10,8 @@ import { styles } from './CategoryScreen.style';
 import { screen, stylesGlobal, storageResult, theme, apis } from '../../../utils';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
+import { useTranslation } from "react-i18next";
+
 
 export function CategoryScreen(props) {
 
@@ -21,6 +23,23 @@ export function CategoryScreen(props) {
   const [renderComponent, setRenderComponent] = useState(null);
   const [language, setLanguage] = useState('');
   const [test, setTest] = useState('');
+  const { t, i18n } = useTranslation();
+
+
+    const loaderLanguage = async () => {
+        const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
+        i18n.changeLanguage(DataLenguage);
+        console.log(DataLenguage);
+    
+      }
+
+      
+      useEffect(() => {
+     
+        loaderLanguage();
+        
+    
+      }, []);
 
   useEffect(() => {
     getData();
@@ -263,7 +282,7 @@ export function CategoryScreen(props) {
                 <View style={{ ...stylesGlobal.contentView, ...styles.container, }}>
                   <Text>{JSON.stringify(test, null, 3)}</Text>
                   <FlatList
-                    ListHeaderComponent={<Text style={styles.titleCategory}>Seleccione una categoría</Text>}
+                    ListHeaderComponent={<Text style={styles.titleCategory}>{t("Category.title")}</Text>}
                     data={dataCategoriesCheckList}
                     contentContainerStyle={{ paddingVertical: normalize(30, 'height') }}
                     renderItem={({ item }) => <RenderItem item={item} language={language} />}
@@ -271,7 +290,7 @@ export function CategoryScreen(props) {
                     ListFooterComponent={
                       <Button
                         disabled={completedChecklist ? false : true}
-                        title={`Finalizar a inspeção`}
+                        title={t("Category.btnEnd")}
                         titleStyle={styles.fontCustom}
                         containerStyle={stylesGlobal.btnContainer}
                         buttonStyle={{ ...stylesGlobal.btn, alignSelf: 'center', width: '80%', backgroundColor: completedChecklist ? '#84D9B1' : '#F2F2F2' }}
