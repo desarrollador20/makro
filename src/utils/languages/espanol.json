@@ -1,5 +1,8 @@
 {
   "translation": {
+    "Global": {
+      "hello": "Buen día"
+   },
     "Home": {
       "title": "Inspección de seguridad",
       "subTitle": "Si aún no tienes una cuenta, puedes ",
@@ -18,6 +21,33 @@
       "alertRISK": "Error al cargar datos RISK",
       "alertSEVERITY": "Error al cargar datos SEVERITY",
       "alertPass": "Nombre de usuario o contraseña incorrecta"
+    },
+    "Geolocalizacion": {
+      "title": "Detectar ubicación",
+      "btnOther": "Usar otro",
+      "btnLocal": "Usar local",
+      "myPosition": "Mi posición",
+      "desPosition": "Acá estoy",
+      "alertDenied": "Se denegó el permiso para acceder a la ubicación",
+      "textModal": "Está utilizando una ubicación diferente a una tienda MAKRO, puede continuar con el registro, sin embargo, el sistema generará el siguiente mensaje",
+      "loeaderMap": "Cargando mapa..."
+    },
+    "DetectLocation":{
+      "title": "Detectar ubicación",
+      "labelShop": "Tienda",
+      "inputShop": "Pueblo Campo Grande",
+      "btnInit": "Iniciar inspección"
+
+    },
+    "HomeScreen": {
+      "title": "Seleccione Checklist",
+      "textQuestion": " preguntas"
+
+    },
+    "Category": {
+      "title": "Seleccione una categoría",
+      "btnEnd": "Finalizar la inspección"
+
     }
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, SafeAreaView, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import normalize from 'react-native-normalize';
@@ -15,13 +15,27 @@ export function DetectLocationScreen() {
     const navigation = useNavigation();
     const { t, i18n } = useTranslation();
 
+    
+    const loaderLanguage = async () => {
+        const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
+        i18n.changeLanguage(DataLenguage);
+        console.log(DataLenguage);
+    
+      }
+      useEffect(() => {
+     
+        loaderLanguage();
+        
+    
+      }, []);
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <SafeAreaView style={stylesGlobal.contentGlobal}>
                 <CustomerHeader />
                 <View style={styles.headerRed}>
                     <Icon type="foundation" name="marker" color={theme.GlobalColorsApp.lblRedPrimary} size={normalize(35)} />
-                    <Text style={styles.lblHeaderRed}>Detectar localização22</Text>
+                    <Text style={styles.lblHeaderRed}>{t("DetectLocation.title")}</Text>
             
                 </View>
 
@@ -39,15 +53,15 @@ export function DetectLocationScreen() {
 
                     <View style={{ ...styles.containerLblInput, marginTop: normalize(30, 'height') }}>
                         <Icon type="ionicon" name="business-outline" color={theme.GlobalColorsApp.lblGrayPrimary} size={normalize(30)} />
-                        <Text style={styles.lblInput}>Loja</Text>
+                        <Text style={styles.lblInput}>{t("DetectLocation.labelShop")}</Text>
                     </View>
                     <TextInput
                         style={styles.input}
                         selectionColor={theme.GlobalColorsApp.btnRed}
-                        placeholder="Vila Campo Grande"
+                        placeholder={t("DetectLocation.inputShop")}
                     />
                     <Button
-                        title="Iniciar Inspeção"
+                        title={t("DetectLocation.btnInit")}
                         containerStyle={{ ...stylesGlobal.btnContainer, marginTop: normalize(25) }}
                         buttonStyle={styles.startInspection}
                         titleStyle={styles.fontCustom}

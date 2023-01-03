@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useEffect } from 'react';
+
 import { StyleSheet, View } from "react-native";
 import { Text, Image, Avatar } from 'react-native-elements';
 import normalize from "react-native-normalize";
 import Svg, { G, Path } from 'react-native-svg';
 import { Appbar } from 'react-native-paper';
 import { styles } from "./CustomHeader.style";
+import { useTranslation } from "react-i18next";
+
 
 const CustomerHeader = () => {
+
+    const { t, i18n } = useTranslation();
+    useEffect(() => {
+     
+      loaderLanguage();
+      
+  
+    }, []);
+  const loaderLanguage = async () => {
+    const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
+    i18n.changeLanguage(DataLenguage);
+
+  }
+
+ 
 
   const ContentHeader = () => (
     <>
@@ -19,7 +37,7 @@ const CustomerHeader = () => {
               containerStyle={{ ...styles.containerAvatar, }}
               size={normalize(27)}
             />
-            <Text style={styles.textContainerName}>Bom dia <Text style={styles.textName}>Jaqueline</Text></Text>
+            <Text style={styles.textContainerName}>{t("Global.hello")} <Text style={styles.textName}>Jaqueline</Text></Text>
           </View>
         }
         style={styles.HeaderContent}
@@ -73,6 +91,7 @@ const CustomerHeader = () => {
 
     </>
   );
+
 
   return (
     <Appbar.Header style={styles.Header}  >
