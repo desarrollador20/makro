@@ -32,12 +32,11 @@
       "textModal": "Você está usando um local diferente de uma loja MAKRO, você pode continuar o registro, entretanto, o sistema irá gerar a seguinte mensagem",
       "loeaderMap": "Carregando mapa..."
     },
-    "DetectLocation":{
+    "DetectLocation": {
       "title": "Detectar localização",
       "labelShop": "Loja",
       "inputShop": "Vila Campo Grande",
       "btnInit": "Iniciar Inspeção"
-
     },
     "HomeScreen": {
       "title": "Selecione Checklist",
@@ -45,10 +44,51 @@
     },
     "Category": {
       "title": "Selecione uma categoria",
-      "btnEnd": "Finalizar a inspeção"
+      "btnEnd": "Finalizar a inspeção",
+      "textModal": "Por favor, confirme que deseja enviar a inspeção."
     },
-    "PreviousInspection":{
-      "title": ""
+    "PreviousInspection": {
+      "showPreIns": "Ver inspeção anterior",
+      "btnDislike": "Não Conforme",
+      "textQuestionHistory": "Data da Inspeção Prévia:",
+      "textObs": "Observaçãoes",
+      "textMp": "Medidas propostas",
+      "textS": "Setor",
+      "textPa": "Probabilidade de Acidente",
+      "textGpo": "Gravidade que poderia ocorrer"
+    },
+    "QuestionScreen": {
+      "unploadImage": "Carregar provas fotográficas",
+      "btnPre": "prévio",
+      "btnNext": "próximo",
+      "alertGallery": "É necessário aceitar as permissões da galeria para carregar imagens. ",
+      "alertWarning": "Advertência ",
+      "alertImage": "só se pode carregar 3 imagens por pergunta ",
+      "alertImageClose": "Encerrou sem escolher uma imagem ",
+      "textDeleteImage": "Eliminar imagem",
+      "textDeleteImageSure": "¿Tem a certeza que pretende apagar a imagem?",
+      "btnCancel": "Cancelar",
+      "btnDelete": "Eliminar"
+    },
+    "UseClickButtom": {
+      "textData": "Dados ausentes",
+      "alertSelect": "Selecione uma opção antes de continuar",
+      "alertAddObs": "Insira a observação para a não conformidade",
+      "alertSize": "Inserir as medidas propostas para a não conformidade"
+    },
+    "Disagreed": {
+      "textObs": "observaçãoes",
+      "textAddDetail": "Incluir detalhes da não-conformidade aqui",
+      "textPro": "medidas propostas",
+      "textProDetail": "Incluir as medidas propostas para corregir ou eliminar a não-conformidade.",
+      "textRisk": "Análise de risco aplicável",
+      "textRiskDetail": "A análise não é aplicável somente quando não há risco de um incidente na situação avaliada.",
+      "textRiskQuest": "Qual seria a gravidade que poderia ocorrer?",
+      "textRiskQuest2": "Qual é a probabilidade de ocorrência de um acidente?"
+    },
+    "PositiveComments": {
+      "title": "Comentários positivos ou boas práticas",
+      "title2": "identificadas durante a inspeção."
     }
   }
 }
