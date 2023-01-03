@@ -2,7 +2,7 @@
   "translation": {
     "Global": {
       "hello": "Buen día"
-   },
+    },
     "Home": {
       "title": "Inspección de seguridad",
       "subTitle": "Si aún no tienes una cuenta, puedes ",
@@ -32,22 +32,63 @@
       "textModal": "Está utilizando una ubicación diferente a una tienda MAKRO, puede continuar con el registro, sin embargo, el sistema generará el siguiente mensaje",
       "loeaderMap": "Cargando mapa..."
     },
-    "DetectLocation":{
+    "DetectLocation": {
       "title": "Detectar ubicación",
       "labelShop": "Tienda",
       "inputShop": "Pueblo Campo Grande",
       "btnInit": "Iniciar inspección"
-
     },
     "HomeScreen": {
       "title": "Seleccione Checklist",
       "textQuestion": " preguntas"
-
     },
     "Category": {
-      "title": "Seleccione una categoría",
-      "btnEnd": "Finalizar la inspección"
-
+      "title": "Seleccione una categoria",
+      "btnEnd": "Finalizar inspección",
+      "textModal": "Confirme que desea enviar la inspección."
+    },
+    "PreviousInspection": {
+      "showPreIns": "Ver inspección anterior",
+      "btnDislike": "No conforme",
+      "textQuestionHistory": "Fecha de Inspección Previa:",
+      "textObs": "Observaciones",
+      "textMp": "Medidas propuestas",
+      "textS": "Sector",
+      "textPa": "Probabilidad de accidente",
+      "textGpo": "Gravedad que podría ocurrir"
+    },
+    "QuestionScreen": {
+      "unploadImage": "Subir evidencia fotográfica",
+      "btnPre": "prévio",
+      "btnNext": "próximo",
+      "alertGallery": "Debes aceptar los permisos de la galería para subir imágenes.",
+      "alertWarning": "Advertencia ",
+      "alertImage": "Solo se pueden subir 3 imágenes por pregunta",
+      "alertImageClose": "Cerrado sin elegir una imagen ",
+      "textDeleteImage": "Eliminar Imagen",
+      "textDeleteImageSure": "¿Está seguro de que desea eliminar la imagen?",
+      "btnCancel": "Cancelar",
+      "btnDelete": "Eliminar"
+    },
+    "UseClickButtom": {
+      "textData": "Datos perdidos",
+      "alertSelect": "Seleccione una opción antes de continuar",
+      "alertAddObs": "Ingrese la observación por el incumplimiento",
+      "alertSize": "Ingrese las medidas propuestas para el incumplimiento"
+    },
+    "Disagreed": {
+      "textObs": "observaciones",
+      "textAddDetail": "Incluya detalles de no conformidad aquí",
+      "textPro": "medidas propuestas",
+      "textProDetail": "Incluya las medidas propuestas para corregir o eliminar la no conformidad.",
+      "textRisk": "Análisis de riesgo aplicable",
+      "textRiskDetail": "El análisis no sólo es aplicable cuando no existe riesgo de incidente en la situación evaluada.",
+      "textRiskQuest": "¿Qué tan grave sería?",
+      "textRiskQuest2": "¿Cuál es la probabilidad de que ocurra un accidente?"
+    },
+    "PositiveComments": {
+      "title": "Comentarios positivos o mejores prácticas",
+      "title2": "identificados durante la inspección."
     }
   }
 }
