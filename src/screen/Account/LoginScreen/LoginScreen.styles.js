@@ -74,5 +74,22 @@ export const styles = StyleSheet.create({
     fontFamily: 'kodchasan-extraLight',
   },
 
+  containerSwith: {
+    width: "85%",
+    fontFamily: 'kodchasan-extraLight',
+
+  
+
+    
+  },
+  containerSelector: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: normalize(15),
+    marginTop: normalize(5),
+  }
+
 
 });

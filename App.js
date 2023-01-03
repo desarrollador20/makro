@@ -4,7 +4,7 @@ import { AppNavigation } from "./src/navigation/AppNavigation";
 import Toast from "react-native-toast-message";
 import { LogBox, View } from 'react-native';
 import * as Font from 'expo-font';
-
+//victor el puto ano
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 

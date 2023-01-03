@@ -1,0 +1,23 @@
+{
+  "translation": {
+    "Home": {
+      "title": "Inspeção de segurança",
+      "subTitle": "Se você ainda não tem uma conta, você pode ",
+      "subTitleAct": "ativar aqui",
+      "langPt": "Português",
+      "langEs": "Espanhol",
+      "lblSubTitleTwo": "Eu esqueci minha senha",
+      "btnLogin": "Entrem",
+      "inputUser": "Usuário",
+      "inputPass": "Senha",
+      "requiredPass": "O campo de senha é necessária",
+      "requiredUser": "O campo do usuário é obrigatório",
+      "alertCHK": "Erro ao carregar dados CHK",
+      "alertCT": "Erro ao carregar dados CT",
+      "alertQTS": "Erro ao carregar dados QTS",
+      "alertRISK": "Erro ao carregar dados RISK",
+      "alertSEVERITY": "Erro ao carregar dados SEVERITY",
+      "alertPass": "Usuário ou contrasenha incorreta"
+    }
+  }
+}
