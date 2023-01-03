@@ -7,11 +7,13 @@ import { Footer } from '../../../components';
 import CustomerHeader from '../../../navigation/CustomerHeader';
 import { screen, stylesGlobal, theme } from "../../../utils";
 import { styles } from "./DetectLocation.style";
+import { useTranslation } from "react-i18next";
 
 
 export function DetectLocationScreen() {
 
     const navigation = useNavigation();
+    const { t, i18n } = useTranslation();
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -19,7 +21,8 @@ export function DetectLocationScreen() {
                 <CustomerHeader />
                 <View style={styles.headerRed}>
                     <Icon type="foundation" name="marker" color={theme.GlobalColorsApp.lblRedPrimary} size={normalize(35)} />
-                    <Text style={styles.lblHeaderRed}>Detectar localização</Text>
+                    <Text style={styles.lblHeaderRed}>Detectar localização22</Text>
+            
                 </View>
 
                 <View style={styles.containerForm}>

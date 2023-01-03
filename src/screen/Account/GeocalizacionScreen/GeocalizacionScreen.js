@@ -9,6 +9,8 @@ import { Modal, LoadingModal, Footer } from "../../../components";
 import CustomerHeader from '../../../navigation/CustomerHeader';
 import { styles } from "./GeocalizacionScreen.style";
 import normalize from 'react-native-normalize';
+import { useTranslation } from "react-i18next";
+
 
 export function GeocalizacionScreen() {
   const [showModal, setShowModal] = useState(false);
@@ -16,6 +18,8 @@ export function GeocalizacionScreen() {
   const [location, setLocation] = useState(null);
   const [renderComponent, setRenderComponent] = useState(null);
   const navigation = useNavigation();
+  const { t, i18n } = useTranslation();
+
 
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
 
@@ -68,6 +72,7 @@ export function GeocalizacionScreen() {
                     <View style={styles.headerDetect}>
                       <Icon type="foundation" name="marker" color={theme.GlobalColorsApp.btnGray} size={normalize(35)} />
                       <Text style={styles.lblHeaderDetect}>Detectar localização</Text>
+                      <Text style={styles.lblHeaderRed}>{t("Home.inputUser")} ss</Text>
                     </View>
                     <MapView
                       style={styles.map}
