@@ -84,11 +84,16 @@
       "textRisk": "Análisis de riesgo aplicable",
       "textRiskDetail": "El análisis no sólo es aplicable cuando no existe riesgo de incidente en la situación evaluada.",
       "textRiskQuest": "¿Qué tan grave sería?",
+      "textList": "Lista de directores",
       "textRiskQuest2": "¿Cuál es la probabilidad de que ocurra un accidente?"
     },
     "PositiveComments": {
       "title": "Comentarios positivos o mejores prácticas",
       "title2": "identificados durante la inspección."
+    },
+    "ResponsableList":{
+      "title": "El sistema identificó no conformidades en esta categoría, por favor confirme a continuación la persona responsable a quien deben ser enviadas:",
+      "inputPlaceholder": "Nombre responsable"
     }
   }
 }

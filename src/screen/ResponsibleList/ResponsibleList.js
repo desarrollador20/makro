@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from "react";
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import normalize from 'react-native-normalize';
@@ -8,9 +8,20 @@ import { ButtonsQuestion } from '../../components/question';
 import CustomerHeader from '../../navigation/CustomerHeader';
 import { stylesGlobal, theme } from '../../utils';
 import { styles } from './ResponsibleList.style';
+import { useTranslation } from "react-i18next";
+
 
 export function ResponsibleList(props) {
     const { route } = props;
+    const { t, i18n } = useTranslation();
+
+    const loaderLanguage = async () => {
+      const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
+      i18n.changeLanguage(DataLenguage);
+    };
+    useEffect(() => {
+      loaderLanguage();
+    }, []);
 
     const pickerStyle = {
         inputIOS: {
@@ -56,15 +67,14 @@ export function ResponsibleList(props) {
                 />
                 <View style={styles.container}>
                     <View style={styles.containerHeader}>
-                        <Text style={styles.lblTitle}>O sistema identificou não-conformidades nesta categoria, favor confirmar abaixo a
-                            pessoa responsável a quem elas devem ser enviadas:</Text>
+                        <Text style={styles.lblTitle}>{t("ResponsableList.title")}</Text>
                         <View style={styles.emulateStyleCombo}>
                             <RNPickerSelect
                                 name='gravity'
                                 onValueChange={(value) => { }}
                                 useNativeAndroidPickerStyle={false}
                                 placeholder={{
-                                    label: 'Nome Responsável',
+                                    label: t("ResponsableList.inputPlaceholder"),
                                     value: null,
                                 }}
                                 dropdownIconColor='red'

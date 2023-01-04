@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import normalize from 'react-native-normalize';
 import { useNavigation } from "@react-navigation/native";
@@ -7,6 +7,8 @@ import { Icon } from 'react-native-elements';
 import { theme, storageResult } from '../../utils';
 import { managerScreen } from '../../utils/managerScreen';
 import { styles } from './ItemHome.style';
+import { useTranslation } from "react-i18next";
+
 
 export function ItemHome(props) {
 
@@ -20,6 +22,15 @@ export function ItemHome(props) {
     const colorBorderData = useRef('#B3B3B3');
     const colorTitleData = useRef(theme.GlobalColorsApp.btnGray);
     const backgroundData = useRef(backgroundColor);
+    const { t, i18n } = useTranslation();
+
+    const loaderLanguage = async () => {
+      const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
+      i18n.changeLanguage(DataLenguage);
+    };
+    useEffect(() => {
+      loaderLanguage();
+    }, []);
 
     if (module == 'category') {
         useFocusEffect(
@@ -70,7 +81,7 @@ export function ItemHome(props) {
                     {title}
                 </Text>
                 <Text style={styles.lblNumQuestions}>
-                    {num_questions}  {disagreedData != 0 && (<Text style={{ color: '#F27629' }}>{` ${disagreedData}`}<Text style={{ color: theme.GlobalColorsApp.colorOptionInactive }}> não-conformidad</Text></Text>)}
+                    {num_questions}  {disagreedData != 0 && (<Text style={{ color: '#F27629' }}>{` ${disagreedData}`}<Text style={{ color: theme.GlobalColorsApp.colorOptionInactive }}> {t("ItemHome.title")}</Text></Text>)}
                 </Text>
             </View>
             <View style={styles.containerArrow}>
