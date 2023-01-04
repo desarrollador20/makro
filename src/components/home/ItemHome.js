@@ -7,7 +7,7 @@ import { Icon } from 'react-native-elements';
 import { theme, storageResult } from '../../utils';
 import { managerScreen } from '../../utils/managerScreen';
 import { styles } from './ItemHome.style';
-import { useTranslation } from "react-i18next";
+
 
 
 export function ItemHome(props) {
@@ -17,20 +17,13 @@ export function ItemHome(props) {
 
     const [completedData, setCompletedData] = useState(false);
     const [disagreedData, setDisagreedData] = useState(0);
+    const [disagreedLabel, setDisagreedLabel] = useState('');
     const iconData = useRef('list-thumbnails');
     const colorData = useRef(color);
     const colorBorderData = useRef('#B3B3B3');
     const colorTitleData = useRef(theme.GlobalColorsApp.btnGray);
     const backgroundData = useRef(backgroundColor);
-    const { t, i18n } = useTranslation();
 
-    const loaderLanguage = async () => {
-      const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-      i18n.changeLanguage(DataLenguage);
-    };
-    useEffect(() => {
-      loaderLanguage();
-    }, []);
 
     if (module == 'category') {
         useFocusEffect(
@@ -42,6 +35,7 @@ export function ItemHome(props) {
     const completedByCategory = async (idCategory) => {
 
         const StorageResponse = await storageResult.getDataFormat('@SessionResponse');
+        const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
         let all_response = 0;
         let all_disagreed = 0
         if (typeof StorageResponse !== undefined && StorageResponse) {
@@ -55,7 +49,9 @@ export function ItemHome(props) {
             });
         }
 
+
         if (parseInt(all_response) == parseInt(num_questions)) {
+            const resultData = (DataLenguage == 'pt') ? 'não-conformidad' : 'no-conforme';
             iconData.current = 'checkbox';
             colorData.current = '#84D9B1';
             backgroundData.current = '#D9F2E6';
@@ -63,9 +59,9 @@ export function ItemHome(props) {
             colorBorderData.current = '#4F8265';
             setDisagreedData(all_disagreed);
             setCompletedData(true);
+            setDisagreedLabel(resultData);
         }
     }
-
 
     return (
         <TouchableOpacity
@@ -81,7 +77,7 @@ export function ItemHome(props) {
                     {title}
                 </Text>
                 <Text style={styles.lblNumQuestions}>
-                    {num_questions}  {disagreedData != 0 && (<Text style={{ color: '#F27629' }}>{` ${disagreedData}`}<Text style={{ color: theme.GlobalColorsApp.colorOptionInactive }}> {t("ItemHome.title")}</Text></Text>)}
+                    {num_questions}  {disagreedData != 0 && (<Text style={{ color: '#F27629' }}>{` ${disagreedData}`}<Text style={{ color: theme.GlobalColorsApp.colorOptionInactive }}> {disagreedLabel}</Text></Text>)}
                 </Text>
             </View>
             <View style={styles.containerArrow}>
