@@ -368,7 +368,7 @@ export function Disagreed(props) {
                 dropdownIconColor="red"
                 useNativeAndroidPickerStyle={false}
                 placeholder={{
-                  label: "Listado Maestro",
+                  label: t("Disagreed.textList"),
                   value: null,
                 }}
                 style={pickerStyle}
@@ -406,7 +406,7 @@ export function Disagreed(props) {
                 }
                 useNativeAndroidPickerStyle={false}
                 placeholder={{
-                  label: "Listado Maestro",
+                  label: t("Disagreed.textList"),
                   value: null,
                 }}
                 dropdownIconColor="red"
