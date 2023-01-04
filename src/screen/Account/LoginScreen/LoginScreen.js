@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, ScrollView, SafeAreaView } from "react-native";
 import { Text, Image } from "react-native-elements";
-import { RadioButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { stylesGlobal, storageResult } from "../../../utils";
@@ -18,9 +17,14 @@ export function LoginScreen() {
     { label: "Español", value: "es" },
   ];
   const { t, i18n } = useTranslation();
-  const changeLanguageCustom = (newValue) => {
-    setValueRadio(newValue);
-    storageResult.setItemValueLanguage(newValue);
+
+  useEffect(() => {
+    loaderInitchangeLanguageCustom();
+  }, [])
+
+  const loaderInitchangeLanguageCustom = () => {
+    //setValueRadio(newValue);
+    storageResult.setItemValueLanguage("pt");
   };
 
   return (
@@ -35,36 +39,21 @@ export function LoginScreen() {
           <View style={styles.containerSelector}>
             <SwitchSelector
               style={styles.containerSwith}
+              selectedTextStyle={styles.lblTitleRadio}
+              textStyle={styles.lblTitleRadio}
               options={options}
               hasPadding
               initial={0}
-              selectedColor="black"
-              buttonColor="red"
-              borderColor="red"
+              selectedColor={'black'}
+              buttonColor="#EA0100"
+              borderColor="#EA0100"
               onPress={(language) => {
                 i18n.changeLanguage(language);
-
                 setValueRadio(language);
                 storageResult.setItemValueLanguage(language);
               }}
             />
           </View>
-
-          <RadioButton.Group
-            onValueChange={(newValue) => changeLanguageCustom(newValue)}
-            value={valueRadio}
-          >
-            <View style={styles.containerRadioLanguageGlobal}>
-              <View style={styles.containerRadioLanguageP}>
-                <Text style={styles.lblRadio}>{t("Home.langPt")}</Text>
-                <RadioButton value="pt" color={"red"} />
-              </View>
-              <View style={styles.containerRadioLanguageE}>
-                <Text style={styles.lblRadio}>{t("Home.langEs")}</Text>
-                <RadioButton value="es" color={"red"} />
-              </View>
-            </View>
-          </RadioButton.Group>
 
           <View style={styles.content}>
             <Text style={styles.lblTitle}>{t("Home.title")}</Text>

@@ -27,6 +27,10 @@ export const styles = StyleSheet.create({
     marginBottom: normalize(10, 'height')
   },
 
+  lblTitleRadio: {
+    fontFamily: 'kodchasan-extraLight',
+  },
+
   lblSubTitle: {
     fontFamily: 'kodchasan-extraLight',
     fontSize: RFPercentage(2.5),
@@ -36,6 +40,8 @@ export const styles = StyleSheet.create({
     marginBottom: normalize(20, 'height'),
     //opacity: 0.7
   },
+
+
 
   lblSubTitleLink: {
     fontFamily: 'kodchasan-extraLight',
@@ -77,11 +83,9 @@ export const styles = StyleSheet.create({
   containerSwith: {
     width: "85%",
     fontFamily: 'kodchasan-extraLight',
-
-  
-
-    
+    color: theme.GlobalColorsApp.lblRedTertiary,
   },
+
   containerSelector: {
     display: 'flex',
     flexDirection: 'row',
