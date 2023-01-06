@@ -193,12 +193,13 @@ export function ResponsibleList(props) {
           >
             <View style={{ ...styles.containerIcon }}>
               <Icon
-                type="foundation"
-                name="thumbs-down-outline"
+                type="ionicon"
+                name={"thumbs-down-outline"}
                 color={theme.GlobalColorsApp.colorOptionActiveDisagreed}
                 style={styles.iconMain}
                 size={normalize(30)}
               />
+              
             </View>
             <View style={styles.containerLabels}>
               <Text
