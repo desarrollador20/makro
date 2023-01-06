@@ -91,11 +91,13 @@
       "title": "Comentários positivos ou boas práticas",
       "title2": "identificadas durante a inspeção."
     },
-    "ResponsableList":{
+    "ResponsableList": {
       "title": "O sistema identificou não-conformidades nesta categoria, favor confirmar abaixo a pessoa responsável a quem elas devem ser enviadas:",
-      "inputPlaceholder": "Nome Responsável"
+      "inputPlaceholder": "Nome Responsável",
+      "titleBox": "Ñao conforme",
+      "subTitleBox": "ña-conformida"
     },
-    "ItemHome":{
+    "ItemHome": {
       "title": "não-conformidad"
     }
   }
