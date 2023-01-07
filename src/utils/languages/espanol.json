@@ -99,6 +99,16 @@
     },
     "ItemHome": {
       "title": "no conforme"
+    },
+    "EmailRecovery": {
+      "title": "Ingrese su correo electrónico Makro",
+      "alertNoEmail": "Digite un correo electrónico.",
+      "alertNoEmailValide": "Digite correo electrónico válido.",
+      "btnSubmit": "Verificar usuario",
+      "textConfirm": "el sistema encontró un usuario activo. Puede iniciar sesión con su nombre de usuario y contraseña actuales. Si no recuerda su contraseña, puede ingresar con la opción",
+      "textNoConfirm": "El sistema no encontró un usuario activo para el correo electrónico registrado. Enviaremos un correo electrónico solicitando acceso al administrador del sistema. Le sugerimos contactar al equipo de HSE de makro group para confirmar la activación de su acceso.",
+      "btnConfirmHome": "Volver al inicio",
+      "textConfirm2": "Olvide mi contraseña"
     }
   }
 }

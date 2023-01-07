@@ -36,6 +36,16 @@ const inspectionCompletedStack = {
   inspectionCompleted: 'InspectionCompleted'
 }
 
+const recoveryPasswordStack = {
+  tab:"RecoveryPasswordTab",
+  confirmRecovery: 'ConfirmRecovery',
+  noConfirm: 'NoConfirm',
+  emailRecovery:"EmailRecovery"
+}
+
+
+
+
 
 export const screen = {
   account: accountStack,
@@ -44,5 +54,6 @@ export const screen = {
   question: questionStack,
   positiveComments: positiveCommentsStack,
   responsibleList: responsibleListStack,
-  inspectionCompleted: inspectionCompletedStack
+  inspectionCompleted: inspectionCompletedStack,
+  recoveryPassword: recoveryPasswordStack
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { Input, Icon, Button, Text } from "react-native-elements";
 import Toast from "react-native-toast-message";
 import axios from "axios";
@@ -280,8 +280,15 @@ export function LoginForm() {
         )}
         name="userPassword"
       />
-
-      <Text style={styles.lblSubTitleTwo}>{t("Home.lblSubTitleTwo")} </Text>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate(screen.recoveryPassword.tab, {
+            screen: screen.recoveryPassword.emailRecovery,
+          })
+        }
+      >
+        <Text style={styles.lblSubTitleTwo}>{t("Home.lblSubTitleTwo")} </Text>
+      </TouchableOpacity>
       <Button
         title={t("Home.btnLogin")}
         containerStyle={stylesGlobal.btnContainer}

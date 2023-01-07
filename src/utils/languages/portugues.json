@@ -99,6 +99,16 @@
     },
     "ItemHome": {
       "title": "não-conformidad"
+    },
+    "EmailRecovery": {
+      "title": "Digite seu endereço de e-mail Makro",
+      "alertNoEmail": "Digite um e-mail.",
+      "alertNoEmailValide": "Digite um endereço de e-mail válido.",
+      "btnSubmit": "Verificar usuário",
+      "textConfirm": "o sistema encontrou um usuário ativo. Você pode entrar com seu nome de usuário e senha atuais. Se você não se lembra de sua senha, você pode entrar com a opção",
+      "textNoConfirm": "O sistema não encontrou um usuário ativo para o e-mail registrado. Enviaremos um e-mail solicitando acesso ao administrador do sistema. Sugerimos que você entre em contato com a equipe do grupo makro HSE para confirmar sua ativação de acesso.",
+      "btnConfirmHome": "Voltar ao início",
+      "textConfirm2": "Esqueça minha senha"
     }
   }
 }
