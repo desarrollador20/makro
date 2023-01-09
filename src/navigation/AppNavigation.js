@@ -7,6 +7,7 @@ import { HomeStack } from "./HomeStack";
 import { InspectionCompletedStack } from "./InspectionCompletedStack";
 import { QuestionStack } from "./QuestionStack";
 import { ResponsibleListStack } from "./ResponsibleListStack";
+import { RecoveryPasswordStack } from "./RecoveryPasswordStack";
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,10 @@ export function AppNavigation() {
         name={screen.inspectionCompleted.tab}
         component={InspectionCompletedStack}
       />
+      <Stack.Screen
+      name={screen.recoveryPassword.tab}
+      component={RecoveryPasswordStack}
+    />
     </Stack.Navigator>
   );
 }

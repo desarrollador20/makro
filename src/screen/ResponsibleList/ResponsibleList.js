@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -12,9 +12,10 @@ import RNPickerSelect from "react-native-picker-select";
 import { Footer, HeaderPercentage } from "../../components";
 import { ButtonsQuestion } from "../../components/question";
 import CustomerHeader from "../../navigation/CustomerHeader";
-import { stylesGlobal, theme } from "../../utils";
+import { stylesGlobal, theme, storageResult } from "../../utils";
 import { styles } from "./ResponsibleList.style";
 import { useTranslation } from "react-i18next";
+import { useFocusEffect } from "@react-navigation/native";
 
 export function ResponsibleList(props) {
   const dataListResponsable = [
@@ -27,7 +28,39 @@ export function ResponsibleList(props) {
   const [listResponsible, setListResponsible] = useState([]);
   const { t, i18n } = useTranslation();
   const [dataResponsable, setDataResponsable] = useState(dataListResponsable);
-  const [numConfort, setNumConfort] = useState(0);
+  const [noConforme, setNoConforme] = useState("");
+
+  console.log(route.params);
+  const getNoConforn = async () => {
+    const idCategory = route.params.id;
+
+    const StorageResponse = await storageResult.getDataFormat(
+      "@SessionResponse"
+    );
+    let no_conforme = 0;
+    console.log("fuera");
+
+    if (typeof StorageResponse !== undefined && StorageResponse) {
+      console.log("entro");
+      Object.entries(StorageResponse).forEach(([key, value]) => {
+        if (
+          key?.split("|")[1].includes(idCategory) &&
+          key.includes("checkboxSelected") &&
+          value == "2"
+        ) {
+          no_conforme = no_conforme + 1;
+        }
+      });
+
+      setNoConforme(no_conforme);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      getNoConforn();
+    }, [])
+  );
 
   const loaderLanguage = async () => {
     const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
@@ -60,22 +93,22 @@ export function ResponsibleList(props) {
 
   const selectedListAdd = (value, label) => {
     let objData = {};
-    var propertyName = value;
     objData = {
       label: label,
       value: value,
     };
 
-    setNumConfort(listResponsible.length + 1);
-
-    setListResponsible([...listResponsible, objData]);
+    if (listResponsible.some((list) => list.value === objData.value)) {
+      return false;
+    } else {
+      setListResponsible([...listResponsible, objData]);
+    }
   };
   const deleteItemList = (key) => {
     console.log(listResponsible);
     const newListResponsible = listResponsible.filter(
       (item) => item.value !== key
     );
-    setNumConfort(newListResponsible.length);
 
     setListResponsible(newListResponsible);
   };
@@ -126,7 +159,10 @@ export function ResponsibleList(props) {
                 name="gravity"
                 onValueChange={(value, index) => {
                   let i = index - 1;
-                  selectedListAdd(value, dataResponsable[i].label);
+                  if (value != undefined) {
+                    selectedListAdd(value, dataResponsable[i].label);
+                    console.log("este es el valor" + value);
+                  }
                 }}
                 useNativeAndroidPickerStyle={false}
                 placeholder={{
@@ -148,27 +184,43 @@ export function ResponsibleList(props) {
         </View>
         <View style={styles.container}>
           <TouchableOpacity
-            style={{ ...styles.item, borderColor: "red", opacity: 0.5 }}
+            style={{
+              ...styles.item,
+              borderColor: theme.GlobalColorsApp.colorOptionActiveDisagreed,
+            }}
             // onPress={() => managerScreen(navigation, id, module, idCheckList)}
             // key={id}
           >
             <View style={{ ...styles.containerIcon }}>
               <Icon
-                type="foundation"
-                name="dislike"
+                type="ionicon"
+                name={"thumbs-down-outline"}
+                color={theme.GlobalColorsApp.colorOptionActiveDisagreed}
                 style={styles.iconMain}
-                color="red"
                 size={normalize(30)}
               />
+              
             </View>
             <View style={styles.containerLabels}>
-              <Text style={{ ...styles.lblCategoryName, color: "red" }}>
-                No conformidades
+              <Text
+                style={{
+                  ...styles.lblCategoryName,
+                  color: theme.GlobalColorsApp.colorOptionActiveDisagreed,
+                }}
+              >
+                {t("ResponsableList.titleBox")}
               </Text>
               <Text style={styles.lblNumQuestions}>
-                <Text style={{ color: "#F27629" }}>
-                  {numConfort}{" "}
-                  <Text style={{ color: "black" }}> ña-conformidad</Text>
+                <Text
+                  style={{
+                    color: theme.GlobalColorsApp.colorOptionActiveDisagreed,
+                  }}
+                >
+                  {noConforme}{" "}
+                  <Text style={{ color: theme.GlobalColorsApp.lblGrayPrimary }}>
+                    {" "}
+                    {t("ResponsableList.subTitleBox")}
+                  </Text>
                 </Text>
               </Text>
             </View>
@@ -176,7 +228,7 @@ export function ResponsibleList(props) {
               <Icon
                 type="ionicon"
                 name="arrow-down-circle-outline"
-                color="red"
+                color={theme.GlobalColorsApp.colorOptionActiveDisagreed}
                 size={normalize(30)}
               />
             </View>

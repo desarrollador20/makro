@@ -35,7 +35,7 @@ export function LoginScreen() {
             source={require("../../../../assets/img/login_logo.png")}
             style={styles.image}
           />
-
+  
           <View style={styles.containerSelector}>
             <SwitchSelector
               style={styles.containerSwith}
