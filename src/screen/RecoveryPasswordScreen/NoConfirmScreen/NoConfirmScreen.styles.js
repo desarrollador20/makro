@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     alignContent: "center",
-    marginTop: normalize(90, "height"),
+    marginTop: normalize(50, "height"),
   },
   icon: {
     display: "flex",
