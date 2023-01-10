@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
+import { View, SafeAreaView, ScrollView } from "react-native";
 import { Input, Icon, Button, Text, Image } from "react-native-elements";
 import Toast from "react-native-toast-message";
-import axios from "axios";
 import normalize from "react-native-normalize";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
-import {
-  screen,
-  stylesGlobal,
-  storageResult,
-  apis,
-  theme,
-} from "../../../utils";
+import { screen, stylesGlobal, theme } from "../../../utils";
 import { styles } from "./EmailRecoveryScreen.styles";
 import { useTranslation } from "react-i18next";
 
