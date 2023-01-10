@@ -3,7 +3,7 @@ import { View, ScrollView, SafeAreaView } from "react-native";
 import { Text, Image } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { stylesGlobal, storageResult } from "../../../utils";
+import { stylesGlobal, storageResult, theme } from "../../../utils";
 import { styles } from "./LoginScreen.styles";
 import { LoginForm } from "../../../components/Auth";
 import SwitchSelector from "react-native-switch-selector";
@@ -12,15 +12,16 @@ import { useTranslation } from "react-i18next";
 export function LoginScreen() {
   const navigation = useNavigation();
   const [valueRadio, setValueRadio] = React.useState("pt");
-  const options = [
-    { label: "Portugues", value: "pt" },
-    { label: "Español", value: "es" },
-  ];
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
     loaderInitchangeLanguageCustom();
-  }, [])
+  }, []);
+
+  const options = [
+    { label: t("Home.langPt"), value: "pt" },
+    { label: t("Home.langEs"), value: "es" },
+  ];
 
   const loaderInitchangeLanguageCustom = () => {
     //setValueRadio(newValue);
@@ -35,7 +36,7 @@ export function LoginScreen() {
             source={require("../../../../assets/img/login_logo.png")}
             style={styles.image}
           />
-  
+
           <View style={styles.containerSelector}>
             <SwitchSelector
               style={styles.containerSwith}
@@ -44,9 +45,9 @@ export function LoginScreen() {
               options={options}
               hasPadding
               initial={0}
-              selectedColor={'black'}
-              buttonColor="#EA0100"
-              borderColor="#EA0100"
+              selectedColor={"black"}
+              buttonColor={theme.GlobalColorsApp.lblRedTertiary}
+              borderColor={theme.GlobalColorsApp.lblRedTertiary}
               onPress={(language) => {
                 i18n.changeLanguage(language);
                 setValueRadio(language);

@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     marginTop: normalize(10, 'height'),
     color: "#666666",
     marginBottom: normalize(10, 'height'),
-    marginTop: normalize(10, "height")
+    marginTop: normalize(-30, "height")
 
   },
   btn: {

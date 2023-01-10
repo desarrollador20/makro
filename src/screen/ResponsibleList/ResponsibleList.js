@@ -179,7 +179,13 @@ export function ResponsibleList(props) {
             listResponsible.map((item, key) => {
               //console.log("victor: " +JSON.stringify(item));
 
-              return <ItemResponsible name={item.label} value={item.value} />;
+              return (
+                <ItemResponsible
+                  name={item.label}
+                  value={item.value}
+                  key={key}
+                />
+              );
             })}
         </View>
         <View style={styles.container}>
@@ -199,7 +205,6 @@ export function ResponsibleList(props) {
                 style={styles.iconMain}
                 size={normalize(30)}
               />
-              
             </View>
             <View style={styles.containerLabels}>
               <Text
