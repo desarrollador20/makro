@@ -30,6 +30,23 @@ export function ResponsibleList(props) {
   const [dataResponsable, setDataResponsable] = useState(dataListResponsable);
   const [noConforme, setNoConforme] = useState("");
 
+  const loaderListResponsible = async () => {
+    const StorageResponsibleList = await storageResult.getDataFormat(
+      "@SessionResponsibleList"
+    );
+    console.log(
+      "estorage al iniciar: " + JSON.stringify(StorageResponsibleList)
+    );
+    setListResponsible(StorageResponsibleList);
+
+    //setValueRadio(newValue);
+    //torageResult.setItemValueListResponsible();
+  };
+
+  useEffect(() => {
+    loaderListResponsible();
+  }, []);
+
   console.log(route.params);
   const getNoConforn = async () => {
     const idCategory = route.params.id;
@@ -59,6 +76,11 @@ export function ResponsibleList(props) {
   useFocusEffect(
     useCallback(() => {
       getNoConforn();
+    }, [])
+  );
+  useFocusEffect(
+    useCallback(() => {
+      loaderListResponsible();
     }, [])
   );
 
@@ -91,7 +113,7 @@ export function ResponsibleList(props) {
 
   const selectedLMAction = (value, idCategory) => {};
 
-  const selectedListAdd = (value, label) => {
+  const selectedListAdd = async (value, label) => {
     let objData = {};
     objData = {
       label: label,
@@ -102,15 +124,23 @@ export function ResponsibleList(props) {
       return false;
     } else {
       setListResponsible([...listResponsible, objData]);
+      await storageResult.storeData("@SessionResponsibleList", [
+        ...listResponsible,
+        objData,
+      ]);
     }
   };
-  const deleteItemList = (key) => {
+  const deleteItemList = async (key) => {
     console.log(listResponsible);
     const newListResponsible = listResponsible.filter(
       (item) => item.value !== key
     );
 
     setListResponsible(newListResponsible);
+    await storageResult.storeData(
+      "@SessionResponsibleList",
+      newListResponsible
+    );
   };
 
   const deleteItem = (key) => {
@@ -161,7 +191,6 @@ export function ResponsibleList(props) {
                   let i = index - 1;
                   if (value != undefined) {
                     selectedListAdd(value, dataResponsable[i].label);
-                    console.log("este es el valor" + value);
                   }
                 }}
                 useNativeAndroidPickerStyle={false}

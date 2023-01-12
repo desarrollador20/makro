@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-
 import { StyleSheet, View } from "react-native";
 import { Text, Image, Avatar } from 'react-native-elements';
 import normalize from "react-native-normalize";
