@@ -9,15 +9,14 @@ const getData = async (key) => {
   }
 };
 
-
 const storeData = async (key, value) => {
   try {
     const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem(key, jsonValue)
+    await AsyncStorage.setItem(key, jsonValue);
   } catch (e) {
     console.log(`Error creating variable for key AsyncStorage ${key}`);
   }
-}
+};
 
 const getDataFormat = async (Variable) => {
   let keys = [];
@@ -32,74 +31,103 @@ const getDataFormat = async (Variable) => {
   } catch (e) {
     console.log(`Error when searching for key AsyncStorage ${e}`);
   }
-}
-
+};
 
 const removeItemValue = async (key) => {
   try {
     await AsyncStorage.removeItem(key);
     return true;
-  }
-  catch (exception) {
+  } catch (exception) {
     return false;
   }
-}
+};
 
-const setItemValue = async (idCheckList, idCategory, idQuestion, name, value) => {
-
-  const StorageResponse = await getDataFormat('@SessionResponse');
+const setItemValue = async (
+  idCheckList,
+  idCategory,
+  idQuestion,
+  name,
+  value
+) => {
+  const StorageResponse = await getDataFormat("@SessionResponse");
   var keyData = `${idCheckList}|${idCategory}|${idQuestion}|${name}`;
 
   if (StorageResponse === null) {
-    var ObjData = {}
+    var ObjData = {};
     ObjData[keyData] = value;
-    await storeData('@SessionResponse', ObjData);
+    await storeData("@SessionResponse", ObjData);
   } else {
     StorageResponse[keyData] = value;
-    await storeData('@SessionResponse', StorageResponse);
+    await storeData("@SessionResponse", StorageResponse);
   }
   console.log(JSON.stringify(StorageResponse, null, 3));
-}
+};
 
-
-const setItemValueImages = async (idCheckList, idCategory, idQuestion, nameImage, base64) => {
-
-  const SessionResponseImages = await getDataFormat('@SessionResponseImages');
+const setItemValueImages = async (
+  idCheckList,
+  idCategory,
+  idQuestion,
+  nameImage,
+  base64
+) => {
+  const SessionResponseImages = await getDataFormat("@SessionResponseImages");
   var keyData = `${idCheckList}|${idCategory}|${idQuestion}|${nameImage}`;
 
   if (SessionResponseImages === null) {
-    var ObjData = {}
+    var ObjData = {};
     ObjData[keyData] = base64;
-    await storeData('@SessionResponseImages', ObjData);
+    await storeData("@SessionResponseImages", ObjData);
   } else {
     SessionResponseImages[keyData] = base64;
-    await storeData('@SessionResponseImages', SessionResponseImages);
+    await storeData("@SessionResponseImages", SessionResponseImages);
   }
   // console.log(JSON.stringify(SessionResponseImages, null, 3));
+};
 
-}
+const setItemValueListResponsible = async (id, label) => {
+  const SessionResponsibleList = await getDataFormat("@SessionResponsibleList");
+  var keyData = `${label}`;
 
+  if (SessionResponsibleList === null) {
+    await storeData("@SessionResponsibleList", label);
+  } else {
+    SessionResponsibleList = label;
+    await storeData("@SessionResponsibleList", SessionResponsibleList);
+  }
+  // console.log(JSON.stringify(SessionResponseImages, null, 3));
+};
 
 const setItemValueLanguage = async (value) => {
   //const StorageResponse = await getDataFormat('@SessionLanguage');
-  await storeData('@SessionLanguage', value?.trim());
+  await storeData("@SessionLanguage", value?.trim());
   console.log(value);
-}
+};
 
 const setItemValueSendDataFailed = async (value) => {
-  const SessionResponseSendDataFailed = await getDataFormat('@SessionResponseSendDataFailed');
+  const SessionResponseSendDataFailed = await getDataFormat(
+    "@SessionResponseSendDataFailed"
+  );
   var keyData = `${idCheckList}|${idCategory}`;
 
   if (SessionResponseSendDataFailed === null) {
-    var ObjData = {}
+    var ObjData = {};
     ObjData[keyData] = base64;
-    await storeData('@SessionResponseImages', ObjData);
+    await storeData("@SessionResponseImages", ObjData);
   } else {
     SessionResponseSendDataFailed[keyData] = base64;
-    await storeData('@SessionResponseImages', SessionResponseSendDataFailed);
+    await storeData("@SessionResponseImages", SessionResponseSendDataFailed);
   }
-}
+};
 
+const setItemValueCountry = async (value) => {
+  //const StorageResponse = await getDataFormat('@SessionLanguage');
+  await storeData("@SessionIdCountry", value);
+};
+
+const setItemValueStore = async (value) => {
+  //const StorageResponse = await getDataFormat('@SessionLanguage');
+  await storeData("@SessionIdStore", value);
+};
 
 export const storageResult = {
   getData,
@@ -108,5 +136,8 @@ export const storageResult = {
   removeItemValue,
   setItemValue,
   setItemValueImages,
-  setItemValueLanguage
+  setItemValueLanguage,
+  setItemValueListResponsible,
+  setItemValueCountry,
+  setItemValueStore,
 };
