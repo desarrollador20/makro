@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -27,11 +27,11 @@ export function DetectLocationScreen() {
   const navigation = useNavigation();
   const { t, i18n } = useTranslation();
   const [dataCountry, setDataCountry] = useState([]);
-  //const [dataLenguaje, setDataLenguaje] = useState("");
+  const [dataLenguaje, setDataLenguaje] = useState();
   const [dataStora, setDataStora] = useState([]);
   const [itemValueCountry, setItemValueCountry] = useState("");
   const [itemValueStore, setItemValueStore] = useState("");
-
+  const DataLenguage = "es";
   const pickerStyle = {
     inputIOS: {
       fontFamily: "kodchasan-extraLight",
@@ -59,30 +59,27 @@ export function DetectLocationScreen() {
   const loaderLanguage = async () => {
     const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
     i18n.changeLanguage(DataLenguage);
-    const storageIdCountry = await storageResult.getDataFormat(
-      "@SessionIdCountry"
-    );
-    const storageIdStore = await storageResult.getDataFormat("@SessionIdStore");
+    
     setDataLenguaje(DataLenguage);
-    loeaderList(DataLenguage);
-    loeaderListStora(DataLenguage);
-    setItemValueCountry(storageIdCountry);
-    setItemValueStore(storageIdStore);
   };
 
   useEffect(() => {
     loaderLanguage();
   }, []);
 
-  /*useEffect(() => {
+  
+  useEffect(() => {
     loeaderList();
   }, []);
-*/
-  /*useEffect(() => {
-    loeaderListStora();
-  }, []);
-  */
-  const loeaderList = async (DataLenguage) => {
+
+ 
+
+  const loeaderList = async () => {
+    const storageIdCountry = await storageResult.getDataFormat(
+      "@SessionIdCountry"
+    );
+    setItemValueCountry(storageIdCountry);
+
     axios.get(apis.GlobalApis.url_list_country).then(function (response) {
       const config = {
         headers: { Authorization: `Bearer ${response.data.token}` },
@@ -109,7 +106,14 @@ export function DetectLocationScreen() {
       setDataCountry(arrayValueCountry);
     });
   };
-  const loeaderListStora = async (DataLenguage) => {
+  const loeaderListStora = async () => {
+    const storageIdStore = await storageResult.getDataFormat(
+      "@SessionIdStore"
+    );
+
+    var DataLenguage = "es";
+    setItemValueStore(storageIdStore);
+
     axios
       .get(apis.GlobalApis.utl_list_incidents_stora)
       .then(function (response) {
@@ -140,7 +144,9 @@ export function DetectLocationScreen() {
         setDataStora(arrayValueStora);
       });
   };
-
+  useEffect(() => {
+    loeaderListStora();
+  }, []);
   const onValueChangeCountry = async (value) => {
     await storageResult.storeData("@SessionIdCountry", value);
   };
