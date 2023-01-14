@@ -119,6 +119,16 @@ const setItemValueSendDataFailed = async (value) => {
   }
 };
 
+const setItemValueCountry = async (value) => {
+  //const StorageResponse = await getDataFormat('@SessionLanguage');
+  await storeData("@SessionIdCountry", value);
+};
+
+const setItemValueStore = async (value) => {
+  //const StorageResponse = await getDataFormat('@SessionLanguage');
+  await storeData("@SessionIdStore", value);
+};
+
 export const storageResult = {
   getData,
   storeData,
@@ -128,4 +138,6 @@ export const storageResult = {
   setItemValueImages,
   setItemValueLanguage,
   setItemValueListResponsible,
+  setItemValueCountry,
+  setItemValueStore,
 };
