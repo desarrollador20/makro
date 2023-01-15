@@ -1,7 +1,8 @@
 {
   "translation": {
     "Global": {
-      "hello": "Buen día"
+      "hello": "Buen día",
+      "flag": "es"
     },
     "Home": {
       "title": "Inspección de seguridad",

@@ -5,8 +5,6 @@ import {
   SafeAreaView,
   FlatList,
   ScrollView,
-  LogBox,
-  Alert,
 } from "react-native";
 import normalize from "react-native-normalize";
 import { useFocusEffect } from "@react-navigation/native";
@@ -21,10 +19,10 @@ import {
   storageResult,
   theme,
   apis,
+  lng
 } from "../../../utils";
 import { Button } from "react-native-elements";
 import axios from "axios";
-import { useTranslation } from "react-i18next";
 
 export function CategoryScreen(props) {
   const { route } = props;
@@ -33,18 +31,8 @@ export function CategoryScreen(props) {
   const [showModal, setShowModal] = useState(false);
   const [completedChecklist, setCompletedChecklist] = useState(false);
   const [renderComponent, setRenderComponent] = useState(null);
-  const [language, setLanguage] = useState("");
   const [test, setTest] = useState("");
-  const { t, i18n } = useTranslation();
-
-  const loaderLanguage = async () => {
-    const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    i18n.changeLanguage(DataLenguage);
-  };
-
-  useEffect(() => {
-    loaderLanguage();
-  }, []);
+  const { t } = lng.useTranslation();
 
   useEffect(() => {
     getData();
@@ -58,16 +46,9 @@ export function CategoryScreen(props) {
   );
 
   const getData = async () => {
-    const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    setLanguage(DataLenguage);
     const DatosStorage = await storageResult.getDataFormat("@Session");
-    if (
-      typeof DatosStorage !== undefined &&
-      DatosStorage["dataCategories"]["categories_" + route.params.id]
-    ) {
-      setDataCategoriesCheckList(
-        DatosStorage["dataCategories"]["categories_" + route.params.id]["data"]
-      );
+    if (typeof DatosStorage !== undefined && DatosStorage["dataCategories"]["categories_" + route.params.id]) {
+      setDataCategoriesCheckList(DatosStorage["dataCategories"]["categories_" + route.params.id]["data"]);
     }
   };
 
@@ -93,16 +74,11 @@ export function CategoryScreen(props) {
   const completedByCheckList = async () => {
     const idChecklist = route.params.idCheckList;
 
-    const StorageResponse = await storageResult.getDataFormat(
-      "@SessionResponse"
-    );
+    const StorageResponse = await storageResult.getDataFormat("@SessionResponse");
     let all_response = 0;
     if (typeof StorageResponse !== undefined && StorageResponse) {
       Object.entries(StorageResponse).forEach(([key, value]) => {
-        if (
-          key?.split("|")[0].includes(idChecklist) &&
-          key.includes("checkboxSelected")
-        ) {
+        if (key?.split("|")[0].includes(idChecklist) && key.includes("checkboxSelected")) {
           all_response = all_response + 1;
         }
       });
@@ -144,15 +120,12 @@ export function CategoryScreen(props) {
 
     if (typeof StorageResponse !== undefined && StorageResponse) {
       //json base
-      const DataLenguage = await storageResult.getDataFormat(
-        "@SessionLanguage"
-      );
       const DatauserId = await storageResult.getDataFormat("@userId");
       const dataSendJSON = {
         CreatedBy: DatauserId,
         IdIncidentsStore: "53",
         IdIndicatorsCountry: "2",
-        IdIndicatorsLanguages: DataLenguage,
+        IdIndicatorsLanguages: t("Global.flag"),
         IdState: "1",
         SurveysMovilDetailsClassificationQuestions: [],
         SurveysMovilDetailsQuestions: [],
@@ -255,7 +228,7 @@ export function CategoryScreen(props) {
         .catch(function (err) {
           console.log("Error de conexión " + err);
         })
-        .then(function () {});
+        .then(function () { });
 
       // console.log(JSON.stringify(DataSessionSend, null, 3));
 
@@ -287,55 +260,53 @@ export function CategoryScreen(props) {
     );
   };
 
+  if (!dataCategoriesCheckList) {
+    return (<Loading show />);
+  }
+
   return (
     <SafeAreaView style={stylesGlobal.contentGlobal}>
-        <CustomerHeader selectLanguage={language} />
-      {dataCategoriesCheckList ? (
-        <>
-          <ScrollView>
-            <HeaderPercentage idCheckList={route.params.idCheckList} />
-            <View style={{ ...stylesGlobal.contentView, ...styles.container }}>
-              <Text>{JSON.stringify(test, null, 3)}</Text>
-              <FlatList
-                ListHeaderComponent={
-                  <Text style={styles.titleCategory}>
-                    {t("Category.title")}
-                  </Text>
-                }
-                data={dataCategoriesCheckList}
-                contentContainerStyle={{
-                  paddingVertical: normalize(30, "height"),
+      <CustomerHeader t={t} />
+      <ScrollView>
+        <HeaderPercentage idCheckList={route.params.idCheckList} />
+        <View style={{ ...stylesGlobal.contentView, ...styles.container }}>
+          <Text>{JSON.stringify(test, null, 3)}</Text>
+          <FlatList
+            ListHeaderComponent={
+              <Text style={styles.titleCategory}>
+                {t("Category.title")}
+              </Text>
+            }
+            data={dataCategoriesCheckList}
+            contentContainerStyle={{
+              paddingVertical: normalize(30, "height"),
+            }}
+            renderItem={({ item }) => (
+              <RenderItem item={item} language={t("Global.flag")} />
+            )}
+            keyExtractor={(item) => item.Id}
+            ListFooterComponent={
+              <Button
+                disabled={completedChecklist ? false : true}
+                title={t("Category.btnEnd")}
+                titleStyle={styles.fontCustom}
+                containerStyle={stylesGlobal.btnContainer}
+                buttonStyle={{
+                  ...stylesGlobal.btn,
+                  alignSelf: "center",
+                  width: "80%",
+                  backgroundColor: completedChecklist
+                    ? "#84D9B1"
+                    : "#F2F2F2",
                 }}
-                renderItem={({ item }) => (
-                  <RenderItem item={item} language={language} />
-                )}
-                keyExtractor={(item) => item.Id}
-                ListFooterComponent={
-                  <Button
-                    disabled={completedChecklist ? false : true}
-                    title={t("Category.btnEnd")}
-                    titleStyle={styles.fontCustom}
-                    containerStyle={stylesGlobal.btnContainer}
-                    buttonStyle={{
-                      ...stylesGlobal.btn,
-                      alignSelf: "center",
-                      width: "80%",
-                      backgroundColor: completedChecklist
-                        ? "#84D9B1"
-                        : "#F2F2F2",
-                    }}
-                    onPress={() => finishInspection()}
-                  />
-                }
+                onPress={() => finishInspection()}
               />
-            </View>
+            }
+          />
+        </View>
 
-            <Footer />
-          </ScrollView>
-        </>
-      ) : (
-        <Loading show />
-      )}
+        <Footer />
+      </ScrollView>
 
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}

@@ -6,9 +6,8 @@ import { Switch } from "react-native-paper";
 import RNPickerSelect from "react-native-picker-select";
 import { useFocusEffect } from "@react-navigation/native";
 import normalize from "react-native-normalize";
-import { theme, checkConnected, storageResult } from "../../../utils";
+import { theme, checkConnected, storageResult, lng } from "../../../utils";
 import { PreviousInspection } from "../PreviousInspection";
-import { useTranslation } from "react-i18next";
 import { styles } from "./Disagreed.style";
 
 export function Disagreed(props) {
@@ -20,9 +19,7 @@ export function Disagreed(props) {
   const [probability, setProbability] = useState(false);
   const [gravity, setGravity] = useState(false);
   const { control, handleSubmit, setValue } = useForm({ mode: "onBlur" });
-  const { t, i18n } = useTranslation();
-
-
+  const { t } = lng.useTranslation();
 
   useFocusEffect(
     useCallback(() => {
@@ -36,13 +33,12 @@ export function Disagreed(props) {
 
   const GetSelected = async () => {
     const DatosStorage = await storageResult.getDataFormat("@Session");
-    const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
 
     var probability = [];
     Object.entries(DatosStorage["dataListIncidentsRisk"]["data"]).forEach(
       ([key, value]) => {
         const item = {
-          label: DataLenguage == "es" ? value.name : value.namePortuguese,
+          label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
           value: value.id.toString(),
         };
         probability.push(item);
@@ -54,7 +50,7 @@ export function Disagreed(props) {
     Object.entries(DatosStorage["dataIncidentsRiskSeverity"]["data"]).forEach(
       ([key, value]) => {
         const item = {
-          label: DataLenguage == "es" ? value.name : value.namePortuguese,
+          label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
           value: value.id.toString(),
         };
         gravity.push(item);

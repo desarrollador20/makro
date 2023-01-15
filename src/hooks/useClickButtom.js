@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
-import { screen, storageResult, checkConnected } from "../utils";
-import { useTranslation } from "react-i18next";
+import { screen, storageResult, checkConnected, lng } from "../utils";
 
 export function useClickButtom() {
   const [connectStatus, setConnectStatus] = useState(false);
   const navigation = useNavigation();
-  const { t, i18n } = useTranslation();
-
-  const loaderLanguage = async () => {
-    const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    i18n.changeLanguage(DataLenguage);
-  };
-  useEffect(() => {
-    loaderLanguage();
-  }, []);
+  const { t } = lng.useTranslation();
 
   checkConnected().then((res) => {
     setConnectStatus(res);
@@ -43,7 +34,7 @@ export function useClickButtom() {
     //if you enter here is because you have run out of questions or you are returning to the category menu
     if (
       DatosStorage["dataQuestions"]["questions_" + idCategory]["data"][
-        "orden_" + currentNumberQuestion
+      "orden_" + currentNumberQuestion
       ] === undefined
     ) {
       if (screenPositiveComments == 1 && action == "next" && connectStatus) {

@@ -8,24 +8,10 @@ import { styles } from "./CustomHeader.style";
 
 
 const CustomerHeader = (props) => {
-  const  {selectLanguage} = props;
-  const [language, setLanguage] = useState(false);
-   
 
-    useEffect(() => {
-     
-      loaderLanguage();
-      
-  
-    }, []);
-  const loaderLanguage = async () => {
-    //const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
-    setLanguage(selectLanguage);
+  const { t } = props;
 
-  }
-
- console.log("lenguaje: ", language);
- console.log("select lenguaje: ", selectLanguage);
+  console.log("select lenguaje: ", t);
 
   const ContentHeader = () => (
     <>
@@ -38,7 +24,7 @@ const CustomerHeader = (props) => {
               containerStyle={{ ...styles.containerAvatar, }}
               size={normalize(27)}
             />
-            <Text style={styles.textContainerName}>{selectLanguage == 'es' ? 'Buen día' : 'Bom dia'} <Text style={styles.textName}>Jaqueline</Text></Text>
+            <Text style={styles.textContainerName}>{t("Global.hello")} <Text style={styles.textName}>Jaqueline</Text></Text>
           </View>
         }
         style={styles.HeaderContent}

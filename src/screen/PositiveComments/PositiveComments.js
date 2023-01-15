@@ -2,25 +2,15 @@ import React, { useEffect } from "react";
 import { View, Text, SafeAreaView, TextInput, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import CustomerHeader from "../../navigation/CustomerHeader";
-import { storageResult, stylesGlobal } from "../../utils";
+import { storageResult, stylesGlobal, lng } from "../../utils";
 import { styles } from "./PositiveComments.style";
 import { ButtonsQuestion } from "../../components/question";
-import { useTranslation } from "react-i18next";
-
 import { Footer, HeaderPercentage } from "../../components";
 
 export function PositiveComments(props) {
   const { route } = props;
   const { control, handleSubmit, setValue } = useForm({ mode: "onBlur" });
-  const { t, i18n } = useTranslation();
-
-  const loaderLanguage = async () => {
-    const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    i18n.changeLanguage(DataLenguage);
-  };
-  useEffect(() => {
-    loaderLanguage();
-  }, []);
+  const { t } = lng.useTranslation();
 
   const validateOnBlur = (idCheckList, value, name, idCategory, idQuestion) => {
     storageResult.setItemValue(
@@ -44,7 +34,7 @@ export function PositiveComments(props) {
 
   return (
     <SafeAreaView style={stylesGlobal.contentGlobal}>
-      <CustomerHeader />
+      <CustomerHeader t={t} />
       <ScrollView>
         <HeaderPercentage
           idCheckList={route.params.params.idCheckList}

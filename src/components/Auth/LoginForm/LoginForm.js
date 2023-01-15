@@ -6,15 +6,14 @@ import axios from "axios";
 import normalize from "react-native-normalize";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
-import { screen, stylesGlobal, storageResult, apis } from "../../../utils";
+import { screen, stylesGlobal, storageResult, apis, lng } from "../../../utils";
 import { styles } from "./LoginForm.styles";
-import { useTranslation } from "react-i18next";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [downloadingData, setDownloadingData] = useState(false);
   const navigation = useNavigation();
-  const { t, i18n } = useTranslation();
+  const { t } = lng.useTranslation();
 
   const {
     control,
@@ -175,11 +174,13 @@ export function LoginForm() {
 
               await storageResult.storeData("@Session", DataSession);
               await storageResult.storeData("@userId", dataUserId);
-              const DatosStorage = await storageResult.getDataFormat(
-                "@Session"
-              );
+              const DatosStorage = await storageResult.getDataFormat("@Session");
               await storageResult.removeItemValue("@SessionResponse");
               await storageResult.removeItemValue("@SessionResponseImages");
+              //await storageResult.removeItemValue("@SessionLanguage");
+              await storageResult.removeItemValue("@SessionIdStore");
+              await storageResult.removeItemValue("@SessionIdCountry");
+              await storageResult.removeItemValue("@SessionResponsibleList");
               setDownloadingData(false);
               navigation.navigate(screen.account.tab, {
                 screen: screen.account.geocalizacion,

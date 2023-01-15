@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   SafeAreaView,
   ScrollView,
-  LogBox,
   Alert,
   TouchableOpacity,
 } from "react-native";
@@ -19,6 +18,7 @@ import {
   theme,
   storageResult,
   checkConnected,
+  lng
 } from "../../../utils";
 import CustomerHeader from "../../../navigation/CustomerHeader";
 import { Footer, HeaderPercentage, Loading } from "../../../components";
@@ -30,7 +30,6 @@ import {
   MultimediaQuestion,
 } from "../../../components/question";
 import normalize from "react-native-normalize";
-import { useTranslation } from "react-i18next";
 
 export function QuestionScreen(props) {
   const { route } = props;
@@ -41,16 +40,8 @@ export function QuestionScreen(props) {
   const [disagreed, setDisagreed] = useState(false);
   const [notApplicable, setNotApplicable] = useState(false);
   const [connectStatus, setConnectStatus] = useState(false);
-  const language = useRef("");
-  const { t, i18n } = useTranslation();
 
-  const loaderLanguage = async () => {
-    const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    i18n.changeLanguage(DataLenguage);
-  };
-  useEffect(() => {
-    loaderLanguage();
-  }, []);
+  const { t } = lng.useTranslation();
 
   useEffect(() => {
     getData();
@@ -64,18 +55,12 @@ export function QuestionScreen(props) {
   }, [dataQuestion, setDataQuestion]);
 
   const getData = async () => {
-    const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    language.current = DataLenguage;
 
     const DatosStorage = await storageResult.getDataFormat("@Session");
     setAgreed(false);
     setDisagreed(false);
     setNotApplicable(false);
-    setDataQuestion(
-      DatosStorage["dataQuestions"]["questions_" + route.params.id]["data"][
-        "orden_" + route.params.numberQuestion
-      ]
-    );
+    setDataQuestion(DatosStorage["dataQuestions"]["questions_" + route.params.id]["data"]["orden_" + route.params.numberQuestion]);
   };
 
   const validateDataInit = async () => {
@@ -105,9 +90,7 @@ export function QuestionScreen(props) {
           setNotApplicable(true);
         }
       }
-      const DatosStorageImages = await storageResult.getDataFormat(
-        "@SessionResponseImages"
-      );
+      const DatosStorageImages = await storageResult.getDataFormat("@SessionResponseImages");
       var keyQuestionImages = `${route.params.idCheckList}|${route.params.id}|${dataQuestion.id}`;
       if (DatosStorageImages) {
         var DataImages = new Array();
@@ -258,138 +241,132 @@ export function QuestionScreen(props) {
   }
 
   if (!dataQuestion) {
-    return <View />;
+    return (<Loading show />);
   }
 
   return (
     <SafeAreaView style={stylesGlobal.contentGlobal}>
-      <CustomerHeader />
-      {dataQuestion ? (
-        <>
-          <ScrollView>
-            <HeaderPercentage
-              idCheckList={route.params.idCheckList}
+      <CustomerHeader t={t} />
+      <ScrollView>
+        <HeaderPercentage
+          idCheckList={route.params.idCheckList}
+          idCategory={route.params.id}
+          idQuestion={dataQuestion.id}
+          numberQuestion={route.params.numberQuestion}
+          screenQuestion={"1"}
+          insideQuestion={"1"}
+        />
+        <View style={{ ...stylesGlobal.contentView }}>
+          <Text style={styles.lblQuestion}>
+            {t("Global.flag") == "pt"
+              ? dataQuestion.titlePortuguese
+              : dataQuestion.titleSpanish}
+          </Text>
+          {connectStatus && (
+            <MultimediaQuestion
+              multimedia={dataQuestion.multimedia}
+              typeMultimedia={dataQuestion.type_multimedia}
+            />
+          )}
+          <View style={styles.container}>
+            <CheckboxCustom
+              checkboxSelected={agreed}
+              setCheckboxSelected={setAgreed}
+              color={theme.GlobalColorsApp.colorOptionActive}
+              icon={"thumbs-up-outline"}
+              title={
+                t("Global.flag") == "pt"
+                  ? dataQuestion.answer_options[0].labelPortuguese
+                  : dataQuestion.answer_options[0].labelSpanish
+              }
+              toDisabledOne={setDisagreed}
+              toDisabledTwo={setNotApplicable}
+              number={"1"}
+              idAnswer={dataQuestion.answer_options[0].IdSurveysMoviAnswer}
               idCategory={route.params.id}
               idQuestion={dataQuestion.id}
+              idCheckList={route.params.idCheckList}
               numberQuestion={route.params.numberQuestion}
-              screenQuestion={"1"}
-              insideQuestion={"1"}
+              isAnswersImages={dataQuestion.is_answers_images}
+              imageAnswer={dataQuestion.answer_options[0].img}
+              idConfiguration={dataQuestion.IdSurveysMovilConfiguration}
             />
-            <View style={{ ...stylesGlobal.contentView }}>
-              <Text style={styles.lblQuestion}>
-                {language.current == "pt"
-                  ? dataQuestion.titlePortuguese
-                  : dataQuestion.titleSpanish}
-              </Text>
-              {connectStatus && (
-                <MultimediaQuestion
-                  multimedia={dataQuestion.multimedia}
-                  typeMultimedia={dataQuestion.type_multimedia}
-                />
-              )}
-              <View style={styles.container}>
-                <CheckboxCustom
-                  checkboxSelected={agreed}
-                  setCheckboxSelected={setAgreed}
-                  color={theme.GlobalColorsApp.colorOptionActive}
-                  icon={"thumbs-up-outline"}
-                  title={
-                    language.current == "pt"
-                      ? dataQuestion.answer_options[0].labelPortuguese
-                      : dataQuestion.answer_options[0].labelSpanish
-                  }
-                  toDisabledOne={setDisagreed}
-                  toDisabledTwo={setNotApplicable}
-                  number={"1"}
-                  idAnswer={dataQuestion.answer_options[0].IdSurveysMoviAnswer}
-                  idCategory={route.params.id}
-                  idQuestion={dataQuestion.id}
-                  idCheckList={route.params.idCheckList}
-                  numberQuestion={route.params.numberQuestion}
-                  isAnswersImages={dataQuestion.is_answers_images}
-                  imageAnswer={dataQuestion.answer_options[0].img}
-                  idConfiguration={dataQuestion.IdSurveysMovilConfiguration}
-                />
 
-                <CheckboxCustom
-                  checkboxSelected={disagreed}
-                  setCheckboxSelected={setDisagreed}
-                  color={theme.GlobalColorsApp.colorOptionActiveDisagreed}
-                  icon={"thumbs-down-outline"}
-                  title={
-                    language.current == "pt"
-                      ? dataQuestion.answer_options[1].labelPortuguese
-                      : dataQuestion.answer_options[1].labelSpanish
-                  }
-                  toDisabledOne={setAgreed}
-                  toDisabledTwo={setNotApplicable}
-                  number={"2"}
-                  idAnswer={dataQuestion.answer_options[1].IdSurveysMoviAnswer}
-                  idCategory={route.params.id}
-                  idQuestion={dataQuestion.id}
-                  idCheckList={route.params.idCheckList}
-                  numberQuestion={route.params.numberQuestion}
-                  isAnswersImages={dataQuestion.is_answers_images}
-                  imageAnswer={dataQuestion.answer_options[1].img}
-                  idConfiguration={dataQuestion.IdSurveysMovilConfiguration}
-                />
-                <CheckboxCustom
-                  checkboxSelected={notApplicable}
-                  setCheckboxSelected={setNotApplicable}
-                  color={theme.GlobalColorsApp.colorOptionInactive}
-                  title={
-                    language.current == "pt"
-                      ? dataQuestion.answer_options[2].labelPortuguese
-                      : dataQuestion.answer_options[2].labelSpanish
-                  }
-                  toDisabledOne={setAgreed}
-                  toDisabledTwo={setDisagreed}
-                  number={"3"}
-                  idAnswer={dataQuestion.answer_options[2].IdSurveysMoviAnswer}
-                  idCategory={route.params.id}
-                  idQuestion={dataQuestion.id}
-                  idCheckList={route.params.idCheckList}
-                  numberQuestion={route.params.numberQuestion}
-                  isAnswersImages={dataQuestion.is_answers_images}
-                  imageAnswer={dataQuestion.answer_options[2].img}
-                  idConfiguration={dataQuestion.IdSurveysMovilConfiguration}
-                />
-              </View>
-            </View>
+            <CheckboxCustom
+              checkboxSelected={disagreed}
+              setCheckboxSelected={setDisagreed}
+              color={theme.GlobalColorsApp.colorOptionActiveDisagreed}
+              icon={"thumbs-down-outline"}
+              title={
+                t("Global.flag") == "pt"
+                  ? dataQuestion.answer_options[1].labelPortuguese
+                  : dataQuestion.answer_options[1].labelSpanish
+              }
+              toDisabledOne={setAgreed}
+              toDisabledTwo={setNotApplicable}
+              number={"2"}
+              idAnswer={dataQuestion.answer_options[1].IdSurveysMoviAnswer}
+              idCategory={route.params.id}
+              idQuestion={dataQuestion.id}
+              idCheckList={route.params.idCheckList}
+              numberQuestion={route.params.numberQuestion}
+              isAnswersImages={dataQuestion.is_answers_images}
+              imageAnswer={dataQuestion.answer_options[1].img}
+              idConfiguration={dataQuestion.IdSurveysMovilConfiguration}
+            />
+            <CheckboxCustom
+              checkboxSelected={notApplicable}
+              setCheckboxSelected={setNotApplicable}
+              color={theme.GlobalColorsApp.colorOptionInactive}
+              title={
+                t("Global.flag") == "pt"
+                  ? dataQuestion.answer_options[2].labelPortuguese
+                  : dataQuestion.answer_options[2].labelSpanish
+              }
+              toDisabledOne={setAgreed}
+              toDisabledTwo={setDisagreed}
+              number={"3"}
+              idAnswer={dataQuestion.answer_options[2].IdSurveysMoviAnswer}
+              idCategory={route.params.id}
+              idQuestion={dataQuestion.id}
+              idCheckList={route.params.idCheckList}
+              numberQuestion={route.params.numberQuestion}
+              isAnswersImages={dataQuestion.is_answers_images}
+              imageAnswer={dataQuestion.answer_options[2].img}
+              idConfiguration={dataQuestion.IdSurveysMovilConfiguration}
+            />
+          </View>
+        </View>
 
-            {dataQuestion.allow_img == "1" && (
-              <View>
-                <UploadImage
-                  imageSelected={imageSelected}
-                  setImageSelected={setImageSelected}
-                />
-              </View>
-            )}
+        {dataQuestion.allow_img == "1" && (
+          <View>
+            <UploadImage
+              imageSelected={imageSelected}
+              setImageSelected={setImageSelected}
+            />
+          </View>
+        )}
 
-            <View>
-              {disagreed && (
-                <Disagreed
-                  idCategory={route.params.id}
-                  idQuestion={dataQuestion.id}
-                  idCheckList={route.params.idCheckList}
-                />
-              )}
-            </View>
+        <View>
+          {disagreed && (
+            <Disagreed
+              idCategory={route.params.id}
+              idQuestion={dataQuestion.id}
+              idCheckList={route.params.idCheckList}
+            />
+          )}
+        </View>
 
         <ButtonsQuestion
-              idCategory={route.params.id}
-              numberQuestion={route.params.numberQuestion}
-              idQuestion={dataQuestion.id}
-              idCheckList={route.params.idCheckList}
-              selectLanguage={language.current}
-            />
-              
-            <Footer />
-          </ScrollView>
-        </>
-      ) : (
-        <Loading show />
-      )}
+          idCategory={route.params.id}
+          numberQuestion={route.params.numberQuestion}
+          idQuestion={dataQuestion.id}
+          idCheckList={route.params.idCheckList}
+          selectLanguage={t("Global.flag")}
+        />
+
+        <Footer />
+      </ScrollView>
     </SafeAreaView>
   );
 }

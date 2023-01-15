@@ -5,13 +5,13 @@ import Toast from "react-native-toast-message";
 import normalize from "react-native-normalize";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
-import { screen, stylesGlobal, theme } from "../../../utils";
+import { screen, stylesGlobal, theme, lng } from "../../../utils";
 import { styles } from "./EmailRecoveryScreen.styles";
-import { useTranslation } from "react-i18next";
+
 
 export function EmailRecoveryScreen() {
   const navigation = useNavigation();
-  const { t } = useTranslation();
+  const { t } = lng.useTranslation();
   const [inputEmail, setInputEmail] = useState("");
   const emailRegex =
     /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;

@@ -2,22 +2,13 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Pressable } from "react-native";
 import { Icon } from "react-native-elements";
 import normalize from "react-native-normalize";
-import { theme } from "../../../utils";
+import { theme, lng } from "../../../utils";
 import { styles } from "./PreviousInspection.style";
-import { useTranslation } from "react-i18next";
 
 export function PreviousInspection(props) {
   const { idQuestion } = props;
   const [getHistory, setGetHistory] = useState(false);
-  const { t, i18n } = useTranslation();
-
-  const loaderLanguage = async () => {
-    //const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-   // i18n.changeLanguage(DataLenguage);
-  };
-  useEffect(() => {
-    loaderLanguage();
-  }, []);
+  const { t } = lng.useTranslation();
 
   const RowColumnHistory = (props) => {
     const { title, description } = props;

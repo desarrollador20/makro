@@ -12,9 +12,8 @@ import RNPickerSelect from "react-native-picker-select";
 import { Footer, HeaderPercentage } from "../../components";
 import { ButtonsQuestion } from "../../components/question";
 import CustomerHeader from "../../navigation/CustomerHeader";
-import { stylesGlobal, theme, storageResult } from "../../utils";
+import { stylesGlobal, theme, storageResult, lng } from "../../utils";
 import { styles } from "./ResponsibleList.style";
-import { useTranslation } from "react-i18next";
 import { useFocusEffect } from "@react-navigation/native";
 
 export function ResponsibleList(props) {
@@ -26,28 +25,17 @@ export function ResponsibleList(props) {
   ];
   const { route } = props;
   const [listResponsible, setListResponsible] = useState([]);
-  const { t, i18n } = useTranslation();
+  const { t } = lng.useTranslation();
   const [dataResponsable, setDataResponsable] = useState(dataListResponsable);
   const [noConforme, setNoConforme] = useState("");
 
   const loaderListResponsible = async () => {
-    const StorageResponsibleList = await storageResult.getDataFormat(
-      "@SessionResponsibleList"
-    );
-    console.log(
-      "estorage al iniciar: " + JSON.stringify(StorageResponsibleList)
-    );
+    const StorageResponsibleList = await storageResult.getDataFormat("@SessionResponsibleList");
     setListResponsible(StorageResponsibleList);
-
     //setValueRadio(newValue);
     //torageResult.setItemValueListResponsible();
   };
 
-  useEffect(() => {
-    loaderListResponsible();
-  }, []);
-
-  console.log(route.params);
   const getNoConforn = async () => {
     const idCategory = route.params.id;
 
@@ -55,10 +43,7 @@ export function ResponsibleList(props) {
       "@SessionResponse"
     );
     let no_conforme = 0;
-    console.log("fuera");
-
     if (typeof StorageResponse !== undefined && StorageResponse) {
-      console.log("entro");
       Object.entries(StorageResponse).forEach(([key, value]) => {
         if (
           key?.split("|")[1].includes(idCategory) &&
@@ -73,25 +58,17 @@ export function ResponsibleList(props) {
     }
   };
 
+  useEffect(() => {
+    loaderListResponsible();
+  }, []);
+
   useFocusEffect(
     useCallback(() => {
       getNoConforn();
-    }, [])
-  );
-  useFocusEffect(
-    useCallback(() => {
       loaderListResponsible();
     }, [])
   );
 
-  const loaderLanguage = async () => {
-    const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    i18n.changeLanguage(DataLenguage);
-  };
-
-  useEffect(() => {
-    loaderLanguage();
-  }, []);
 
   const pickerStyle = {
     inputIOS: {
@@ -111,7 +88,6 @@ export function ResponsibleList(props) {
     },
   };
 
-  const selectedLMAction = (value, idCategory) => {};
 
   const selectedListAdd = async (value, label) => {
     let objData = {};
@@ -120,10 +96,11 @@ export function ResponsibleList(props) {
       value: value,
     };
 
-    if (listResponsible.some((list) => list.value === objData.value)) {
+
+    if (objData.some((list) => list.value === objData.value)) {
       return false;
     } else {
-      setListResponsible([...listResponsible, objData]);
+
       await storageResult.storeData("@SessionResponsibleList", [
         ...listResponsible,
         objData,
@@ -131,7 +108,6 @@ export function ResponsibleList(props) {
     }
   };
   const deleteItemList = async (key) => {
-    console.log(listResponsible);
     const newListResponsible = listResponsible.filter(
       (item) => item.value !== key
     );
@@ -144,7 +120,6 @@ export function ResponsibleList(props) {
   };
 
   const deleteItem = (key) => {
-    console.log(dataResponsable);
     const newDataResponsable = dataResponsable.filter(
       (item) => item.value !== key
     );
@@ -173,7 +148,7 @@ export function ResponsibleList(props) {
 
   return (
     <SafeAreaView style={stylesGlobal.contentGlobal}>
-      <CustomerHeader />
+      <CustomerHeader t={t} />
       <ScrollView>
         <HeaderPercentage
           idCheckList={route.params.idCheckList}
@@ -223,8 +198,8 @@ export function ResponsibleList(props) {
               ...styles.item,
               borderColor: theme.GlobalColorsApp.colorOptionActiveDisagreed,
             }}
-            // onPress={() => managerScreen(navigation, id, module, idCheckList)}
-            // key={id}
+          // onPress={() => managerScreen(navigation, id, module, idCheckList)}
+          // key={id}
           >
             <View style={{ ...styles.containerIcon }}>
               <Icon

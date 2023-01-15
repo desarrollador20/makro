@@ -3,16 +3,17 @@ import { View, ScrollView, SafeAreaView } from "react-native";
 import { Text, Image } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { stylesGlobal, storageResult, theme } from "../../../utils";
+import { stylesGlobal, storageResult, theme, lng } from "../../../utils";
 import { styles } from "./LoginScreen.styles";
 import { LoginForm } from "../../../components/Auth";
 import SwitchSelector from "react-native-switch-selector";
-import { useTranslation } from "react-i18next";
+
+
 
 export function LoginScreen() {
   const navigation = useNavigation();
   const [valueRadio, setValueRadio] = React.useState("pt");
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = lng.useTranslation();
 
   useEffect(() => {
     loaderInitchangeLanguageCustom();
