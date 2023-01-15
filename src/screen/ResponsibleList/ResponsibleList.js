@@ -31,8 +31,10 @@ export function ResponsibleList(props) {
 
   const loaderListResponsible = async () => {
     const StorageResponsibleList = await storageResult.getDataFormat("@SessionResponsibleList");
-   
-       setListResponsible(StorageResponsibleList);
+     if (StorageResponsibleList) {
+      setListResponsible(StorageResponsibleList);
+      
+     }
     //setValueRadio(newValue);
     //torageResult.setItemValueListResponsible();
   };
