@@ -16,6 +16,7 @@ export function GeocalizacionScreen() {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
+  const [language , setLanguage] = useState(null);
   const [renderComponent, setRenderComponent] = useState(null);
   const navigation = useNavigation();
   const { t, i18n } = useTranslation();
@@ -24,7 +25,7 @@ export function GeocalizacionScreen() {
   const loaderLanguage = async () => {
     const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
     i18n.changeLanguage(DataLenguage);
-    console.log(DataLenguage);
+    setLanguage(DataLenguage);
 
   }
 
@@ -73,7 +74,7 @@ export function GeocalizacionScreen() {
     <>
 
       <SafeAreaView style={stylesGlobal.contentGlobal}>
-        <CustomerHeader />
+        <CustomerHeader selectLanguage={language} />
         <ScrollView>
           {
             location == null

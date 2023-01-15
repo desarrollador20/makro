@@ -289,7 +289,7 @@ export function CategoryScreen(props) {
 
   return (
     <SafeAreaView style={stylesGlobal.contentGlobal}>
-      <CustomerHeader />
+        <CustomerHeader selectLanguage={language} />
       {dataCategoriesCheckList ? (
         <>
           <ScrollView>

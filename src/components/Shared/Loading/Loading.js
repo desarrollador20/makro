@@ -8,11 +8,6 @@ import { useTranslation } from "react-i18next";
 export function Loading(props) {
   const { t, i18n } = useTranslation();
 
-  const loaderLanguage = async () => {
-    const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    i18n.changeLanguage(DataLenguage);
-  };
-
   const { show, text = t("Geolocalizacion.loeaderMap") } = props;
 
   if (!show) return null;

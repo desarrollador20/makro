@@ -28,6 +28,7 @@ export function DetectLocationScreen() {
   const { t, i18n } = useTranslation();
   const [dataCountry, setDataCountry] = useState([]);
   const [dataLenguaje, setDataLenguaje] = useState();
+  const [language , setLanguage] = useState(null);
   const [dataStora, setDataStora] = useState([]);
   const [itemValueCountry, setItemValueCountry] = useState("");
   const [itemValueStore, setItemValueStore] = useState("");
@@ -60,7 +61,7 @@ export function DetectLocationScreen() {
     const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
     i18n.changeLanguage(DataLenguage);
     
-    setDataLenguaje(DataLenguage);
+    setLanguage(DataLenguage);
   };
 
   useEffect(() => {
@@ -154,7 +155,7 @@ export function DetectLocationScreen() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={stylesGlobal.contentGlobal}>
-        <CustomerHeader />
+        <CustomerHeader selectLanguage={language} />
         <View style={styles.headerRed}>
           <Icon
             type="foundation"

@@ -376,12 +376,14 @@ export function QuestionScreen(props) {
               )}
             </View>
 
-            <ButtonsQuestion
+        <ButtonsQuestion
               idCategory={route.params.id}
               numberQuestion={route.params.numberQuestion}
               idQuestion={dataQuestion.id}
               idCheckList={route.params.idCheckList}
+              selectLanguage={language.current}
             />
+              
             <Footer />
           </ScrollView>
         </>

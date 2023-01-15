@@ -22,13 +22,7 @@ export function Disagreed(props) {
   const { control, handleSubmit, setValue } = useForm({ mode: "onBlur" });
   const { t, i18n } = useTranslation();
 
-  const loaderLanguage = async () => {
-    const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    i18n.changeLanguage(DataLenguage);
-  };
-  useEffect(() => {
-    loaderLanguage();
-  }, []);
+
 
   useFocusEffect(
     useCallback(() => {
