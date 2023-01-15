@@ -10,7 +10,7 @@ import { styles } from './ButtonsQuestion.style';
 export function ButtonsQuestion(props) {
 
     const [language, setLanguage] = useState(false);
-    const { idCategory, numberQuestion, idQuestion, screenPositiveComments = 0, screenResponsileList = 0, idCheckList } = props;
+    const { idCategory, numberQuestion, idQuestion, screenPositiveComments = 0, screenResponsileList = 0, idCheckList, selectLanguage } = props;
     const { validarFields } = useClickButtom();
 
     useEffect(() => {
@@ -30,14 +30,14 @@ export function ButtonsQuestion(props) {
         <View style={{ ...stylesGlobal.contentView, alignItems: 'center' }}>
             <View style={stylesGlobal.containerButton}>
                 <Button
-                    title={language == 'pt' ? 'prévio' : 'previo'}
+                    title={selectLanguage == 'pt' ? 'prévio' : 'previo'}
                     containerStyle={stylesGlobal.btnContainer}
                     buttonStyle={{ ...stylesGlobal.btn, backgroundColor: theme.GlobalColorsApp.btnGrayPrev }}
                     onPress={() => validarFields(idCategory, numberQuestion, idQuestion, screenPositiveComments, screenResponsileList, idCheckList, 'prev')}
                 />
 
                 <Button
-                    title={screenResponsileList == 1 ? language == 'pt' ? 'fim' : 'fin' : "próximo"}
+                    title={screenResponsileList == 1 ? selectLanguage == 'pt' ? 'fim' : 'fin' : "próximo"}
                     containerStyle={stylesGlobal.btnContainer}
                     titleStyle={styles.fontCustom}
                     buttonStyle={{ ...stylesGlobal.btn, backgroundColor: theme.GlobalColorsApp.btnGrayNext }}

@@ -14,11 +14,14 @@ import { useTranslation } from "react-i18next";
 export function HomeScreen() {
 
   const [dataCheckList, setDataCheckList] = useState(false);
+  const [language , setLanguage] = useState(null);
+
+  
   const { t, i18n } = useTranslation();
     const loaderLanguage = async () => {
         const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
         i18n.changeLanguage(DataLenguage);
-        console.log(DataLenguage);
+        setLanguage(DataLenguage);
     
       }
 
@@ -54,7 +57,7 @@ export function HomeScreen() {
   return (
     <>
       <SafeAreaView style={stylesGlobal.contentGlobal}>
-        <CustomerHeader />
+        <CustomerHeader selectLanguage={language} />
         {
           dataCheckList ?
             (
