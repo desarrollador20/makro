@@ -4,30 +4,21 @@ import { Text, Icon, Button } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { useNavigation } from "@react-navigation/native";
-import { screen, stylesGlobal, theme, storageResult } from "../../../utils";
+import { screen, stylesGlobal, theme, storageResult, lng } from "../../../utils";
 import { Modal, LoadingModal, Footer } from "../../../components";
 import CustomerHeader from '../../../navigation/CustomerHeader';
 import { styles } from "./GeocalizacionScreen.style";
 import normalize from 'react-native-normalize';
-import { useTranslation } from "react-i18next";
 
 
 export function GeocalizacionScreen() {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
-  const [language , setLanguage] = useState(null);
   const [renderComponent, setRenderComponent] = useState(null);
   const navigation = useNavigation();
-  const { t, i18n } = useTranslation();
+  const { t } = lng.useTranslation();
 
-
-  const loaderLanguage = async () => {
-    const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
-    i18n.changeLanguage(DataLenguage);
-    setLanguage(DataLenguage);
-
-  }
 
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
 
@@ -35,12 +26,7 @@ export function GeocalizacionScreen() {
     setShowModal((prevState) => !prevState)
     navigation.navigate(screen.account.tab, { screen: screen.account.detectLocation })
   }
-  useEffect(() => {
-     
-    loaderLanguage();
-    
 
-  }, []);
 
   useEffect(() => {
     (async () => {
@@ -62,7 +48,7 @@ export function GeocalizacionScreen() {
       if (status !== 'granted') {
         Alert.alert(t("Geolocalizacion.alertDenied"));
         return;
-        
+
       }
 
       let location = await Location.getCurrentPositionAsync()
@@ -70,66 +56,60 @@ export function GeocalizacionScreen() {
     })();
   }, []);
 
+  if (!location) {
+    return (<LoadingModal show={isLoading} text={t("Geolocalizacion.loeaderMap")} />);
+  }
+
   return (
     <>
 
       <SafeAreaView style={stylesGlobal.contentGlobal}>
-        <CustomerHeader selectLanguage={language} />
+        <CustomerHeader t={t} />
         <ScrollView>
-          {
-            location == null
-              ?
-              (<LoadingModal show={isLoading} text={t("Geolocalizacion.loeaderMap")} />)
-              :
-              (
-                <>
-                  <View style={styles.container}>
-                    <View style={styles.headerDetect}>
-                      <Icon type="foundation" name="marker" color={theme.GlobalColorsApp.btnGray} size={normalize(35)} />
-                      <Text style={styles.lblHeaderDetect}>{t("Geolocalizacion.title")}</Text>
-                    </View>
-                    <MapView
-                      style={styles.map}
-                      initialRegion={{
-                        latitude: location.coords.latitude,
-                        longitude: location.coords.longitude,
-                        latitudeDelta: 0.006757,
-                        longitudeDelta: 0.006757,
-                      }}
-                    >
-                      {location.coords
-                        ? <Marker
-                          coordinate={location.coords}
-                          title={t("Geolocalizacion.myPosition")}
-                          description={t("Geolocalizacion.desPosition")}
-                        >
-                        </Marker>
-                        :
-                        null
-                      }
-                    </MapView>
-                    <View style={stylesGlobal.containerButton}>
-                      <Button
-                        title={t("Geolocalizacion.btnOther")}
-                        titleStyle={styles.fontCustom}
-                        containerStyle={stylesGlobal.btnContainer}
-                        buttonStyle={{ ...stylesGlobal.btn, backgroundColor: theme.GlobalColorsApp.btnGrayNext }}
-                        onPress={() => setShowModal((prevState) => !prevState)}
-                      />
+          <View style={styles.container}>
+            <View style={styles.headerDetect}>
+              <Icon type="foundation" name="marker" color={theme.GlobalColorsApp.btnGray} size={normalize(35)} />
+              <Text style={styles.lblHeaderDetect}>{t("Geolocalizacion.title")}</Text>
+            </View>
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.006757,
+                longitudeDelta: 0.006757,
+              }}
+            >
+              {location.coords
+                ? <Marker
+                  coordinate={location.coords}
+                  title={t("Geolocalizacion.myPosition")}
+                  description={t("Geolocalizacion.desPosition")}
+                >
+                </Marker>
+                :
+                null
+              }
+            </MapView>
+            <View style={stylesGlobal.containerButton}>
+              <Button
+                title={t("Geolocalizacion.btnOther")}
+                titleStyle={styles.fontCustom}
+                containerStyle={stylesGlobal.btnContainer}
+                buttonStyle={{ ...stylesGlobal.btn, backgroundColor: theme.GlobalColorsApp.btnGrayNext }}
+                onPress={() => setShowModal((prevState) => !prevState)}
+              />
 
-                      <Button
-                        title={t("Geolocalizacion.btnLocal")}
-                        titleStyle={styles.fontCustom}
-                        containerStyle={stylesGlobal.btnContainer}
-                        buttonStyle={{ ...stylesGlobal.btn, backgroundColor: theme.GlobalColorsApp.btnRed }}
-                        onPress={() => navigation.navigate(screen.account.tab, { screen: screen.account.detectLocation })}
-                      />
-                    </View>
-                  </View>
-                  <Footer />
-                </>
-              )
-          }
+              <Button
+                title={t("Geolocalizacion.btnLocal")}
+                titleStyle={styles.fontCustom}
+                containerStyle={stylesGlobal.btnContainer}
+                buttonStyle={{ ...stylesGlobal.btn, backgroundColor: theme.GlobalColorsApp.btnRed }}
+                onPress={() => navigation.navigate(screen.account.tab, { screen: screen.account.detectLocation })}
+              />
+            </View>
+          </View>
+          <Footer />
           <Modal show={showModal} close={onCloseOpenModal}>
             {renderComponent}
           </Modal>

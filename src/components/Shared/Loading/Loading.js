@@ -1,12 +1,11 @@
 import React from "react";
 import { View, ActivityIndicator } from "react-native";
 import { Text } from "react-native-elements";
-import { theme } from "../../../utils";
+import { theme, lng } from "../../../utils";
 import { styles } from "./Loading.styles";
-import { useTranslation } from "react-i18next";
 
 export function Loading(props) {
-  const { t, i18n } = useTranslation();
+  const { t } = lng.useTranslation();
 
   const { show, text = t("Geolocalizacion.loeaderMap") } = props;
 

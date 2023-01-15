@@ -1,7 +1,7 @@
 import i18next from 'i18next';
 import espanol from "./espanol.json";
 import portugues from "./portugues.json";
-import { initReactI18next } from 'react-i18next';
+import { initReactI18next, useTranslation } from 'react-i18next';
 
 i18next.use(initReactI18next).init({
   compatibilityJSON: 'v3',
@@ -12,8 +12,11 @@ i18next.use(initReactI18next).init({
 
   },
   react: {
-    useSuspense: false, 
+    useSuspense: false,
   },
 });
 
-export default i18next;
+export const lng = {
+  i18next,
+  useTranslation
+};

@@ -6,14 +6,12 @@ import normalize from "react-native-normalize";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import Svg, { G, Path } from "react-native-svg";
-
-import { screen, stylesGlobal } from "../../../utils";
+import { screen, stylesGlobal, lng } from "../../../utils";
 import { styles } from "./NoConfirmScreen.styles";
-import { useTranslation } from "react-i18next";
 
 export function NoConfirmScreen() {
   const navigation = useNavigation();
-  const { t } = useTranslation();
+  const { t } = lng.useTranslation();
   const {
     control,
     handleSubmit,

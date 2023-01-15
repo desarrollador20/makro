@@ -4,22 +4,19 @@ import { Icon, Button, Text, Image } from "react-native-elements";
 import Toast from "react-native-toast-message";
 import Svg, { G, Path } from "react-native-svg";
 import normalize from "react-native-normalize";
-import { useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 
 import {
   screen,
   stylesGlobal,
-  storageResult,
-  apis,
-  theme,
+  lng
 } from "../../../utils";
 import { styles } from "../ConfirmRecoveryScreen/ConfirmRecoveryScreen.style";
-import { useTranslation } from "react-i18next";
 
 export function ConfirmRecoveryScreen() {
   const navigation = useNavigation();
-  const { t } = useTranslation();
+  const { t } = lng.useTranslation();
   const {
     control,
     handleSubmit,
