@@ -31,7 +31,8 @@ export function ResponsibleList(props) {
 
   const loaderListResponsible = async () => {
     const StorageResponsibleList = await storageResult.getDataFormat("@SessionResponsibleList");
-    setListResponsible(StorageResponsibleList);
+   
+       setListResponsible(StorageResponsibleList);
     //setValueRadio(newValue);
     //torageResult.setItemValueListResponsible();
   };
@@ -90,22 +91,33 @@ export function ResponsibleList(props) {
 
 
   const selectedListAdd = async (value, label) => {
-    let objData = {};
-    objData = {
-      label: label,
-      value: value,
+   
+   
+
+    const objData = {
+      "label": label,
+      "value": value,
     };
 
+    
 
-    if (objData.some((list) => list.value === objData.value)) {
+    if (listResponsible && listResponsible.some((list) => list.value === objData.value)) {
       return false;
     } else {
 
-      await storageResult.storeData("@SessionResponsibleList", [
-        ...listResponsible,
+      var newList = [
+        ...listResponsible, 
         objData,
-      ]);
+      ]
+
+
+      await storageResult.storeData("@SessionResponsibleList", newList);
+      setListResponsible(newList);
+
+      
     }
+    
+    
   };
   const deleteItemList = async (key) => {
     const newListResponsible = listResponsible.filter(
@@ -163,8 +175,9 @@ export function ResponsibleList(props) {
               <RNPickerSelect
                 name="gravity"
                 onValueChange={(value, index) => {
-                  let i = index - 1;
+                 var i = index - 1;
                   if (value != undefined) {
+
                     selectedListAdd(value, dataResponsable[i].label);
                   }
                 }}
