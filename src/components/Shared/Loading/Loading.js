@@ -7,7 +7,7 @@ import { styles } from "./Loading.styles";
 export function Loading(props) {
   const { t } = lng.useTranslation();
 
-  const { show, text = t("Geolocalizacion.loeaderMap") } = props;
+  const { show, text = t("Geolocalizacion.loeaderData") } = props;
 
   if (!show) return null;
 

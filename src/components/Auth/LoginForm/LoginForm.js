@@ -30,7 +30,6 @@ export function LoginForm() {
     setDownloadingData(true);
     Login(data);
   };
-
   const Login = async (data) => {
     let dataUserId;
     axios
@@ -119,6 +118,44 @@ export function LoginForm() {
             });
           });
 
+          const requestListCountry = axios
+          .get(
+            apis.GlobalApis.url_list_country,
+            config,
+            bodyParameters
+          )
+          .catch((response) => {
+            setDownloadingData(false);
+            console.error("Error ", apis.GlobalApis.url_list_country, errors);
+            return Toast.show({
+              type: "error",
+              position: "bottom",
+              text1: "Aviso",
+              text2: "Falta terminar",
+            });
+          
+            
+          });
+
+          const requestListStora = axios
+          .get(
+            apis.GlobalApis.utl_list_incidents_stora,
+            config,
+            bodyParameters
+          )
+          .catch((response) => {
+            setDownloadingData(false);
+            console.error("Error ", apis.GlobalApis.utl_list_incidents_stora, errors);
+            return Toast.show({
+              type: "error",
+              position: "bottom",
+              text1: "Aviso",
+              text2: "Falta terminar",
+            });
+          
+            
+          });
+
         axios
           .all([
             requestlistCheckList,
@@ -126,6 +163,8 @@ export function LoginForm() {
             requestlistQuestion,
             requestIncidentsRisk,
             requestIncidentsRiskSeverity,
+            requestListCountry,
+            requestListStora,
           ])
           .then(
             axios.spread(async (...responses) => {
@@ -134,6 +173,8 @@ export function LoginForm() {
               const responesListQuestion = responses[2];
               const responesListIncidentsRisk = responses[3];
               const responseIncidentsRiskSeverity = responses[4];
+              const requestListCountry = responses[5];
+              const requestListStora = responses[6];
 
               const dataChecklist = responseChecklist["data"].data;
               if (dataChecklist) {
@@ -170,6 +211,8 @@ export function LoginForm() {
                 dataQuestions: dataQuestions,
                 dataListIncidentsRisk: responesListIncidentsRisk.data,
                 dataIncidentsRiskSeverity: responseIncidentsRiskSeverity.data,
+                dataRequestListCountry: requestListCountry.data,
+                dataRequestListStora: requestListStora.data,
               };
 
               await storageResult.storeData("@Session", DataSession);
