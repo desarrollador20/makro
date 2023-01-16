@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
     View,
     Text,
@@ -16,12 +16,10 @@ import {
     screen,
     stylesGlobal,
     theme,
-    apis,
     storageResult,
     lng
 } from "../../../utils";
 import { styles } from "./DetectLocation.style";
-import axios from "axios";
 
 export function DetectLocationScreen() {
     const navigation = useNavigation();
@@ -61,40 +59,40 @@ export function DetectLocationScreen() {
 
     const loeaderList = async () => {
 
-    const DatosStorage = await storageResult.getDataFormat("@Session");
-    const storageIdCountry = await storageResult.getDataFormat("@SessionIdCountry");
-    const storageIdStore = await storageResult.getDataFormat("@SessionIdStore");
+        const DatosStorage = await storageResult.getDataFormat("@Session");
+        const storageIdCountry = await storageResult.getDataFormat("@SessionIdCountry");
+        const storageIdStore = await storageResult.getDataFormat("@SessionIdStore");
 
-    const listStorageCountry = [];
-    const arrayValueStora = [];
-    Object.entries(DatosStorage["dataRequestListCountry"]["data"]).forEach(
-        ([key, value]) => {
-          const item = {
-            label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
-            value: value.id.toString(),
-          };
-          listStorageCountry.push(item);
+        const listStorageCountry = [];
+        const arrayValueStora = [];
+        Object.entries(DatosStorage["dataRequestListCountry"]["data"]).forEach(([key, value]) => {
+            const item = {
+                label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
+                value: value.id.toString(),
+            };
+            listStorageCountry.push(item);
         }
-      );
-      Object.entries(DatosStorage["dataRequestListStora"]["data"]).forEach(
-        ([key1, value1]) => {
-          const item = {
-            label: t("Global.flag") == "es" ? value1.name : value1.namePortuguese,
-            value: value1.id.toString(),
-          };
-          arrayValueStora.push(item);
+        );
+
+        Object.entries(DatosStorage["dataRequestListStora"]["data"]).forEach(([key1, value1]) => {
+            const item = {
+                label: t("Global.flag") == "es" ? value1.name : value1.namePortuguese,
+                value: value1.id.toString(),
+            };
+            arrayValueStora.push(item);
         }
-      );
-        
-      setItemValueCountry(storageIdCountry);
-      setDataCountry(listStorageCountry);
-      //list stora
-      setItemValueStore(storageIdStore);
-      setDataStora(arrayValueStora);
+        );
+
+        setItemValueCountry(storageIdCountry);
+        setDataCountry(listStorageCountry);
+        //lista storage
+        setItemValueStore(storageIdStore);
+        setDataStora(arrayValueStora);
     };
-    
+
     const onValueChangeCountry = async (value) => {
         await storageResult.storeData("@SessionIdCountry", value);
+        setItemValueCountry(value);
     };
 
     if (!dataCountry) {
@@ -163,6 +161,7 @@ export function DetectLocationScreen() {
                         onValueChange={async (value, index) => {
                             //selectedListAdd(value, dataResponsable[i].label);
                             await storageResult.storeData("@SessionIdStore", value);
+                            setItemValueStore(value);
                         }}
                         useNativeAndroidPickerStyle={false}
                         placeholder={{
