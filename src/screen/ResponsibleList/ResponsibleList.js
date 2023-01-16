@@ -31,10 +31,9 @@ export function ResponsibleList(props) {
 
   const loaderListResponsible = async () => {
     const StorageResponsibleList = await storageResult.getDataFormat("@SessionResponsibleList");
-     if (StorageResponsibleList) {
+    if (StorageResponsibleList) {
       setListResponsible(StorageResponsibleList);
-      
-     }
+    }
     //setValueRadio(newValue);
     //torageResult.setItemValueListResponsible();
   };
@@ -42,21 +41,14 @@ export function ResponsibleList(props) {
   const getNoConforn = async () => {
     const idCategory = route.params.id;
 
-    const StorageResponse = await storageResult.getDataFormat(
-      "@SessionResponse"
-    );
+    const StorageResponse = await storageResult.getDataFormat("@SessionResponse");
     let no_conforme = 0;
     if (typeof StorageResponse !== undefined && StorageResponse) {
       Object.entries(StorageResponse).forEach(([key, value]) => {
-        if (
-          key?.split("|")[1].includes(idCategory) &&
-          key.includes("checkboxSelected") &&
-          value == "2"
-        ) {
+        if (key?.split("|")[1].includes(idCategory) && key.includes("checkboxSelected") && value == "2") {
           no_conforme = no_conforme + 1;
         }
       });
-
       setNoConforme(no_conforme);
     }
   };
@@ -93,44 +85,32 @@ export function ResponsibleList(props) {
 
 
   const selectedListAdd = async (value, label) => {
-   
-   
 
     const objData = {
       "label": label,
       "value": value,
+      "idCategory": route.params.id,
+      "idCheckList": route.params.idCheckList,
     };
 
-    
-
-    if (listResponsible && listResponsible.some((list) => list.value === objData.value)) {
+    if (listResponsible && listResponsible.some((list) => list.value === objData.value && list.idCategory === objData.idCategory)) {
       return false;
     } else {
-
       var newList = [
-        ...listResponsible, 
+        ...listResponsible,
         objData,
       ]
-
-
       await storageResult.storeData("@SessionResponsibleList", newList);
       setListResponsible(newList);
-
-      
     }
-    
-    
+
   };
   const deleteItemList = async (key) => {
     const newListResponsible = listResponsible.filter(
-      (item) => item.value !== key
+      (item) => item.value !== key && item.idCategory !== route.params.id
     );
-
     setListResponsible(newListResponsible);
-    await storageResult.storeData(
-      "@SessionResponsibleList",
-      newListResponsible
-    );
+    await storageResult.storeData("@SessionResponsibleList", newListResponsible);
   };
 
   const deleteItem = (key) => {
@@ -177,9 +157,8 @@ export function ResponsibleList(props) {
               <RNPickerSelect
                 name="gravity"
                 onValueChange={(value, index) => {
-                 var i = index - 1;
+                  var i = index - 1;
                   if (value != undefined) {
-
                     selectedListAdd(value, dataResponsable[i].label);
                   }
                 }}
@@ -194,10 +173,9 @@ export function ResponsibleList(props) {
               />
             </View>
           </View>
-          {listResponsible &&
-            listResponsible.map((item, key) => {
-              //console.log("victor: " +JSON.stringify(item));
-
+          {listResponsible && listResponsible.map((item, key) => {
+            //console.log("victor: " +JSON.stringify(item));
+            if (item.idCategory == route.params.id) {
               return (
                 <ItemResponsible
                   name={item.label}
@@ -205,7 +183,8 @@ export function ResponsibleList(props) {
                   key={key}
                 />
               );
-            })}
+            }
+          })}
         </View>
         <View style={styles.container}>
           <TouchableOpacity
