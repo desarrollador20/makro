@@ -85,12 +85,14 @@ export function ResponsibleList(props) {
 
 
   const selectedListAdd = async (value, label) => {
+    console.log("kdatos sin filtrar ", listResponsible);
 
     const objData = {
       "label": label,
       "value": value,
       "idCategory": route.params.id,
       "idCheckList": route.params.idCheckList,
+      "idVC": value+"-"+route.params.id,
     };
 
     if (listResponsible && listResponsible.some((list) => list.value === objData.value && list.idCategory === objData.idCategory)) {
@@ -102,15 +104,39 @@ export function ResponsibleList(props) {
       ]
       await storageResult.storeData("@SessionResponsibleList", newList);
       setListResponsible(newList);
+      console.log(newList);
     }
 
   };
-  const deleteItemList = async (key) => {
-    const newListResponsible = listResponsible.filter(
-      (item) => item.value !== key && item.idCategory !== route.params.id
-    );
+  const deleteItemList = async (value, idC, idVH) => {
+    console.log("VIEJA LISTA",listResponsible.length);
+  console.log("key: ",value, "value: ", route.params.id, listResponsible);
+  
+  const newListResponsible = [];
+
+  listResponsible.map((item) => {
+      console.log(item.idVC);
+      if (item.idVC != idVH) {
+
+         const objData = {
+          "label": item.label,
+          "value": item.value,
+          "idCategory": item.idCategory,
+          "idCheckList": item.idCheckList,
+          "idVC": item.idVC
+        };
+        newListResponsible.push(objData);
+      }
+      else{
+        console.log(item.idVC, " este se elimina");
+
+      }
+  });
+  
+
     setListResponsible(newListResponsible);
     await storageResult.storeData("@SessionResponsibleList", newListResponsible);
+
   };
 
   const deleteItem = (key) => {
@@ -121,7 +147,7 @@ export function ResponsibleList(props) {
   };
 
   const ItemResponsible = (props) => {
-    const { name, value } = props;
+    const { name, value, idCategory, idVC} = props;
     return (
       <View style={styles.containerList}>
         <Text style={styles.nameList}>{name}</Text>
@@ -133,7 +159,7 @@ export function ResponsibleList(props) {
           name="trash-outline"
           iconStyle={{}}
           onPress={() => {
-            deleteItemList(value);
+            deleteItemList(value, idCategory, idVC);
           }}
         />
       </View>
@@ -180,6 +206,8 @@ export function ResponsibleList(props) {
                 <ItemResponsible
                   name={item.label}
                   value={item.value}
+                  idCategory={item.idCategory}
+                  idVC={item.idVC}
                   key={key}
                 />
               );
