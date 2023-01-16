@@ -17,7 +17,6 @@ import {
   screen,
   stylesGlobal,
   storageResult,
-  theme,
   apis,
   lng
 } from "../../../utils";
@@ -31,7 +30,7 @@ export function CategoryScreen(props) {
   const [showModal, setShowModal] = useState(false);
   const [completedChecklist, setCompletedChecklist] = useState(false);
   const [renderComponent, setRenderComponent] = useState(null);
-  const [test, setTest] = useState("");
+  const [test, setTest] = useState();
   const { t } = lng.useTranslation();
 
   useEffect(() => {
@@ -74,11 +73,16 @@ export function CategoryScreen(props) {
   const completedByCheckList = async () => {
     const idChecklist = route.params.idCheckList;
 
-    const StorageResponse = await storageResult.getDataFormat("@SessionResponse");
+    const StorageResponse = await storageResult.getDataFormat(
+      "@SessionResponse"
+    );
     let all_response = 0;
     if (typeof StorageResponse !== undefined && StorageResponse) {
       Object.entries(StorageResponse).forEach(([key, value]) => {
-        if (key?.split("|")[0].includes(idChecklist) && key.includes("checkboxSelected")) {
+        if (
+          key?.split("|")[0].includes(idChecklist) &&
+          key.includes("checkboxSelected")
+        ) {
           all_response = all_response + 1;
         }
       });
@@ -108,12 +112,10 @@ export function CategoryScreen(props) {
   };
 
   const finishInspectionAction = async () => {
-    const StorageResponse = await storageResult.getDataFormat(
-      "@SessionResponse"
-    );
-    const StorageResponseImages = await storageResult.getDataFormat(
-      "@SessionResponseImages"
-    );
+    const StorageResponse = await storageResult.getDataFormat("@SessionResponse");
+    const StorageResponseImages = await storageResult.getDataFormat("@SessionResponseImages");
+    const StorageResponseListResponsible = await storageResult.getDataFormat("@SessionResponsibleList");
+
     let objDataSend = {};
     let objDataSendCategory = {};
     let idQuestions = new Array();
@@ -127,9 +129,9 @@ export function CategoryScreen(props) {
         IdIndicatorsCountry: "2",
         IdIndicatorsLanguages: t("Global.flag"),
         IdState: "1",
+        SurveysMovilDetailsClassificationUsers: [],
         SurveysMovilDetailsClassificationQuestions: [],
-        SurveysMovilDetailsQuestions: [],
-        SurveysMovilDetailsQuestionsPhotos: [],
+        SurveysMovilDetailsQuestions: []
       };
 
       // creacion de la data de SurveysMovilDetailsQuestions
@@ -150,6 +152,7 @@ export function CategoryScreen(props) {
               IsRiskAnalysis: "0",
               Observations: "",
               ObservationsProposed: "",
+              SurveysMovilDetailsQuestionsPhotos: []
             };
           } else {
             objDataSendCategory[keyObj[1]] = {
@@ -168,6 +171,24 @@ export function CategoryScreen(props) {
         if (keyObj[2] != "0") idQuestions.push(keyObj[2]);
       });
 
+      // uno la data de SurveysMovilDetailsQuestionsPhotos al objeto
+      var data_formate_image = [];
+      Object.entries(objDataSend).forEach(([key, value]) => {
+        if (typeof StorageResponseImages !== undefined && StorageResponseImages) {
+          Object.entries(StorageResponseImages).forEach(([keyImg, valueImg]) => {
+            const keyObjImg = keyImg?.split("|");
+            if (keyObjImg[2] == value.IdSurveysMovilQuestions) {
+              value.SurveysMovilDetailsQuestionsPhotos.push({
+                FileBinary: "valueImg", // valueImg
+                FileName: keyObjImg[3],
+                FileType:
+                  "image/" + "" + keyObjImg[3]?.split(".")[keyObjImg[3]?.split(".").length - 1],
+              });
+            }
+          });
+        }
+      });
+
       // uno la data de SurveysMovilDetailsQuestions al objeto
       var data_formate_answer = [];
       Object.entries(objDataSend).forEach(([key, value]) => {
@@ -177,39 +198,35 @@ export function CategoryScreen(props) {
 
       dataSendJSON.SurveysMovilDetailsQuestions = data_formate_answer;
 
-      // uno la data de SurveysMovilDetailsQuestionsPhotos al objeto
-      var data_formate_image = [];
-      if (typeof StorageResponseImages !== undefined && StorageResponseImages) {
-        Object.entries(StorageResponseImages).forEach(([keyImg, valueImg]) => {
-          const keyObjImg = keyImg?.split("|");
-          data_formate_image.push({
-            FileBinary: "valueImg", // valueImg
-            FileName: keyObjImg[3],
-            FileType:
-              "image/" +
-              "" +
-              keyObjImg[3]?.split(".")[keyObjImg[3]?.split(".").length - 1],
-          });
-        });
-      }
-
-      dataSendJSON.SurveysMovilDetailsQuestionsPhotos = data_formate_image;
-
       // uno la data de SurveysMovilDetailsClassificationQuestions al objeto
       var data_formate_comment_category = [];
       if (typeof objDataSendCategory !== undefined && objDataSendCategory) {
-        Object.entries(objDataSendCategory).forEach(
-          ([keyComments, valueComents]) => {
-            data_formate_comment_category.push({
-              idSurveysMovilClassificationQuestions: keyComments,
-              observations: valueComents.ObservationsClassificationQuestions,
-            });
-          }
+        Object.entries(objDataSendCategory).forEach(([keyComments, valueComents]) => {
+          data_formate_comment_category.push({
+            idSurveysMovilClassificationQuestions: keyComments,
+            observations: valueComents.ObservationsClassificationQuestions,
+          });
+        }
         );
       }
 
-      dataSendJSON.SurveysMovilDetailsClassificationQuestions =
-        data_formate_comment_category;
+      dataSendJSON.SurveysMovilDetailsClassificationQuestions = data_formate_comment_category;
+
+      // uno la data de SurveysMovilDetailsClassificationUsers al objeto
+      var data_clasification_user = [];
+      if (typeof StorageResponseListResponsible !== undefined && StorageResponseListResponsible) {
+        Object.entries(StorageResponseListResponsible).forEach(([key, value]) => {
+          console.log(value.value);
+          data_clasification_user.push({
+            'IdSurveysMovilDetails': value.idCheckList,
+            'IdSurveysMovilClassificationQuestions': value.idCategory,
+            'IdUsers': value.value
+          });
+        }
+        );
+      }
+
+      dataSendJSON.SurveysMovilDetailsClassificationUsers = data_clasification_user;
 
       console.log(dataSendJSON);
       setTest(dataSendJSON);
