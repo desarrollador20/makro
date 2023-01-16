@@ -1,4 +1,3 @@
-import { exists } from "i18next";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, View, TouchableOpacity, Alert } from "react-native";
 import { Image, Text } from "react-native-elements";
