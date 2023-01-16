@@ -61,76 +61,38 @@ export function DetectLocationScreen() {
 
     const loeaderList = async () => {
 
-        const storageIdCountry = await storageResult.getDataFormat("@SessionIdCountry");
-        setItemValueCountry(storageIdCountry);
+    const DatosStorage = await storageResult.getDataFormat("@Session");
+    const storageIdCountry = await storageResult.getDataFormat("@SessionIdCountry");
+    const storageIdStore = await storageResult.getDataFormat("@SessionIdStore");
 
-        axios.get(apis.GlobalApis.url_list_country).then(function (response) {
-            const config = {
-                headers: { Authorization: `Bearer ${response.data.token}` },
-            };
-
-            const responseStore = response.data.data;
-            const arrayValueCountry = [];
-            // setDataStora(responseStore);
-            responseStore.map(function (data) {
-                var name;
-                if (t("Global.flag") == "es") {
-                    name = data.name;
-                } else {
-                    name = data.namePortuguese;
-                }
-                const obtCountry = {
-                    label: name,
-                    value: data.id,
-                };
-                arrayValueCountry.push(obtCountry);
-            });
-
-            //console.log(arrayValueCountry);
-            setDataCountry(arrayValueCountry);
-        });
+    const listStorageCountry = [];
+    const arrayValueStora = [];
+    Object.entries(DatosStorage["dataRequestListCountry"]["data"]).forEach(
+        ([key, value]) => {
+          const item = {
+            label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
+            value: value.id.toString(),
+          };
+          listStorageCountry.push(item);
+        }
+      );
+      Object.entries(DatosStorage["dataRequestListStora"]["data"]).forEach(
+        ([key1, value1]) => {
+          const item = {
+            label: t("Global.flag") == "es" ? value1.name : value1.namePortuguese,
+            value: value1.id.toString(),
+          };
+          arrayValueStora.push(item);
+        }
+      );
+        
+      setItemValueCountry(storageIdCountry);
+      setDataCountry(listStorageCountry);
+      //list stora
+      setItemValueStore(storageIdStore);
+      setDataStora(arrayValueStora);
     };
-    const loeaderListStora = async () => {
-        const storageIdStore = await storageResult.getDataFormat(
-            "@SessionIdStore"
-        );
-
-        var DataLenguage = "es";
-        setItemValueStore(storageIdStore);
-
-        axios
-            .get(apis.GlobalApis.utl_list_incidents_stora)
-            .then(function (response) {
-                const config = {
-                    headers: { Authorization: `Bearer ${response.data.token}` },
-                };
-                //console.log(response.data.data);
-
-                const responseStora = response.data.data;
-                const arrayValueStora = [];
-
-                // setDataStora(responseCountry)
-
-                responseStora.map(function (data) {
-                    var name;
-                    if (DataLenguage == "es") {
-                        name = data.name;
-                    } else {
-                        name = data.namePortuguese;
-                    }
-
-                    const obtStore = {
-                        label: name,
-                        value: data.id,
-                    };
-                    arrayValueStora.push(obtStore);
-                });
-                setDataStora(arrayValueStora);
-            });
-    };
-    useEffect(() => {
-        loeaderListStora();
-    }, []);
+    
     const onValueChangeCountry = async (value) => {
         await storageResult.storeData("@SessionIdCountry", value);
     };

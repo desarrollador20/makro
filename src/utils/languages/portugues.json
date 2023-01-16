@@ -31,6 +31,7 @@
       "desPosition": "Aqui estou eu",
       "alertDenied": "Permission to access location was denied",
       "textModal": "Você está usando um local diferente de uma loja MAKRO, você pode continuar o registro, entretanto, o sistema irá gerar a seguinte mensagem",
+      "loeaderData": "Carregando dados...",
       "loeaderMap": "Carregando mapa..."
     },
     "DetectLocation": {
