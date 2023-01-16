@@ -21,7 +21,7 @@ export function Footer() {
   const closeSessionOk = async () => {
     await storageResult.removeItemValue("@SessionResponse");
     await storageResult.removeItemValue("@SessionResponseImages");
-    //await storageResult.removeItemValue("@SessionLanguage");
+    await storageResult.removeItemValue("@SessionLanguage");
     await storageResult.removeItemValue("@SessionIdStore");
     await storageResult.removeItemValue("@SessionIdCountry");
     await storageResult.removeItemValue("@SessionResponsibleList");
