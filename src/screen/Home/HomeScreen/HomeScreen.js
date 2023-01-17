@@ -12,6 +12,7 @@ export function HomeScreen() {
 
   const [dataCheckList, setDataCheckList] = useState(false);
 
+
   const { t } = lng.useTranslation();
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export function HomeScreen() {
   const renderItem = ({ item }) => {
     return (<ItemHome
       id={item.idCheckList}
-      title={item.nameCheckList}
+      title={t("Global.flag") == "pt" ? item.namePortuguese: item.nameCheckList}
       num_questions={item.numberQuestion + t("HomeScreen.textQuestion")}
       color={item.color}
       backgroundColor={item.backgroundColor}

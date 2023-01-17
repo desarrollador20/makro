@@ -132,7 +132,7 @@ export function DetectLocationScreen() {
                         }}
                         useNativeAndroidPickerStyle={false}
                         placeholder={{
-                            label: "Seleccionar pais",
+                            label: t("Global.flag") == "es" ? "Seleccionar país" : "Selecione o pais",
                             value: null,
                         }}
                         dropdownIconColor={theme.GlobalColorsApp.btnRed}
@@ -165,7 +165,7 @@ export function DetectLocationScreen() {
                         }}
                         useNativeAndroidPickerStyle={false}
                         placeholder={{
-                            label: "Seleccionar tienda",
+                            label: t("Global.flag") == "es" ? "Seleccionar tienda" : "Selecione a loja",
                             value: "",
                         }}
                         dropdownIconColor={theme.GlobalColorsApp.btnRed}
