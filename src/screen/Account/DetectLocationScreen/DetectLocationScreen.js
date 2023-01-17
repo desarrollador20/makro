@@ -67,7 +67,7 @@ export function DetectLocationScreen() {
         const arrayValueStora = [];
         Object.entries(DatosStorage["dataRequestListCountry"]["data"]).forEach(([key, value]) => {
             const item = {
-                label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
+                label: value.name,
                 value: value.id.toString(),
             };
             listStorageCountry.push(item);
