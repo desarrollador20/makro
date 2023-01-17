@@ -26,17 +26,11 @@ export function Footer() {
     await storageResult.removeItemValue("@SessionIdCountry");
     await storageResult.removeItemValue("@SessionResponsibleList");
     await storageResult.removeItemValue("@Session");
-    const valorLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    //console.log(DataLenguage2);
-    if (!valorLenguage) {
-      navigation.navigate(screen.account.tab, {
-        screen: screen.account.login,
-      });
-    }
-    else{
-      console.log(valorLenguage);
-    }
-    
+    await storageResult.removeItemValue("@userId");
+    navigation.navigate(screen.account.tab, {
+      screen: screen.account.login,
+    });
+
   };
   const closeSession = () => {
     Alert.alert(
