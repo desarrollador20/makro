@@ -11,7 +11,6 @@ import { styles } from "./HomeScreen.style";
 export function HomeScreen() {
 
   const [dataCheckList, setDataCheckList] = useState(false);
-  const [language, setLanguage] = useState(false);
 
 
   const { t } = lng.useTranslation();
@@ -22,16 +21,13 @@ export function HomeScreen() {
 
   const getData = async () => {
     const DatosStorage = await storageResult.getDataFormat('@Session');
-    const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    
-    setLanguage(DataLenguage);
     setDataCheckList(DatosStorage['checkList']['data']);
   }
 
   const renderItem = ({ item }) => {
     return (<ItemHome
       id={item.idCheckList}
-      title={language == "pt" ? item.namePortuguese: item.nameCheckList}
+      title={t("Global.flag") == "pt" ? item.namePortuguese: item.nameCheckList}
       num_questions={item.numberQuestion + t("HomeScreen.textQuestion")}
       color={item.color}
       backgroundColor={item.backgroundColor}
