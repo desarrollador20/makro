@@ -26,6 +26,7 @@ export function Footer() {
     await storageResult.removeItemValue("@SessionIdCountry");
     await storageResult.removeItemValue("@SessionResponsibleList");
     await storageResult.removeItemValue("@Session");
+    await storageResult.removeItemValue("@userId");
     const valorLenguage = await storageResult.getDataFormat("@SessionLanguage");
     //console.log(DataLenguage2);
     if (!valorLenguage) {
@@ -33,10 +34,10 @@ export function Footer() {
         screen: screen.account.login,
       });
     }
-    else{
+    else {
       console.log(valorLenguage);
     }
-    
+
   };
   const closeSession = () => {
     Alert.alert(
