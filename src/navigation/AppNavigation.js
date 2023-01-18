@@ -23,16 +23,17 @@ export function AppNavigation() {
 
   const CheckedData = async () => {
     const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    if (DataLenguage) {
+    const DataUserId = await storageResult.getDataFormat("@userId");
+    if (DataUserId && DataUserId !== null) {
       i18n.changeLanguage(DataLenguage);
-      setSession(DataLenguage);
+      setSession(DataUserId);
     } else {
       setSession('NA');
     }
   }
 
   if (!session) {
-    return <View><Text>redirecionado....</Text></View>
+    return <View />; {/* <Text>redirecionado....</Text></View>*/ }
   }
 
   return (
