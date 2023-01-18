@@ -23,11 +23,9 @@ export function AppNavigation() {
 
   const CheckedData = async () => {
     const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-    const DataSession = await storageResult.getDataFormat("@userId");
-
-    if (DataSession && DataSession !== null) {
+    if (DataLenguage) {
       i18n.changeLanguage(DataLenguage);
-      setSession(DataSession);
+      setSession(DataLenguage);
     } else {
       setSession('NA');
     }
@@ -40,7 +38,7 @@ export function AppNavigation() {
   return (
     <Stack.Navigator
       initialRouteName={
-        session !== 'NA'
+        session != 'NA' && session !== undefined
           ? screen.home.tab
           : screen.account.tab
       }
