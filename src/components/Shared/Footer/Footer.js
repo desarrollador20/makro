@@ -3,7 +3,7 @@ import { ActivityIndicator, View, TouchableOpacity, Alert } from "react-native";
 import { Image, Text } from "react-native-elements";
 import { storageResult, screen } from "../../../utils";
 import { styles } from "./Footer.style";
-import { LinkingContext, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 export function Footer() {
   const [language, setLanguage] = useState(false);
