@@ -14,7 +14,7 @@ import normalize from 'react-native-normalize';
 export function GeocalizacionScreen() {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState(false);
   const [renderComponent, setRenderComponent] = useState(null);
   const navigation = useNavigation();
   const { t } = lng.useTranslation();
