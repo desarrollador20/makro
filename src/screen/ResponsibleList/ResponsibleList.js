@@ -18,10 +18,9 @@ import { useFocusEffect } from "@react-navigation/native";
 
 export function ResponsibleList(props) {
   const dataListResponsable = [
-    { label: "Hipólito Patiño Beltrán", value: "110238455" },
-    { label: "Camilo Cortez", value: "34455" },
-    { label: "Maria Helena Martinez", value: "33455" },
-    { label: "Victor Ruiz", value: "334552" },
+    { label: "Admin PV 2 202", value: "13390F8B-7191-4D0F-B09E-F42FBA319913" },
+    { label: "Admin requisitos 2", value: "3446B82B3C7-AAD1-41F8-A1CB-5B36AF556C8255" },
+    { label: "Administrador Global", value: "22600DE8-209F-4E0E-8500-E7BEDD1AC83C " }
   ];
   const { route } = props;
   const [listResponsible, setListResponsible] = useState([]);
@@ -92,7 +91,7 @@ export function ResponsibleList(props) {
       "value": value,
       "idCategory": route.params.id,
       "idCheckList": route.params.idCheckList,
-      "idVC": value+"-"+route.params.id,
+      "idVC": value + "-" + route.params.id,
     };
 
     if (listResponsible && listResponsible.some((list) => list.value === objData.value && list.idCategory === objData.idCategory)) {
@@ -109,16 +108,16 @@ export function ResponsibleList(props) {
 
   };
   const deleteItemList = async (value, idC, idVH) => {
-    console.log("VIEJA LISTA",listResponsible.length);
-  console.log("key: ",value, "value: ", route.params.id, listResponsible);
-  
-  const newListResponsible = [];
+    console.log("VIEJA LISTA", listResponsible.length);
+    console.log("key: ", value, "value: ", route.params.id, listResponsible);
 
-  listResponsible.map((item) => {
+    const newListResponsible = [];
+
+    listResponsible.map((item) => {
       console.log(item.idVC);
       if (item.idVC != idVH) {
 
-         const objData = {
+        const objData = {
           "label": item.label,
           "value": item.value,
           "idCategory": item.idCategory,
@@ -127,12 +126,12 @@ export function ResponsibleList(props) {
         };
         newListResponsible.push(objData);
       }
-      else{
+      else {
         console.log(item.idVC, " este se elimina");
 
       }
-  });
-  
+    });
+
 
     setListResponsible(newListResponsible);
     await storageResult.storeData("@SessionResponsibleList", newListResponsible);
@@ -147,7 +146,7 @@ export function ResponsibleList(props) {
   };
 
   const ItemResponsible = (props) => {
-    const { name, value, idCategory, idVC} = props;
+    const { name, value, idCategory, idVC } = props;
     return (
       <View style={styles.containerList}>
         <Text style={styles.nameList}>{name}</Text>
