@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import normalize from 'react-native-normalize';
 import { useNavigation } from "@react-navigation/native";
 import { useFocusEffect } from "@react-navigation/native";
@@ -13,7 +13,7 @@ import { styles } from './ItemHome.style';
 export function ItemHome(props) {
 
     const navigation = useNavigation();
-    const { id, title, num_questions, color = '#666666', backgroundColor = '#3333330D', module, idCheckList = '' } = props;
+    const { id, title, num_questions, color = '#666666', backgroundColor = '#3333330D', module, idCheckList = '', dataOffline = [0] } = props;
 
     const [completedData, setCompletedData] = useState(false);
     const [disagreedData, setDisagreedData] = useState(0);
@@ -21,8 +21,17 @@ export function ItemHome(props) {
     const iconData = useRef('list-thumbnails');
     const colorData = useRef(color);
     const colorBorderData = useRef('#B3B3B3');
+    const colorBorderDataNoSend = useRef('#B3B3B3');
     const colorTitleData = useRef(theme.GlobalColorsApp.btnGray);
     const backgroundData = useRef(backgroundColor);
+    var statusCategory = true;
+if (dataOffline.includes(id)) {
+statusCategory = false;
+}
+else{
+statusCategory = true;
+}
+console.log("Id: ",id, "Estatus", statusCategory, "DATA" , dataOffline);
 
 
     if (module == 'category') {
@@ -52,37 +61,100 @@ export function ItemHome(props) {
 
         if (parseInt(all_response) == parseInt(num_questions)) {
             const resultData = (DataLenguage == 'pt') ? 'não-conformidad' : 'no-conforme';
-            iconData.current = 'checkbox';
+            iconData.current =  'checkbox';
             colorData.current = '#84D9B1';
             backgroundData.current = '#D9F2E6';
             colorTitleData.current = '#5A8C70';
             colorBorderData.current = '#4F8265';
+            colorBorderDataNoSend.current = '#E9E9E9';
             setDisagreedData(all_disagreed);
             setCompletedData(true);
             setDisagreedLabel(resultData);
         }
     }
 
-    return (
-        <TouchableOpacity
-            style={{ ...styles.item, borderColor: colorBorderData.current }}
-            onPress={() => managerScreen(navigation, id, module, idCheckList)}
-            key={id}
-        >
-            <View style={{ ...styles.containerIcon, backgroundColor: backgroundData.current }}>
-                <Icon type="foundation" name={iconData.current} style={styles.iconMain} color={colorData.current} size={normalize(30)} />
-            </View>
-            <View style={styles.containerLabels}>
-                <Text style={{ ...styles.lblCategoryName, color: colorTitleData.current }}>
-                    {title}
-                </Text>
-                <Text style={styles.lblNumQuestions}>
-                    {num_questions}  {disagreedData != 0 && (<Text style={{ color: '#F27629' }}>{` ${disagreedData}`}<Text style={{ color: theme.GlobalColorsApp.colorOptionInactive }}> {disagreedLabel}</Text></Text>)}
-                </Text>
-            </View>
-            <View style={styles.containerArrow}>
-                <Icon type="ionicon" name="arrow-forward-circle-outline" color={colorData.current} size={normalize(30)} />
-            </View>
-        </TouchableOpacity>
-    )
+    const alertNoSendCheckListData = () => {
+
+        Alert.alert(
+            "Alerta",
+            "Datos guardados, pero no se ha podido establecer la conexión",
+            [
+              {
+                text: "Cerrar",
+               // onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+              {
+                text: "Revisar conexión",
+                //onPress: () => closeSessionOk(),
+                style: "destructive",
+      
+              },
+            ]
+          );
+
+    }
+
+    if (!statusCategory) {
+
+        return (
+
+        
+            <TouchableOpacity
+                style={{ ...styles.item, borderColor: colorBorderData.current, opacity: 0.3 }}
+                onPress={ () => alertNoSendCheckListData(navigation, id, module, idCheckList, statusCategory)}
+                key={id}
+            >
+                <View style={{ ...styles.containerIcon, backgroundColor: backgroundData.current }}>
+                    <Icon type="foundation" name={iconData.current} style={styles.iconMain} color={colorData.current} size={normalize(30)} />
+                </View>
+                <View style={styles.containerLabels}>
+                    <Text style={{ ...styles.lblCategoryName, color: colorTitleData.current }}>
+                        {title} {statusCategory}
+                    </Text>
+                    <Text style={styles.lblNumQuestions}>
+                        {num_questions}  {disagreedData != 0 && (<Text style={{ color: '#F27629' }}>{` ${disagreedData}`}<Text style={{ color: theme.GlobalColorsApp.colorOptionInactive }}> {disagreedLabel}</Text></Text>)}
+                    </Text>
+                </View>
+                <View style={styles.containerArrow}>
+                <Icon type="ionicon"  name="timer-outline" color="red" size={normalize(30)} /> 
+
+                 
+                </View>
+            </TouchableOpacity>
+        )
+        
+    }
+    else{
+
+        return (
+
+        
+            <TouchableOpacity
+                style={{ ...styles.item, borderColor: colorBorderData.current }}
+                onPress={ () => managerScreen(navigation, id, module, idCheckList, statusCategory)}
+                key={id}
+            >
+                <View style={{ ...styles.containerIcon, backgroundColor: backgroundData.current }}>
+                    <Icon type="foundation" name={iconData.current} style={styles.iconMain} color={colorData.current} size={normalize(30)} />
+                </View>
+                <View style={styles.containerLabels}>
+                    <Text style={{ ...styles.lblCategoryName, color: colorTitleData.current }}>
+                        {title} {statusCategory}
+                    </Text>
+                    <Text style={styles.lblNumQuestions}>
+                        {num_questions}  {disagreedData != 0 && (<Text style={{ color: '#F27629' }}>{` ${disagreedData}`}<Text style={{ color: theme.GlobalColorsApp.colorOptionInactive }}> {disagreedLabel}</Text></Text>)}
+                    </Text>
+                </View>
+                <View style={styles.containerArrow}>
+                  <Icon type="ionicon"  name="arrow-forward-circle-outline" color={colorData.current} size={normalize(30)} /> 
+                  
+                
+                 
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
+   
 }

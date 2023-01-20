@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import normalize from 'react-native-normalize';
 import { Footer, Loading } from '../../../components';
@@ -11,6 +11,7 @@ import { styles } from "./HomeScreen.style";
 export function HomeScreen() {
 
   const [dataCheckList, setDataCheckList] = useState(false);
+  const [dataChecNoSent, setDataChecNoSent] = useState([]);
 
 
   const { t } = lng.useTranslation();
@@ -20,6 +21,10 @@ export function HomeScreen() {
   }, [])
 
   const getData = async () => {
+    const DatosOffline = await storageResult.getDataFormat('@SessionIdCheklistSentNotProcessed');
+    setDataChecNoSent[DatosOffline];
+    console.log("desde el screem: ",DatosOffline);
+
     const DatosStorage = await storageResult.getDataFormat('@Session');
     setDataCheckList(DatosStorage['checkList']['data']);
   }
@@ -33,12 +38,31 @@ export function HomeScreen() {
       backgroundColor={item.backgroundColor}
       idCheckList={item.idCheckList}
       module={'checklist'}
+      dataOffline={dataChecNoSent}
     />);
   };
+
+  const addStorage = async (data) => {
+    //const DatosOffline = await storageResult.getDataFormat('@SessionIdCheklistSentNotProcessed');
+
+    var numR = Math.floor(Math.random() * 6);
+    setDataChecNoSent([...dataChecNoSent, numR])
+    console.log(numR);
+   
+   
+   await storageResult.setIdCheklistSentNotProcessed(dataChecNoSent);
+   const DatosOffline = await storageResult.getDataFormat('@SessionIdCheklistSentNotProcessed');
+
+
+    console.log("aasdad: ", DatosOffline);
+
+  }
 
   if (!dataCheckList) {
     return (<Loading show />);
   }
+
+
 
   return (
     <>
@@ -58,6 +82,13 @@ export function HomeScreen() {
           />
 
         </View>
+
+        <TouchableOpacity
+            
+            onPress={() => addStorage(dataChecNoSent)}
+        >
+          <Text>Agregar lista mapa</Text>
+          </TouchableOpacity>
         <Footer />
       </SafeAreaView>
     </>
