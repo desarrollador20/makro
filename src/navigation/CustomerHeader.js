@@ -5,13 +5,23 @@ import normalize from "react-native-normalize";
 import Svg, { G, Path } from 'react-native-svg';
 import { Appbar } from 'react-native-paper';
 import { styles } from "./CustomHeader.style";
+import { storageResult } from '../utils';
 
 
 const CustomerHeader = (props) => {
 
   const { t } = props;
+  const [nameUser, setnameUser] = useState(false);
 
-  console.log("select lenguaje: ", t);
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const DataUserName = await storageResult.getDataFormat('@userName');
+    setnameUser(DataUserName.split(' ')[0]);
+  }
+
 
   const ContentHeader = () => (
     <>
@@ -24,7 +34,7 @@ const CustomerHeader = (props) => {
               containerStyle={{ ...styles.containerAvatar, }}
               size={normalize(27)}
             />
-            <Text style={styles.textContainerName}>{t("Global.hello")} <Text style={styles.textName}>Jaqueline</Text></Text>
+            <Text style={styles.textContainerName}>{t("Global.hello")} <Text style={styles.textName}>{nameUser}</Text></Text>
           </View>
         }
         style={styles.HeaderContent}
