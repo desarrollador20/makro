@@ -31,7 +31,7 @@ export function LoginForm() {
     Login(data);
   };
   const Login = async (data) => {
-    let dataUserId;
+    let dataUserId, dataUserName;
     axios
       .post(apis.GlobalApis.url_token, {
         userName: data.userName,
@@ -46,7 +46,7 @@ export function LoginForm() {
         };
 
         dataUserId = response.data.userId;
-
+        dataUserName = response.data.userName;
         // all requests
 
         const requestlistCheckList = axios
@@ -118,7 +118,7 @@ export function LoginForm() {
             });
           });
 
-          const requestListCountry = axios
+        const requestListCountry = axios
           .get(
             apis.GlobalApis.url_list_country,
             config,
@@ -133,11 +133,11 @@ export function LoginForm() {
               text1: "Aviso",
               text2: "Falta terminar",
             });
-          
-            
+
+
           });
 
-          const requestListStora = axios
+        const requestListStora = axios
           .get(
             apis.GlobalApis.utl_list_incidents_stora,
             config,
@@ -152,8 +152,8 @@ export function LoginForm() {
               text1: "Aviso",
               text2: "Falta terminar",
             });
-          
-            
+
+
           });
 
         axios
@@ -217,6 +217,7 @@ export function LoginForm() {
 
               await storageResult.storeData("@Session", DataSession);
               await storageResult.storeData("@userId", dataUserId);
+              await storageResult.storeData("@userName", dataUserName);
               const DatosStorage = await storageResult.getDataFormat("@Session");
               await storageResult.removeItemValue("@SessionResponse");
               await storageResult.removeItemValue("@SessionResponseImages");
