@@ -29,7 +29,8 @@ export function HomeScreen() {
     setDataCheckList(DatosStorage['checkList']['data']);
   }
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item, keyExtractor }) => {
+    console.log(keyExtractor);
     return (<ItemHome
       id={item.idCheckList}
       title={t("Global.flag") == "pt" ? item.namePortuguese: item.nameCheckList}
@@ -38,7 +39,7 @@ export function HomeScreen() {
       backgroundColor={item.backgroundColor}
       idCheckList={item.idCheckList}
       module={'checklist'}
-      dataOffline={dataChecNoSent}
+      dataChecNoSent={dataChecNoSent}
     />);
   };
 
@@ -61,6 +62,12 @@ export function HomeScreen() {
   if (!dataCheckList) {
     return (<Loading show />);
   }
+
+
+  if (!dataChecNoSent) {
+    return (<Loading show />);
+  }
+
 
 
 

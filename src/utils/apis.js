@@ -6,7 +6,7 @@ const GlobalContainerApis = {
     url_list_incidents_risk: "https://demo.pulsecloud.app:44372/api/Surveys/GetIncidentsRisk",
     url_list_incidents_risk_severity: "https://demo.pulsecloud.app:44372/api/Surveys/GetIncidentsRiskSeverity",
     url_list_country: "https://demo.pulsecloud.app:44372/api/Surveys/GetIndicatorsCountry",
-    utl_list_incidents_stora: "https://demo.pulsecloud.app:44372/api/Surveys/GetIncidentsStore",
+    utl_list_incidents_stora: "https://demo.pulsecloud.app:44372/api/Surveys/GetIncidentsStoreList",
     url_save: "https://demo.pulsecloud.app:44372/api/Surveys/InsertSurveysMovilDetails",
 };
 

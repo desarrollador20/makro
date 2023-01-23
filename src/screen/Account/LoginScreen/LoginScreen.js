@@ -1,23 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useCallback } from "react";
 import { View, ScrollView, SafeAreaView } from "react-native";
 import { Text, Image } from "react-native-elements";
-import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { stylesGlobal, storageResult, theme, lng } from "../../../utils";
 import { styles } from "./LoginScreen.styles";
 import { LoginForm } from "../../../components/Auth";
 import SwitchSelector from "react-native-switch-selector";
-
-
+import { useFocusEffect } from "@react-navigation/native";
 
 export function LoginScreen() {
-  const navigation = useNavigation();
   const [valueRadio, setValueRadio] = React.useState("pt");
   const { t, i18n } = lng.useTranslation();
 
-  useEffect(() => {
-    loaderInitchangeLanguageCustom();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loaderInitchangeLanguageCustom();
+    }, [])
+  );
 
   const options = [
     { label: t("Home.langPt"), value: "pt" },
@@ -25,8 +24,9 @@ export function LoginScreen() {
   ];
 
   const loaderInitchangeLanguageCustom = () => {
-    //setValueRadio(newValue);
+    i18n.changeLanguage("pt");
     storageResult.setItemValueLanguage("pt");
+    setValueRadio("pt");
   };
 
   return (

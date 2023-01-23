@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  FlatList,
-  ScrollView,
-} from "react-native";
+import { View, Text, SafeAreaView, FlatList, ScrollView } from "react-native";
 import normalize from "react-native-normalize";
 import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
@@ -13,15 +7,8 @@ import { Footer, HeaderPercentage, Loading, Modal } from "../../../components";
 import { ItemHome } from "../../../components/home";
 import CustomerHeader from "../../../navigation/CustomerHeader";
 import { styles } from "./CategoryScreen.style";
-import {
-  screen,
-  stylesGlobal,
-  storageResult,
-  apis,
-  lng
-} from "../../../utils";
+import { screen, stylesGlobal, storageResult, apis, lng } from "../../../utils";
 import { Button } from "react-native-elements";
-import axios from "axios";
 
 export function CategoryScreen(props) {
   const { route } = props;
@@ -30,7 +17,6 @@ export function CategoryScreen(props) {
   const [showModal, setShowModal] = useState(false);
   const [completedChecklist, setCompletedChecklist] = useState(false);
   const [renderComponent, setRenderComponent] = useState(null);
-  const [test, setTest] = useState();
   const { t } = lng.useTranslation();
 
   useEffect(() => {
@@ -186,7 +172,7 @@ export function CategoryScreen(props) {
             const keyObjImg = keyImg?.split("|");
             if (keyObjImg[2] == value.IdSurveysMovilQuestions) {
               data_formate_image.push({
-                FileBinary: "valueImg", // valueImg
+                FileBinary: valueImg, // valueImg
                 FileName: keyObjImg[3],
                 FileType: "image/" + "" + keyObjImg[3]?.split(".")[keyObjImg[3]?.split(".").length - 1],
               });
@@ -230,7 +216,7 @@ export function CategoryScreen(props) {
       if (typeof StorageResponseListResponsible !== undefined && StorageResponseListResponsible && Object.entries(StorageResponseListResponsible).length !== 0) {
         Object.entries(StorageResponseListResponsible).forEach(([key, value]) => {
           data_clasification_user.push({
-            'IdSurveysMovilDetails': value.idCheckList,
+            'IdSurveysMovilDetails': value.idCheckList.toString(),
             'IdSurveysMovilClassificationQuestions': value.idCategory,
             'IdUsers': value.value
           });
@@ -245,27 +231,32 @@ export function CategoryScreen(props) {
       }
 
       dataSendJSON.SurveysMovilDetailsClassificationUsers = data_clasification_user;
-
-      console.log(JSON.stringify(dataSendJSON));
-      setTest(dataSendJSON);
+      //console.log(JSON.stringify(dataSendJSON));
       return;
+      async function postData(url = '', data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+          method: 'POST', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *same-origin, omit
+          headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: 'follow', // manual, *follow, error
+          referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+          body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+      }
 
-      axios
-        .post(apis.GlobalApis.url_save, {
-          dataSendJSON,
-        })
-        .then(function (res) {
-          if (res.status == 200) {
-            console.log("estatus 200 ", res.data);
-          }
-          console.log("entro aqui ", res);
-        })
-        .catch(function (err) {
+      postData(apis.GlobalApis.url_save, dataSendJSON)
+        .then((data) => {
+          console.log('dentrooooo ', data); // JSON data parsed by `data.json()` call
+        }).catch(function (err) {
           console.log("Error de conexión " + err);
-        })
-        .then(function () { });
-
-      // console.log(JSON.stringify(DataSessionSend, null, 3));
+        });
 
       if (1 !== 1) {
         // le dio guardar y no tenia internet
@@ -305,7 +296,6 @@ export function CategoryScreen(props) {
       <ScrollView>
         <HeaderPercentage idCheckList={route.params.idCheckList} />
         <View style={{ ...stylesGlobal.contentView, ...styles.container }}>
-          <Text>{JSON.stringify(test, null, 3)}</Text>
           <FlatList
             ListHeaderComponent={
               <Text style={styles.titleCategory}>

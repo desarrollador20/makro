@@ -13,7 +13,7 @@ import { styles } from './ItemHome.style';
 export function ItemHome(props) {
 
     const navigation = useNavigation();
-    const { id, title, num_questions, color = '#666666', backgroundColor = '#3333330D', module, idCheckList = '', dataOffline = [0] } = props;
+    const { id, title, num_questions, color = '#666666', backgroundColor = '#3333330D', module, idCheckList = '', dataChecNoSent = [0] } = props;
 
     const [completedData, setCompletedData] = useState(false);
     const [disagreedData, setDisagreedData] = useState(0);
@@ -25,13 +25,13 @@ export function ItemHome(props) {
     const colorTitleData = useRef(theme.GlobalColorsApp.btnGray);
     const backgroundData = useRef(backgroundColor);
     var statusCategory = true;
-if (dataOffline.includes(id)) {
+if (dataChecNoSent.includes(id)) {
 statusCategory = false;
 }
 else{
 statusCategory = true;
 }
-console.log("Id: ",id, "Estatus", statusCategory, "DATA" , dataOffline);
+console.log("Id: ",id, "Estatus", statusCategory, "DATA" , dataChecNoSent);
 
 
     if (module == 'category') {
