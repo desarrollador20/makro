@@ -7,9 +7,9 @@ const GlobalContainerApis = {
     url_list_incidents_risk_severity: "https://demo.pulsecloud.app:44372/api/Surveys/GetIncidentsRiskSeverity",
     url_list_country: "https://demo.pulsecloud.app:44372/api/Surveys/GetIndicatorsCountry",
     utl_list_incidents_stora: "https://demo.pulsecloud.app:44372/api/Surveys/GetIncidentsStoreList",
-    utl_list_incidents_stora: "https://demo.pulsecloud.app:44372/api/Surveys/GetIncidentsStore",
     url_list_responsible: "https://demo.pulsecloud.app:44372/api/Surveys/GetSurveysMovilUsersList",
     url_save: "https://demo.pulsecloud.app:44372/api/Surveys/InsertSurveysMovilDetails",
+    url_get_surveys_movil_details_questions_last: "https://demo.pulsecloud.app:44372/api/Surveys/GetSurveysMovilDetailsQuestionsLast",
 };
 
 
