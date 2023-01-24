@@ -56,7 +56,7 @@ export function PreviousInspection(props) {
 
     axios({
       method: "get",
-      url: `${apis.GlobalApis.url_get_surveys_movil_details_questions_last}?PiIdIndicatorsLanguages=${lang}/&PiIdIndicatorsCountry=${dataIdCountry}&PiIdIncidentsStore=${dataIdStore}&PiIdSurveysMovilQuestions=${idQuestion}`,
+      url: `${apis.GlobalApis.url_get_surveys_movil_details_questions_last}?PiIdIndicatorsLanguages=${lang}&PiIdIndicatorsCountry=${dataIdCountry}&PiIdIncidentsStore=${dataIdStore}&PiIdSurveysMovilQuestions=${idQuestion}`,
     }).then(async (response) => {
 
       const data = response.data.data;
@@ -84,11 +84,11 @@ export function PreviousInspection(props) {
 
   useFocusEffect(
     useCallback(() => {
-    
-      getDataDisagreed ();
+
+      getDataDisagreed();
     }, [])
   );
-  
+
 
   return (
     <>
@@ -141,13 +141,13 @@ export function PreviousInspection(props) {
           />
           <RowColumnHistory
             title={t("PreviousInspection.textS")}
-              
-              description={objData.nameSector}
+
+            description={objData.nameSector}
           />
           <RowColumnHistory
             title={t("PreviousInspection.textPa")}
             description={objData.nameRisk}
-            
+
           />
           <RowColumnHistory
             title={t("PreviousInspection.textGpo")}
