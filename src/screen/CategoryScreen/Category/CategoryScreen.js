@@ -232,7 +232,7 @@ export function CategoryScreen(props) {
 
       dataSendJSON.SurveysMovilDetailsClassificationUsers = data_clasification_user;
       //console.log(JSON.stringify(dataSendJSON));
-      return;
+
       async function postData(url = '', data = {}) {
         // Default options are marked with *
         const response = await fetch(url, {

@@ -406,7 +406,7 @@ export function Disagreed(props) {
               />
             </View>
           </View>
-          {connectStatus && <PreviousInspection idQuestion={5} lang={t("Global.flag") == "es" ? 1 : 2}/>}
+          {connectStatus && <PreviousInspection idQuestion={idQuestion} lang={t("Global.flag") == "es" ? 1 : 2} />}
         </>
       )}
     </View>
