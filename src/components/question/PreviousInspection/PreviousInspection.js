@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { View, Text, Pressable } from "react-native";
 import { Icon } from "react-native-elements";
 import normalize from "react-native-normalize";
-import { theme, lng } from "../../../utils";
+import { theme, lng, apis, storageResult } from "../../../utils";
 import { styles } from "./PreviousInspection.style";
+import axios from "axios";
 
 export function PreviousInspection(props) {
-  const { idQuestion } = props;
+  const { idQuestion, lang } = props;
   const [getHistory, setGetHistory] = useState(false);
+  const [objData, setObjData] = useState({});
   const { t } = lng.useTranslation();
 
   const RowColumnHistory = (props) => {
@@ -46,6 +49,56 @@ export function PreviousInspection(props) {
     setGetHistory(!getHistory);
   };
 
+  const getDataDisagreed = async () => {
+
+    const dataIdCountry = await storageResult.getDataFormat("@SessionIdCountry");
+    const dataIdStore = await storageResult.getDataFormat("@SessionIdStore");
+   // const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
+   // const language = DataLenguage = "es" ? 1 : 2;
+    console.log("paso por get data disagred");
+    console.log("lan :", lang , "Id country: ", dataIdCountry, " Stora: ", dataIdStore , " Question: ", idQuestion);
+
+    //lenguaje stora
+    //idQuestion || variables de router
+
+    axios({
+      method: "get",
+      url: `${apis.GlobalApis.url_get_surveys_movil_details_questions_last}?PiIdIndicatorsLanguages=1&PiIdIndicatorsCountry=2&PiIdIncidentsStore=80&PiIdSurveysMovilQuestions=10`,
+      //url: `${apis.GlobalApis.url_get_surveys_movil_details_questions_last}?PiIdIndicatorsLanguages=1&PiIdIndicatorsCountry=${dataIdCountry}&PiIdIncidentsStore=${dataIdStore}&PiIdSurveysMovilQuestions=10`,
+      //url: `${apis.GlobalApis.url_get_surveys_movil_details_questions_last}?PiIdIndicatorsCountry=${dataIdCountry}&PiIdIncidentsStore=${dataIdStore}`,
+    }).then(async (response) => {
+
+      const data = response.data.data;
+      const createSplit = data[0].create.split(' ');
+      const objData = {
+        id: data[0].id,
+        create: createSplit[0],
+        //create: Date(data[0].create),
+        nameResponses: data[0].nameResponses,
+        observations: data[0].observations,
+        observationsProposed: data[0].observationsProposed,
+        nameSector: data[0].nameSector,
+        nameRisk: data[0].nameRisk,
+        nameSeverity: data[0].nameSeverity
+      }
+      setObjData(objData);
+
+    }).catch((error) => {
+      console.log("Error en peticion: " + error);
+    }).finally(() => {
+
+    });
+
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+    
+      getDataDisagreed ();
+    }, [])
+  );
+  
+
   return (
     <>
       <Pressable
@@ -70,7 +123,7 @@ export function PreviousInspection(props) {
             <Text style={styles.lblQuestionHistory}>
               {t("PreviousInspection.textQuestionHistory")}
             </Text>
-            <Text style={styles.lblResponseHistory}>XX/XX/XXXX</Text>
+            <Text style={styles.lblResponseHistory}>{objData.create}</Text>
           </View>
           <View style={styles.row}>
             <Text style={{ ...styles.lblQuestionHistory, flex: 3 }}>
@@ -86,26 +139,29 @@ export function PreviousInspection(props) {
           <RowColumnHistory
             title={t("PreviousInspection.textObs")}
             description={
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris elit enim, lobortis."
+              objData.observations
             }
           />
           <RowColumnHistory
             title={t("PreviousInspection.textMp")}
             description={
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris elit enim, lobortis."
+              objData.observationsProposed
             }
           />
           <RowColumnHistory
             title={t("PreviousInspection.textS")}
-            description={t("PreviousInspection.texttS")}
+              
+              description={objData.nameSector}
           />
           <RowColumnHistory
             title={t("PreviousInspection.textPa")}
-            description={"1 (Mutio Baixo)"}
+            description={objData.nameRisk}
+            
           />
           <RowColumnHistory
             title={t("PreviousInspection.textGpo")}
-            description={"Fatalidade, invalidez, amputação"}
+            description={objData.nameSeverity}
+
           />
         </View>
       )}
