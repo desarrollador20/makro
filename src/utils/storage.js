@@ -130,11 +130,8 @@ const setItemValueStore = async (value) => {
 };
 
 
-const setIdCheklistSentNotProcessed = async (idQuestions ) => {
-
-    await storeData("@SessionIdCheklistSentNotProcessed", idQuestions);
-   
- 
+const setIdCheklistSentNotProcessed = async (idQuestions) => {
+  await storeData("@IdCheklistNotProcessed", idQuestions);
 };
 
 export const storageResult = {

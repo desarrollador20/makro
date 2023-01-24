@@ -28,6 +28,8 @@ export function Footer() {
     await storageResult.removeItemValue("@Session");
     await storageResult.removeItemValue("@userId");
     await storageResult.removeItemValue("@userName");
+    await storageResult.removeItemValue("@IdCheklistNotProcessed");
+
     const valorLenguage = await storageResult.getDataFormat("@SessionLanguage");
     //console.log(DataLenguage2);
     if (!valorLenguage) {
