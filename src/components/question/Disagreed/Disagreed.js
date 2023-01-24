@@ -58,6 +58,7 @@ export function Disagreed(props) {
         const item = {
           label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
           value: value.id.toString(),
+          key
         };
         gravity.push(item);
       }
@@ -67,9 +68,8 @@ export function Disagreed(props) {
 
   const getSector = async() => {
     
-      
-    const dataIdCountry = 2;
-    const dataIdStore = 80;
+    const dataIdCountry = await storageResult.getDataFormat("@SessionIdCountry");
+    const dataIdStore = await storageResult.getDataFormat("@SessionIdStore");
      
     axios({
       method: "get",
@@ -350,7 +350,7 @@ export function Disagreed(props) {
                 dropdownIconColor="red"
                 useNativeAndroidPickerStyle={false}
                 placeholder={{
-                  label: t("Disagreed.textSector"),
+                  label: t("Disagreed.inputTextSector"),
                   value: null,
                 }}
                 style={pickerStyle}
