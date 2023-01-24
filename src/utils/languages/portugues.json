@@ -87,7 +87,9 @@
       "textRiskDetail": "A análise não é aplicável somente quando não há risco de um incidente na situação avaliada.",
       "textRiskQuest": "Qual seria a gravidade que poderia ocorrer?",
       "textList": "Listado Maestro",
-      "textRiskQuest2": "Qual é a probabilidade de ocorrência de um acidente?"
+      "textRiskQuest2": "Qual é a probabilidade de ocorrência de um acidente?",
+      "textSector": "Setor"
+
     },
     "PositiveComments": {
       "title": "Comentários positivos ou boas práticas",
