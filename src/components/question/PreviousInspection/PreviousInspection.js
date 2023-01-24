@@ -53,19 +53,10 @@ export function PreviousInspection(props) {
 
     const dataIdCountry = await storageResult.getDataFormat("@SessionIdCountry");
     const dataIdStore = await storageResult.getDataFormat("@SessionIdStore");
-   // const DataLenguage = await storageResult.getDataFormat("@SessionLanguage");
-   // const language = DataLenguage = "es" ? 1 : 2;
-    console.log("paso por get data disagred");
-    console.log("lan :", lang , "Id country: ", dataIdCountry, " Stora: ", dataIdStore , " Question: ", idQuestion);
-
-    //lenguaje stora
-    //idQuestion || variables de router
 
     axios({
       method: "get",
-      url: `${apis.GlobalApis.url_get_surveys_movil_details_questions_last}?PiIdIndicatorsLanguages=1&PiIdIndicatorsCountry=2&PiIdIncidentsStore=80&PiIdSurveysMovilQuestions=10`,
-      //url: `${apis.GlobalApis.url_get_surveys_movil_details_questions_last}?PiIdIndicatorsLanguages=1&PiIdIndicatorsCountry=${dataIdCountry}&PiIdIncidentsStore=${dataIdStore}&PiIdSurveysMovilQuestions=10`,
-      //url: `${apis.GlobalApis.url_get_surveys_movil_details_questions_last}?PiIdIndicatorsCountry=${dataIdCountry}&PiIdIncidentsStore=${dataIdStore}`,
+      url: `${apis.GlobalApis.url_get_surveys_movil_details_questions_last}?PiIdIndicatorsLanguages=${lang}/&PiIdIndicatorsCountry=${dataIdCountry}&PiIdIncidentsStore=${dataIdStore}&PiIdSurveysMovilQuestions=${idQuestion}`,
     }).then(async (response) => {
 
       const data = response.data.data;
