@@ -225,6 +225,7 @@ export function LoginForm() {
               await storageResult.removeItemValue("@SessionIdStore");
               await storageResult.removeItemValue("@SessionIdCountry");
               await storageResult.removeItemValue("@SessionResponsibleList");
+              await storageResult.removeItemValue("@IdCheklistNotProcessed");
               setDownloadingData(false);
               navigation.navigate(screen.account.tab, {
                 screen: screen.account.geocalizacion,

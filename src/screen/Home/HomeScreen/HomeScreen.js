@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import normalize from 'react-native-normalize';
+import { useFocusEffect } from "@react-navigation/native";
 import { Footer, Loading } from '../../../components';
 import { ItemHome } from '../../../components/home';
 import CustomerHeader from '../../../navigation/CustomerHeader';
@@ -16,14 +17,19 @@ export function HomeScreen() {
 
   const { t } = lng.useTranslation();
 
-  useEffect(() => {
-    getData();
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      getData();
+    }, [])
+  );
 
   const getData = async () => {
-    const DatosOffline = await storageResult.getDataFormat('@SessionIdCheklistSentNotProcessed');
-    setDataChecNoSent[DatosOffline];
-    console.log("desde el screem: ",DatosOffline);
+    const DatosOffline = await storageResult.getDataFormat('@IdCheklistNotProcessed');
+    if (DatosOffline && Object.entries(DatosOffline).length !== 0) {
+      setDataChecNoSent(DatosOffline);
+    } else {
+      setDataChecNoSent([]);
+    }
 
     const DatosStorage = await storageResult.getDataFormat('@Session');
     setDataCheckList(DatosStorage['checkList']['data']);
@@ -33,7 +39,7 @@ export function HomeScreen() {
     console.log(keyExtractor);
     return (<ItemHome
       id={item.idCheckList}
-      title={t("Global.flag") == "pt" ? item.namePortuguese: item.nameCheckList}
+      title={t("Global.flag") == "pt" ? item.namePortuguese : item.nameCheckList}
       num_questions={item.numberQuestion + t("HomeScreen.textQuestion")}
       color={item.color}
       backgroundColor={item.backgroundColor}
@@ -44,31 +50,23 @@ export function HomeScreen() {
   };
 
   const addStorage = async (data) => {
-    //const DatosOffline = await storageResult.getDataFormat('@SessionIdCheklistSentNotProcessed');
 
     var numR = Math.floor(Math.random() * 6);
     setDataChecNoSent([...dataChecNoSent, numR])
     console.log(numR);
-   
-   
-   await storageResult.setIdCheklistSentNotProcessed(dataChecNoSent);
-   const DatosOffline = await storageResult.getDataFormat('@SessionIdCheklistSentNotProcessed');
 
 
-    console.log("aasdad: ", DatosOffline);
+    await storageResult.setIdCheklistSentNotProcessed([...dataChecNoSent, numR]);
+    const DatosOffline = await storageResult.getDataFormat('@IdCheklistNotProcessed');
+
+
+    console.log("salid aluego de guardar: ", DatosOffline);
 
   }
 
   if (!dataCheckList) {
     return (<Loading show />);
   }
-
-
-  if (!dataChecNoSent) {
-    return (<Loading show />);
-  }
-
-
 
 
   return (
@@ -91,11 +89,11 @@ export function HomeScreen() {
         </View>
 
         <TouchableOpacity
-            
-            onPress={() => addStorage(dataChecNoSent)}
+
+          onPress={() => addStorage(dataChecNoSent)}
         >
           <Text>Agregar lista mapa</Text>
-          </TouchableOpacity>
+        </TouchableOpacity>
         <Footer />
       </SafeAreaView>
     </>
