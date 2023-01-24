@@ -13,7 +13,7 @@ import { styles } from './ItemHome.style';
 export function ItemHome(props) {
 
     const navigation = useNavigation();
-    const { id, title, num_questions, color = '#666666', backgroundColor = '#3333330D', module, idCheckList = '', dataChecNoSent = [0] } = props;
+    const { id, title, num_questions, color = '#666666', backgroundColor = '#3333330D', module, idCheckList = '', dataChecNoSent = [] } = props;
 
     const [completedData, setCompletedData] = useState(false);
     const [disagreedData, setDisagreedData] = useState(0);
@@ -24,15 +24,14 @@ export function ItemHome(props) {
     const colorBorderDataNoSend = useRef('#B3B3B3');
     const colorTitleData = useRef(theme.GlobalColorsApp.btnGray);
     const backgroundData = useRef(backgroundColor);
-    var statusCategory = true;
-if (dataChecNoSent.includes(id)) {
-statusCategory = false;
-}
-else{
-statusCategory = true;
-}
-console.log("Id: ",id, "Estatus", statusCategory, "DATA" , dataChecNoSent);
+    var statusCategory = false;
 
+    if (Object.entries(dataChecNoSent).length !== 0 && dataChecNoSent?.includes(id)) {
+        statusCategory = false;
+    }
+    else {
+        statusCategory = true;
+    }
 
     if (module == 'category') {
         useFocusEffect(
@@ -61,7 +60,7 @@ console.log("Id: ",id, "Estatus", statusCategory, "DATA" , dataChecNoSent);
 
         if (parseInt(all_response) == parseInt(num_questions)) {
             const resultData = (DataLenguage == 'pt') ? 'não-conformidad' : 'no-conforme';
-            iconData.current =  'checkbox';
+            iconData.current = 'checkbox';
             colorData.current = '#84D9B1';
             backgroundData.current = '#D9F2E6';
             colorTitleData.current = '#5A8C70';
@@ -79,19 +78,19 @@ console.log("Id: ",id, "Estatus", statusCategory, "DATA" , dataChecNoSent);
             "Alerta",
             "Datos guardados, pero no se ha podido establecer la conexión",
             [
-              {
-                text: "Cerrar",
-               // onPress: () => console.log("Cancel Pressed"),
-                style: "cancel",
-              },
-              {
-                text: "Revisar conexión",
-                //onPress: () => closeSessionOk(),
-                style: "destructive",
-      
-              },
+                {
+                    text: "Cerrar",
+                    // onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel",
+                },
+                {
+                    text: "Revisar conexión",
+                    //onPress: () => closeSessionOk(),
+                    style: "destructive",
+
+                },
             ]
-          );
+        );
 
     }
 
@@ -99,10 +98,10 @@ console.log("Id: ",id, "Estatus", statusCategory, "DATA" , dataChecNoSent);
 
         return (
 
-        
+
             <TouchableOpacity
                 style={{ ...styles.item, borderColor: colorBorderData.current, opacity: 0.3 }}
-                onPress={ () => alertNoSendCheckListData(navigation, id, module, idCheckList, statusCategory)}
+                onPress={() => alertNoSendCheckListData(navigation, id, module, idCheckList, statusCategory)}
                 key={id}
             >
                 <View style={{ ...styles.containerIcon, backgroundColor: backgroundData.current }}>
@@ -117,22 +116,22 @@ console.log("Id: ",id, "Estatus", statusCategory, "DATA" , dataChecNoSent);
                     </Text>
                 </View>
                 <View style={styles.containerArrow}>
-                <Icon type="ionicon"  name="timer-outline" color="red" size={normalize(30)} /> 
+                    <Icon type="ionicon" name="timer-outline" color="red" size={normalize(30)} />
 
-                 
+
                 </View>
             </TouchableOpacity>
         )
-        
+
     }
-    else{
+    else {
 
         return (
 
-        
+
             <TouchableOpacity
                 style={{ ...styles.item, borderColor: colorBorderData.current }}
-                onPress={ () => managerScreen(navigation, id, module, idCheckList, statusCategory)}
+                onPress={() => managerScreen(navigation, id, module, idCheckList, statusCategory)}
                 key={id}
             >
                 <View style={{ ...styles.containerIcon, backgroundColor: backgroundData.current }}>
@@ -147,14 +146,14 @@ console.log("Id: ",id, "Estatus", statusCategory, "DATA" , dataChecNoSent);
                     </Text>
                 </View>
                 <View style={styles.containerArrow}>
-                  <Icon type="ionicon"  name="arrow-forward-circle-outline" color={colorData.current} size={normalize(30)} /> 
-                  
-                
-                 
+                    <Icon type="ionicon" name="arrow-forward-circle-outline" color={colorData.current} size={normalize(30)} />
+
+
+
                 </View>
             </TouchableOpacity>
         )
     }
 
-   
+
 }
