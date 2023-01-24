@@ -9,23 +9,19 @@ import {
 import { Icon } from "react-native-elements";
 import normalize from "react-native-normalize";
 import RNPickerSelect from "react-native-picker-select";
-import { Footer, HeaderPercentage } from "../../components";
+import { Footer, HeaderPercentage, Loading } from "../../components";
 import { ButtonsQuestion } from "../../components/question";
 import CustomerHeader from "../../navigation/CustomerHeader";
-import { stylesGlobal, theme, storageResult, lng } from "../../utils";
+import { stylesGlobal, theme, storageResult, lng, apis } from "../../utils";
 import { styles } from "./ResponsibleList.style";
 import { useFocusEffect } from "@react-navigation/native";
+import axios from "axios";
 
 export function ResponsibleList(props) {
-  const dataListResponsable = [
-    { label: "Admin PV 2 202", value: "13390F8B-7191-4D0F-B09E-F42FBA319913" },
-    { label: "Admin requisitos 2", value: "3446B82B3C7-AAD1-41F8-A1CB-5B36AF556C8255" },
-    { label: "Administrador Global", value: "22600DE8-209F-4E0E-8500-E7BEDD1AC83C " }
-  ];
   const { route } = props;
   const [listResponsible, setListResponsible] = useState([]);
   const { t } = lng.useTranslation();
-  const [dataResponsable, setDataResponsable] = useState(dataListResponsable);
+  const [dataResponsable, setDataResponsable] = useState(false);
   const [noConforme, setNoConforme] = useState("");
 
   const loaderListResponsible = async () => {
@@ -52,14 +48,41 @@ export function ResponsibleList(props) {
     }
   };
 
-  useEffect(() => {
-    loaderListResponsible();
-  }, []);
+
+  const getListResponsible = async () => {
+
+    const dataIdCountry = await storageResult.getDataFormat("@SessionIdCountry");
+    const dataIdStore = await storageResult.getDataFormat("@SessionIdStore");
+
+    axios({
+      method: "get",
+      url: `${apis.GlobalApis.url_list_responsible}?PiIdIndicatorsCountry=${dataIdCountry}&PiIdIncidentsStore=${dataIdStore}`,
+    }).then(async (response) => {
+      const data = response.data.data;
+      var listData = [];
+      Object.entries(data).forEach(([key, value]) => {
+        const item = {
+          label: value.name,
+          value: value.id.toString(),
+        };
+        listData.push(item);
+      }
+      );
+      setDataResponsable(listData);
+
+    }).catch((error) => {
+      console.log("Error en peticion: " + error);
+    }).finally(() => {
+
+    });
+
+  };
 
   useFocusEffect(
     useCallback(() => {
       getNoConforn();
       loaderListResponsible();
+      getListResponsible();
     }, [])
   );
 
@@ -165,6 +188,11 @@ export function ResponsibleList(props) {
     );
   };
 
+
+  if (!dataResponsable) {
+    return (<Loading show />);
+  }
+
   return (
     <SafeAreaView style={stylesGlobal.contentGlobal}>
       <CustomerHeader t={t} />
@@ -180,7 +208,7 @@ export function ResponsibleList(props) {
             <Text style={styles.lblTitle}>{t("ResponsableList.title")}</Text>
             <View style={styles.emulateStyleCombo}>
               <RNPickerSelect
-                name="gravity"
+                name="responsible"
                 onValueChange={(value, index) => {
                   var i = index - 1;
                   if (value != undefined) {
