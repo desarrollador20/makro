@@ -10,6 +10,7 @@ const GlobalContainerApis = {
     url_list_responsible: "https://demo.pulsecloud.app:44372/api/Surveys/GetSurveysMovilUsersList",
     url_save: "https://demo.pulsecloud.app:44372/api/Surveys/InsertSurveysMovilDetails",
     url_get_surveys_movil_details_questions_last: "https://demo.pulsecloud.app:44372/api/Surveys/GetSurveysMovilDetailsQuestionsLast",
+    url_get_incidents_sector: "https://demo.pulsecloud.app:44372/api/Surveys/GetIncidentsSector",
 };
 
 

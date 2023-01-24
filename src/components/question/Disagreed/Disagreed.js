@@ -6,9 +6,11 @@ import { Switch } from "react-native-paper";
 import RNPickerSelect from "react-native-picker-select";
 import { useFocusEffect } from "@react-navigation/native";
 import normalize from "react-native-normalize";
-import { theme, checkConnected, storageResult, lng } from "../../../utils";
+import { theme, checkConnected, storageResult, lng, apis } from "../../../utils";
 import { PreviousInspection } from "../PreviousInspection";
 import { styles } from "./Disagreed.style";
+import axios from "axios";
+
 
 export function Disagreed(props) {
   const { idCategory, idQuestion, idCheckList } = props;
@@ -18,12 +20,16 @@ export function Disagreed(props) {
   const [getIncidentsProbability, setGetIncidentsProbability] = useState(false);
   const [probability, setProbability] = useState(false);
   const [gravity, setGravity] = useState(false);
+  const [sector, setSector] = useState(false);
+  const [idSector, setIdSector] = useState(false);
   const { control, handleSubmit, setValue } = useForm({ mode: "onBlur" });
   const { t } = lng.useTranslation();
 
   useFocusEffect(
     useCallback(() => {
       validateDataInit();
+      getSector();
+
     }, [])
   );
 
@@ -58,6 +64,52 @@ export function Disagreed(props) {
     );
     setGetGravity(gravity);
   };
+
+  const getSector = async() => {
+    
+      
+    const dataIdCountry = 2;
+    const dataIdStore = 80;
+     
+    axios({
+      method: "get",
+      url: `${apis.GlobalApis.url_get_incidents_sector}?PiIdIndicatorsCountry=${dataIdCountry}&PiIdIncidentsStore=${dataIdStore}`,
+     }).then(async (response) => {
+
+      const data = response.data.data;
+      
+
+      var sector = [];
+    Object.entries(data).forEach(
+      ([key, value]) => {
+        const itemSector = {
+          label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
+          value: value.id.toString(),
+          latitude: value.latitude,
+          longitude: value.longitude,
+          key: key
+
+        };
+        sector.push(itemSector);
+      }
+    );
+
+    setSector(sector);
+
+
+    }).catch((error) => {
+      console.log("Error en peticion: " + error);
+    }).finally(() => {
+
+    });
+
+
+
+  }
+  const ValidateSector = (value) => {
+
+    setIdSector(value);
+  }
 
   const validateDataInit = async () => {
     const DatosStorage = await storageResult.getDataFormat("@SessionResponse");
@@ -274,7 +326,42 @@ export function Disagreed(props) {
           name="proposedMeasures"
         />
       </View>
-
+      {connectStatus &&
+     <View
+            style={{ ...styles.containerQuestion, marginBottom: normalize(30) }}
+          >
+            <View style={styles.headerSubTitleQuestion}>
+              <Icon
+                type="foundation"
+                name="target-two"
+                color={theme.GlobalColorsApp.btnGrayPrev}
+                size={normalize(22)}
+              />
+              <Text style={styles.lblSubTitleQuestion}>
+                {t("Disagreed.textSector")}
+              </Text>
+            </View>
+            <View style={styles.emulateStyleCombo}>
+              <RNPickerSelect
+                name="sector"
+                onValueChange={(value) =>
+                  ValidateSector(value)
+                }
+                dropdownIconColor="red"
+                useNativeAndroidPickerStyle={false}
+                placeholder={{
+                  label: t("Disagreed.textSector"),
+                  value: null,
+                }}
+                style={pickerStyle}
+                items={sector}
+                value={idSector && idSector}
+               
+              />
+            </View>
+          </View>
+}
+          
       <View style={styles.containerRiskAalysis}>
         <Switch
           value={isSwitchRiskAnalysis}
@@ -311,6 +398,7 @@ export function Disagreed(props) {
           size={normalize(30)}
         />
       </View>
+
 
       {!isSwitchRiskAnalysis ? (
         <View style={styles.headerRedRisk}>
