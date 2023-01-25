@@ -88,7 +88,9 @@
       "textRiskQuest": "Qual seria a gravidade que poderia ocorrer?",
       "textList": "Listado Maestro",
       "textRiskQuest2": "Qual é a probabilidade de ocorrência de um acidente?",
-      "textSector": "Setor"
+      "textSector": "Setor onde se encontrou a não conformidade",
+      "inputTextSector": "Setor"
+
 
     },
     "PositiveComments": {

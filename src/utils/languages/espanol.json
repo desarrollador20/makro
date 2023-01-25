@@ -88,7 +88,8 @@
       "textRiskQuest": "¿Qué tan grave sería?",
       "textList": "Lista de directores",
       "textRiskQuest2": "¿Cuál es la probabilidad de que ocurra un accidente?",
-      "textSector": "Sector"
+      "textSector": "Sector donde se detectó el incumplimiento",
+      "inputTextSector": "Sector"
     },
     "PositiveComments": {
       "title": "Comentarios positivos o mejores prácticas",

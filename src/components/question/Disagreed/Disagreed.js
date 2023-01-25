@@ -58,6 +58,7 @@ export function Disagreed(props) {
         const item = {
           label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
           value: value.id.toString(),
+          key
         };
         gravity.push(item);
       }
@@ -67,9 +68,10 @@ export function Disagreed(props) {
 
   const getSector = async() => {
     
-      
-    const dataIdCountry = 2;
-    const dataIdStore = 80;
+    const dataIdCountry = await storageResult.getDataFormat("@SessionIdCountry");
+    const dataIdStore = await storageResult.getDataFormat("@SessionIdStore");
+
+    
      
     axios({
       method: "get",
@@ -106,10 +108,13 @@ export function Disagreed(props) {
 
 
   }
-  const ValidateSector = (value) => {
 
+  const ValidateSector= async (idCheckList,value,nameElement,idCategory,idQuestion) => {
+    storageResult.setItemValue(idCheckList,idCategory,idQuestion,nameElement,value?.trim());
+  
     setIdSector(value);
-  }
+
+  };
 
   const validateDataInit = async () => {
     const DatosStorage = await storageResult.getDataFormat("@SessionResponse");
@@ -119,6 +124,7 @@ export function Disagreed(props) {
       var keyChkRiskAnalysis = `${idCheckList}|${idCategory}|${idQuestion}|IsRiskAnalysis`;
       var keyProbability = `${idCheckList}|${idCategory}|${idQuestion}|IdIncidentsRisk`;
       var keyGravity = `${idCheckList}|${idCategory}|${idQuestion}|IdIncidentsRiskSeverity`;
+      var keySector = `${idCheckList}|${idCategory}|${idQuestion}|IdIncidentsSector`;
       setValue("observation", DatosStorage[keyObservation]);
       setValue("proposedMeasures", DatosStorage[keyProposedMeasures]);
       setValue(
@@ -127,6 +133,7 @@ export function Disagreed(props) {
       );
       setProbability(DatosStorage[keyProbability]);
       setGravity(DatosStorage[keyGravity]);
+      setIdSector(DatosStorage[keySector]);
     }
   };
 
@@ -345,12 +352,16 @@ export function Disagreed(props) {
               <RNPickerSelect
                 name="sector"
                 onValueChange={(value) =>
-                  ValidateSector(value)
+                  ValidateSector(idCheckList,
+                    value,
+                    "IdIncidentsSector",
+                    idCategory,
+                    idQuestion)
                 }
                 dropdownIconColor="red"
                 useNativeAndroidPickerStyle={false}
                 placeholder={{
-                  label: t("Disagreed.textSector"),
+                  label: t("Disagreed.inputTextSector"),
                   value: null,
                 }}
                 style={pickerStyle}
