@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, FlatList } from 'react-native';
 import { Icon } from 'react-native-elements';
 import normalize from 'react-native-normalize';
 import { useFocusEffect } from "@react-navigation/native";
 import { Footer, Loading } from '../../../components';
 import { ItemHome } from '../../../components/home';
 import CustomerHeader from '../../../navigation/CustomerHeader';
-import { screen, stylesGlobal, theme, storageResult, lng } from "../../../utils";
+import { stylesGlobal, theme, storageResult, lng } from "../../../utils";
 import { styles } from "./HomeScreen.style";
 
 export function HomeScreen() {
@@ -36,7 +36,6 @@ export function HomeScreen() {
   }
 
   const renderItem = ({ item, keyExtractor }) => {
-    console.log(keyExtractor);
     return (<ItemHome
       id={item.idCheckList}
       title={t("Global.flag") == "pt" ? item.namePortuguese : item.nameCheckList}
