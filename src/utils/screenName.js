@@ -11,6 +11,11 @@ const homeStack = {
   home: "Home",
 };
 
+const detectLocationStack = {
+  tab: "DetectLocationTab",
+  home: "DetectLocation",
+};
+
 const questionStack = {
   tab: 'questionTab',
   question: 'Question'
@@ -37,13 +42,11 @@ const inspectionCompletedStack = {
 }
 
 const recoveryPasswordStack = {
-  tab:"RecoveryPasswordTab",
+  tab: "RecoveryPasswordTab",
   confirmRecovery: 'ConfirmRecovery',
   noConfirm: 'NoConfirm',
-  emailRecovery:"EmailRecovery"
+  emailRecovery: "EmailRecovery"
 }
-
-
 
 
 
@@ -55,5 +58,6 @@ export const screen = {
   positiveComments: positiveCommentsStack,
   responsibleList: responsibleListStack,
   inspectionCompleted: inspectionCompletedStack,
-  recoveryPassword: recoveryPasswordStack
+  recoveryPassword: recoveryPasswordStack,
+  detectLocation: detectLocationStack
 };

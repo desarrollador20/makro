@@ -4,16 +4,17 @@ import { useNavigation } from "@react-navigation/native";
 import { Image, Button } from 'react-native-elements';
 import normalize from 'react-native-normalize';
 import CustomerHeader from '../../navigation/CustomerHeader';
-import { screen, stylesGlobal, theme } from '../../utils';
+import { lng, screen, stylesGlobal, theme } from '../../utils';
 import { styles } from './InspectionCompletedScreen.style';
 
 export function InspectionCompletedScreen(props) {
     const { route } = props;
     const navigation = useNavigation();
+    const { t } = lng.useTranslation();
 
     return (
         <SafeAreaView style={stylesGlobal.contentGlobal}>
-            <CustomerHeader />
+            <CustomerHeader t={t} />
 
             <Image
                 source={require("../../../assets/img/login_logo.png")}
@@ -26,7 +27,7 @@ export function InspectionCompletedScreen(props) {
                     titleStyle={styles.fontCustom}
                     containerStyle={stylesGlobal.btnContainer}
                     buttonStyle={{ ...stylesGlobal.btn, marginTop: normalize(30), alignSelf: 'center', width: '85%', backgroundColor: '#E25D62' }}
-                    onPress={() => navigation.navigate(screen.home.tab, { screen: screen.home.home })}
+                    onPress={() => navigation.navigate(screen.detectLocation.tab, { screen: screen.detectLocation.home })}
                 />
 
 

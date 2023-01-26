@@ -47,7 +47,8 @@
     "Category": {
       "title": "Selecione uma categoria",
       "btnEnd": "Finalizar a inspeção",
-      "textModal": "Por favor, confirme que deseja enviar a inspeção."
+      "textModal": "Por favor, confirme que deseja enviar a inspeção.",
+      "textNoSend": "O erro não pôde salvar os dados"
     },
     "PreviousInspection": {
       "showPreIns": "Ver inspeção anterior",

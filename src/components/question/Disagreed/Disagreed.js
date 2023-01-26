@@ -66,54 +66,42 @@ export function Disagreed(props) {
     setGetGravity(gravity);
   };
 
-  const getSector = async() => {
-    
+  const getSector = async () => {
+
     const dataIdCountry = await storageResult.getDataFormat("@SessionIdCountry");
     const dataIdStore = await storageResult.getDataFormat("@SessionIdStore");
 
-    
-     
     axios({
       method: "get",
       url: `${apis.GlobalApis.url_get_incidents_sector}?PiIdIndicatorsCountry=${dataIdCountry}&PiIdIncidentsStore=${dataIdStore}`,
-     }).then(async (response) => {
-
+    }).then(async (response) => {
       const data = response.data.data;
-      
-
       var sector = [];
-    Object.entries(data).forEach(
-      ([key, value]) => {
-        const itemSector = {
-          label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
-          value: value.id.toString(),
-          latitude: value.latitude,
-          longitude: value.longitude,
-          key: key
+      Object.entries(data).forEach(
+        ([key, value]) => {
+          const itemSector = {
+            label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
+            value: value.id.toString(),
+            latitude: value.latitude,
+            longitude: value.longitude,
+            key: key
 
-        };
-        sector.push(itemSector);
-      }
-    );
-
-    setSector(sector);
-
-
+          };
+          sector.push(itemSector);
+        }
+      );
+      setSector(sector);
     }).catch((error) => {
       console.log("Error en peticion: " + error);
     }).finally(() => {
 
     });
 
-
-
   }
 
-  const ValidateSector= async (idCheckList,value,nameElement,idCategory,idQuestion) => {
-    storageResult.setItemValue(idCheckList,idCategory,idQuestion,nameElement,value?.trim());
-  
+  const ValidateSector = async (idCheckList, value, nameElement, idCategory, idQuestion) => {
+    storageResult.setItemValue(idCheckList, idCategory, idQuestion, nameElement, value?.trim());
     setIdSector(value);
-
   };
 
   const validateDataInit = async () => {
@@ -211,7 +199,6 @@ export function Disagreed(props) {
 
   const onToggleSwitch = async (idCheckList, idCategory, idQuestion) => {
     setIsSwitchRiskAnalysis(!isSwitchRiskAnalysis);
-    console.log("e valro es ", !isSwitchRiskAnalysis);
     storageResult.setItemValue(
       idCheckList,
       idCategory,
@@ -220,6 +207,10 @@ export function Disagreed(props) {
       !isSwitchRiskAnalysis
     );
   };
+
+  if (!sector) {
+    return (<View />);
+  }
 
   return (
     <View style={styles.container}>
@@ -334,45 +325,44 @@ export function Disagreed(props) {
         />
       </View>
       {connectStatus &&
-     <View
-            style={{ ...styles.containerQuestion, marginBottom: normalize(30) }}
-          >
-            <View style={styles.headerSubTitleQuestion}>
-              <Icon
-                type="foundation"
-                name="target-two"
-                color={theme.GlobalColorsApp.btnGrayPrev}
-                size={normalize(22)}
-              />
-              <Text style={styles.lblSubTitleQuestion}>
-                {t("Disagreed.textSector")}
-              </Text>
-            </View>
-            <View style={styles.emulateStyleCombo}>
-              <RNPickerSelect
-                name="sector"
-                onValueChange={(value) =>
-                  ValidateSector(idCheckList,
-                    value,
-                    "IdIncidentsSector",
-                    idCategory,
-                    idQuestion)
-                }
-                dropdownIconColor="red"
-                useNativeAndroidPickerStyle={false}
-                placeholder={{
-                  label: t("Disagreed.inputTextSector"),
-                  value: null,
-                }}
-                style={pickerStyle}
-                items={sector}
-                value={idSector && idSector}
-               
-              />
-            </View>
+        <View
+          style={{ ...styles.containerQuestion, marginBottom: normalize(30) }}
+        >
+          <View style={styles.headerSubTitleQuestion}>
+            <Icon
+              type="foundation"
+              name="target-two"
+              color={theme.GlobalColorsApp.btnGrayPrev}
+              size={normalize(22)}
+            />
+            <Text style={styles.lblSubTitleQuestion}>
+              {t("Disagreed.textSector")}
+            </Text>
           </View>
-}
-          
+          <View style={styles.emulateStyleCombo}>
+            <RNPickerSelect
+              name="sector"
+              onValueChange={(value) =>
+                ValidateSector(idCheckList,
+                  value,
+                  "IdIncidentsSector",
+                  idCategory,
+                  idQuestion)
+              }
+              dropdownIconColor="red"
+              useNativeAndroidPickerStyle={false}
+              placeholder={{
+                label: t("Disagreed.inputTextSector"),
+                value: null,
+              }}
+              style={pickerStyle}
+              items={sector}
+              value={idSector && idSector}
+            />
+          </View>
+        </View>
+      }
+
       <View style={styles.containerRiskAalysis}>
         <Switch
           value={isSwitchRiskAnalysis}

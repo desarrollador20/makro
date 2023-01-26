@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, SafeAreaView, FlatList, ScrollView } from "react-native";
+import { View, Text, SafeAreaView, FlatList, ScrollView, Alert } from "react-native";
 import normalize from "react-native-normalize";
 import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 import { Footer, HeaderPercentage, Loading, Modal } from "../../../components";
 import { ItemHome } from "../../../components/home";
 import CustomerHeader from "../../../navigation/CustomerHeader";
@@ -134,9 +135,9 @@ export function CategoryScreen(props) {
               IdIncidentsRisk: "",
               IdIncidentsRiskSeverity: "",
               IdIncidentsSector: "",
-              IdSurveysMovil: keyObj[1],
+              IdSurveysMovil: keyObj[0],
               IdSurveysMovilDetails: "", // se envia vacio
-              IdSurveysMovilQuestions: keyObj[2],
+              IdSurveysMovilQuestions: keyObj[2], // duda 
               IdSurveysMovilResponses: value,
               IsRiskAnalysis: "0",
               Observations: "",
@@ -179,7 +180,6 @@ export function CategoryScreen(props) {
               value.SurveysMovilDetailsQuestionsPhotos = data_formate_image;
             }
           });
-
         }
       });
 
@@ -231,7 +231,6 @@ export function CategoryScreen(props) {
       }
 
       dataSendJSON.SurveysMovilDetailsClassificationUsers = data_clasification_user;
-      //console.log(JSON.stringify(dataSendJSON));
 
       async function postData(url = '', data = {}) {
         // Default options are marked with *
@@ -252,25 +251,57 @@ export function CategoryScreen(props) {
       }
 
       postData(apis.GlobalApis.url_save, dataSendJSON)
-        .then((data) => {
-          console.log('dentrooooo ', data); // JSON data parsed by `data.json()` call
+        .then(async (data) => {
+          if (data === true) {
+            console.log(data); // JSON data parsed by `data.json()` call
+            await storageResult.removeItemValue("@SessionResponse");
+            await storageResult.removeItemValue("@SessionResponseImages");
+            await storageResult.removeItemValue("@SessionResponsibleList");
+            await storageResult.removeItemValue("@IdCheklistNotProcessed");
+            //await storageResult.removeItemValue("@SessionIdStore");
+            //await storageResult.removeItemValue("@SessionIdCountry");
+            //await storageResult.removeItemValue("@Session");
+            setShowModal((prevState) => !prevState);
+            navigation.navigate(screen.inspectionCompleted.tab, {
+              screen: screen.inspectionCompleted.inspectionCompleted,
+            });
+          } else {
+            checkedWon(route.params.idCheckList);
+          }
         }).catch(function (err) {
           console.log("Error de conexión " + err);
         });
-
-      if (1 !== 1) {
-        // le dio guardar y no tenia internet
-      }
     }
-
-    // console.log(JSON.stringify(objDataSend, null, 3));
-    return;
-
-    setShowModal((prevState) => !prevState);
-    navigation.navigate(screen.inspectionCompleted.tab, {
-      screen: screen.inspectionCompleted.inspectionCompleted,
-    });
   };
+
+  const checkedWon = async (idChecklist) => {
+    // await storageResult.removeItemValue("@IdCheklistNotProcessed");
+    const DatosOffline = await storageResult.getDataFormat('@IdCheklistNotProcessed');
+    if (DatosOffline && DatosOffline !== null) {
+      const withoutDuplicate = [...DatosOffline, idChecklist];
+      const unicos = withoutDuplicate.filter((valor, indice) => {
+        return withoutDuplicate.indexOf(valor) === indice;
+      }
+      );
+      await storageResult.setIdCheklistSentNotProcessed(unicos);
+    } else {
+      await storageResult.setIdCheklistSentNotProcessed([idChecklist]);
+    }
+    Alert.alert(
+      "Alerta",
+      t("Category.textNoSend"),
+      [
+        {
+          text: t("Global.flag") == "pt" ? "Está bem." : "Está bien.",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+
+      ]
+    );
+
+
+  }
 
   const RenderItem = ({ item, language }) => {
     const labelQuestion = language == "pt" ? "perguntas" : "preguntas";

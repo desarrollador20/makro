@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Button, Icon } from "react-native-elements";
 import normalize from "react-native-normalize";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { Footer } from "../../../components";
 import CustomerHeader from "../../../navigation/CustomerHeader";
 import RNPickerSelect from "react-native-picker-select";
@@ -54,9 +54,12 @@ export function DetectLocationScreen() {
     },
   };
 
-  useEffect(() => {
-    loeaderList();
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loeaderList();
+    }, [])
+  );
 
   const loeaderList = async () => {
     const DatosStorage = await storageResult.getDataFormat("@Session");
@@ -91,43 +94,44 @@ export function DetectLocationScreen() {
 
     const arrayValueStora = [];
 
-    console.log(value);
-    Object.entries(DatosStorage["dataRequestListStora"]["data"]).forEach(
-      ([key1, value1]) => {
-        const item = {
-          label: t("Global.flag") == "es" ? value1.name : value1.namePortuguese,
-          value: value1.id.toString(),
-        };
-        if (value1.idIndicatorsCountry == value) {
-          arrayValueStora.push(item);
+    if (DatosStorage && DatosStorage !== null) {
+      Object.entries(DatosStorage["dataRequestListStora"]["data"]).forEach(
+        ([key1, value1]) => {
+          const item = {
+            label: t("Global.flag") == "es" ? value1.name : value1.namePortuguese,
+            value: value1.id.toString(),
+          };
+          if (value1.idIndicatorsCountry == value) {
+            arrayValueStora.push(item);
+          }
         }
-      }
-    );
-    setDataStora(arrayValueStora);
-  };
+      );
+      setDataStora(arrayValueStora);
+    };
+  }
 
   const saveData = () => {
-console.log("id c: ", itemValueCountry , "id T: ", itemValueStore);
-    if(itemValueCountry == undefined || itemValueStore == undefined){
-        Alert.alert(
-            "Alerta",
-            t("Global.flag")  == "pt" ? "Os campos país e loja são obrigatórios." : "Los campos de país y tienda son obligatorios.",
-            [
-              {
-                text:  t("Global.flag")  == "pt" ? "Está bem." : "Está bien.",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel",
-              },
-              
-            ]
-          );
+    console.log("id c: ", itemValueCountry, "id T: ", itemValueStore);
+    if (itemValueCountry == undefined || itemValueStore == undefined) {
+      Alert.alert(
+        "Alerta",
+        t("Global.flag") == "pt" ? "Os campos país e loja são obrigatórios." : "Los campos de país y tienda son obligatorios.",
+        [
+          {
+            text: t("Global.flag") == "pt" ? "Está bem." : "Está bien.",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+
+        ]
+      );
     }
-    else{
-    navigation.navigate(screen.home.tab, { screen: screen.home.home })
+    else {
+      navigation.navigate(screen.home.tab, { screen: screen.home.home })
 
 
     }
-    
+
 
   }
 
@@ -226,7 +230,7 @@ console.log("id c: ", itemValueCountry , "id T: ", itemValueStore);
             buttonStyle={styles.startInspection}
             titleStyle={styles.fontCustom}
             onPress={() =>
-               saveData()
+              saveData()
             }
           />
         </View>
