@@ -92,7 +92,7 @@ export function ItemHome(props) {
                 </View>
                 <View style={styles.containerArrow}>
 
-                    <Icon type="ionicon" name={statusCategory ? "arrow-forward-circle-outline":"timer-outline"} color="red" size={normalize(30)} />
+                    <Icon type="ionicon" name={statusCategory = false ? "arrow-forward-circle-outline":"hourglass-outline"} color={colorData.current} size={normalize(30)} />
 
 
                 </View>
