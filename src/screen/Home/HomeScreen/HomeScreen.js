@@ -49,21 +49,6 @@ export function HomeScreen() {
     />);
   };
 
-  const addStorage = async (data) => {
-
-    var numR = Math.floor(Math.random() * 6);
-    setDataChecNoSent([...dataChecNoSent, numR])
-    console.log(numR);
-
-
-    await storageResult.setIdCheklistSentNotProcessed([...dataChecNoSent, numR]);
-    const DatosOffline = await storageResult.getDataFormat('@IdCheklistNotProcessed');
-
-
-    console.log("salid aluego de guardar: ", DatosOffline);
-
-  }
-
   if (!dataCheckList) {
     return (<Loading show />);
   }
@@ -87,13 +72,6 @@ export function HomeScreen() {
           />
 
         </View>
-
-        <TouchableOpacity
-
-          onPress={() => addStorage(dataChecNoSent)}
-        >
-          <Text>Agregar lista mapa</Text>
-        </TouchableOpacity>
         <Footer />
       </SafeAreaView>
     </>

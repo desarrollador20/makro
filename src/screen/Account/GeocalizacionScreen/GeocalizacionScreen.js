@@ -24,7 +24,7 @@ export function GeocalizacionScreen() {
 
   const goDetectLocation = () => {
     setShowModal((prevState) => !prevState)
-    navigation.navigate(screen.account.tab, { screen: screen.account.detectLocation })
+    navigation.navigate(screen.detectLocation.tab, { screen: screen.detectLocation.home })
   }
 
 
@@ -105,7 +105,7 @@ export function GeocalizacionScreen() {
                 titleStyle={styles.fontCustom}
                 containerStyle={stylesGlobal.btnContainer}
                 buttonStyle={{ ...stylesGlobal.btn, backgroundColor: theme.GlobalColorsApp.btnRed }}
-                onPress={() => navigation.navigate(screen.account.tab, { screen: screen.account.detectLocation })}
+                onPress={() => navigation.navigate(screen.detectLocation.tab, { screen: screen.detectLocation.home })}
               />
             </View>
           </View>

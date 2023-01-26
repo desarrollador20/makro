@@ -10,6 +10,7 @@ import { QuestionStack } from "./QuestionStack";
 import { ResponsibleListStack } from "./ResponsibleListStack";
 import { RecoveryPasswordStack } from "./RecoveryPasswordStack";
 import { View, Text } from "react-native";
+import { DetectLacationStack } from "./DetectLocationStack";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,7 +41,7 @@ export function AppNavigation() {
     <Stack.Navigator
       initialRouteName={
         session != 'NA' && session !== undefined
-          ? screen.home.tab
+          ? screen.detectLocation.tab
           : screen.account.tab
       }
       screenOptions={({ route }) => ({
@@ -51,6 +52,10 @@ export function AppNavigation() {
       <Stack.Screen
         name={screen.account.tab}
         component={AccountStack}
+      />
+      <Stack.Screen
+        name={screen.detectLocation.tab}
+        component={DetectLacationStack}
       />
       <Stack.Screen
         name={screen.home.tab}

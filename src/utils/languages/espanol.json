@@ -47,7 +47,8 @@
     "Category": {
       "title": "Seleccione una categoria",
       "btnEnd": "Finalizar inspección",
-      "textModal": "Confirme que desea enviar la inspección."
+      "textModal": "Confirme que desea enviar la inspección.",
+      "textNoSend": "Error no se pudo guardar la data."
     },
     "PreviousInspection": {
       "showPreIns": "Ver inspección anterior",

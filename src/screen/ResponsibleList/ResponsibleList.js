@@ -130,16 +130,12 @@ export function ResponsibleList(props) {
     }
 
   };
+
   const deleteItemList = async (value, idC, idVH) => {
-    console.log("VIEJA LISTA", listResponsible.length);
-    console.log("key: ", value, "value: ", route.params.id, listResponsible);
-
     const newListResponsible = [];
-
     listResponsible.map((item) => {
       console.log(item.idVC);
       if (item.idVC != idVH) {
-
         const objData = {
           "label": item.label,
           "value": item.value,
@@ -148,10 +144,6 @@ export function ResponsibleList(props) {
           "idVC": item.idVC
         };
         newListResponsible.push(objData);
-      }
-      else {
-        console.log(item.idVC, " este se elimina");
-
       }
     });
 
