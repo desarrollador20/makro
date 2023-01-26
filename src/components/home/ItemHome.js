@@ -13,7 +13,7 @@ import { styles } from './ItemHome.style';
 export function ItemHome(props) {
 
     const navigation = useNavigation();
-    const { id, title, num_questions, color = '#666666', backgroundColor = '#3333330D', module, idCheckList = '', dataChecNoSent = [3, 5] } = props;
+    const { id, title, num_questions, color = '#666666', backgroundColor = '#3333330D', module, idCheckList = '', dataChecNoSent = [] } = props;
 
     const [completedData, setCompletedData] = useState(false);
     const [disagreedData, setDisagreedData] = useState(0);
