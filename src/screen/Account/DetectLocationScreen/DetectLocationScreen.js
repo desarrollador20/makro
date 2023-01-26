@@ -4,10 +4,10 @@ import {
   Text,
   SafeAreaView,
   Keyboard,
-  TouchableWithoutFeedback,
-  Alert
+  TouchableWithoutFeedback
 } from "react-native";
 import { Button, Icon } from "react-native-elements";
+import Toast from "react-native-toast-message";
 import normalize from "react-native-normalize";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { Footer } from "../../../components";
@@ -111,20 +111,15 @@ export function DetectLocationScreen() {
   }
 
   const saveData = () => {
-    console.log("id c: ", itemValueCountry, "id T: ", itemValueStore);
     if (itemValueCountry == undefined || itemValueStore == undefined) {
-      Alert.alert(
-        "Alerta",
-        t("Global.flag") == "pt" ? "Os campos país e loja são obrigatórios." : "Los campos de país y tienda son obligatorios.",
-        [
-          {
-            text: t("Global.flag") == "pt" ? "Está bem." : "Está bien.",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-
-        ]
-      );
+  
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "Aviso",
+        text2:  t("Global.flag") == "pt" ? "Os campos país e loja são obrigatórios." : "Los campos de país y tienda son obligatorios.",
+        
+      });
     }
     else {
       navigation.navigate(screen.home.tab, { screen: screen.home.home })
