@@ -48,6 +48,7 @@
       "title": "Selecione uma categoria",
       "btnEnd": "Finalizar a inspeção",
       "textModal": "Por favor, confirme que deseja enviar a inspeção.",
+      "btnModal": "Enviar",
       "textNoSend": "O erro não pôde salvar os dados"
     },
     "PreviousInspection": {
