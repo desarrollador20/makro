@@ -15,6 +15,7 @@ export function CategoryScreen(props) {
   const { route } = props;
   const navigation = useNavigation();
   const [dataCategoriesCheckList, setDataCategoriesCheckList] = useState(false);
+  const [downloadingData, setDownloadingData] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [completedChecklist, setCompletedChecklist] = useState(false);
   const [renderComponent, setRenderComponent] = useState(null);
@@ -43,7 +44,7 @@ export function CategoryScreen(props) {
       <View style={styles.containerModal}>
         <Text style={styles.textModal}>{t("Category.textModal")}</Text>
         <Button
-          title="Enviar"
+          title={t("Category.btnModal")}
           containerStyle={stylesGlobal.btnContainer}
           titleStyle={styles.fontCustom}
           buttonStyle={{
@@ -95,14 +96,17 @@ export function CategoryScreen(props) {
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
 
   const finishInspection = () => {
+    setDownloadingData(true);
     setShowModal((prevState) => !prevState);
   };
 
   const finishInspectionAction = async () => {
+    setShowModal(false);
+
+   
     const StorageResponse = await storageResult.getDataFormat("@SessionResponse");
     const StorageResponseImages = await storageResult.getDataFormat("@SessionResponseImages");
     const StorageResponseListResponsible = await storageResult.getDataFormat("@SessionResponsibleList");
-
     let objDataSend = {};
     let objDataSendCategory = {};
     let idQuestions = new Array();
@@ -172,6 +176,7 @@ export function CategoryScreen(props) {
           Object.entries(StorageResponseImages).forEach(([keyImg, valueImg]) => {
             const keyObjImg = keyImg?.split("|");
             if (keyObjImg[2] == value.IdSurveysMovilQuestions) {
+              console.log("imagen: "+ keyObjImg[3]);
               data_formate_image.push({
                 FileBinary: valueImg, // valueImg
                 FileName: keyObjImg[3],
@@ -252,6 +257,8 @@ export function CategoryScreen(props) {
 
       postData(apis.GlobalApis.url_save, dataSendJSON)
         .then(async (data) => {
+          setDownloadingData(false);
+
           if (data === true) {
             console.log(data); // JSON data parsed by `data.json()` call
             await storageResult.removeItemValue("@SessionResponse");
@@ -270,6 +277,8 @@ export function CategoryScreen(props) {
           }
         }).catch(function (err) {
           console.log("Error de conexión " + err);
+          setDownloadingData(false);
+
         });
     }
   };
@@ -287,6 +296,8 @@ export function CategoryScreen(props) {
     } else {
       await storageResult.setIdCheklistSentNotProcessed([idChecklist]);
     }
+  
+
     Alert.alert(
       "Alerta",
       t("Category.textNoSend"),
@@ -344,6 +355,7 @@ export function CategoryScreen(props) {
             ListFooterComponent={
               <Button
                 disabled={completedChecklist ? false : true}
+                loading={downloadingData}
                 title={t("Category.btnEnd")}
                 titleStyle={styles.fontCustom}
                 containerStyle={stylesGlobal.btnContainer}
@@ -356,6 +368,7 @@ export function CategoryScreen(props) {
                     : "#F2F2F2",
                 }}
                 onPress={() => finishInspection()}
+                
               />
             }
           />
