@@ -96,12 +96,12 @@ export function CategoryScreen(props) {
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
 
   const finishInspection = () => {
-    setDownloadingData(true);
     setShowModal((prevState) => !prevState);
   };
 
   const finishInspectionAction = async () => {
     setShowModal(false);
+    setDownloadingData(true);
 
    
     const StorageResponse = await storageResult.getDataFormat("@SessionResponse");
