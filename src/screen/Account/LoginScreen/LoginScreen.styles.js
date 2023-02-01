@@ -46,6 +46,10 @@ export const styles = StyleSheet.create({
   lblSubTitleLink: {
     fontFamily: 'kodchasan-extraLight',
     color: theme.GlobalColorsApp.lblRedTertiary,
+   
+    fontSize: RFPercentage(2.5),
+    marginBottom: normalize(-6, 'height'),
+
   },
 
   content: {

@@ -258,6 +258,7 @@ export function CategoryScreen(props) {
       postData(apis.GlobalApis.url_save, dataSendJSON)
         .then(async (data) => {
           setDownloadingData(false);
+          setShowModal(false);
 
           if (data === true) {
             console.log(data); // JSON data parsed by `data.json()` call
@@ -268,7 +269,6 @@ export function CategoryScreen(props) {
             //await storageResult.removeItemValue("@SessionIdStore");
             //await storageResult.removeItemValue("@SessionIdCountry");
             //await storageResult.removeItemValue("@Session");
-            setShowModal((prevState) => !prevState);
             navigation.navigate(screen.inspectionCompleted.tab, {
               screen: screen.inspectionCompleted.inspectionCompleted,
             });

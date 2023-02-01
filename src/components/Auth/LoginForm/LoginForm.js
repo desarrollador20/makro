@@ -329,12 +329,13 @@ export function LoginForm() {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate(screen.recoveryPassword.tab, {
-            screen: screen.recoveryPassword.emailRecovery,
+            screen: screen.recoveryPassword.nickRecovery,
           })
         }
       >
         <Text style={styles.lblSubTitleTwo}>{t("Home.lblSubTitleTwo")} </Text>
       </TouchableOpacity>
+
       <Button
         title={t("Home.btnLogin")}
         containerStyle={stylesGlobal.btnContainer}

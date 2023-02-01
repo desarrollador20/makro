@@ -11,6 +11,8 @@ const GlobalContainerApis = {
     url_save: "https://demo.pulsecloud.app:44372/api/Surveys/InsertSurveysMovilDetails",
     url_get_surveys_movil_details_questions_last: "https://demo.pulsecloud.app:44372/api/Surveys/GetSurveysMovilDetailsQuestionsLast",
     url_get_incidents_sector: "https://demo.pulsecloud.app:44372/api/Surveys/GetIncidentsSector",
+    url_get_remenber_password: "https://demo.pulsecloud.app:44372/api/Surveys/GetRememberPassword",
+    url_get_surveys_movil_users_validate: "https://demo.pulsecloud.app:44372/api/Surveys/GetSurveysMovilUsersValidate",
 };
 
 

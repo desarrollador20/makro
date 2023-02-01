@@ -1,16 +1,20 @@
 import React, { useCallback } from "react";
-import { View, ScrollView, SafeAreaView } from "react-native";
+import { View, ScrollView, SafeAreaView, TouchableOpacity } from "react-native";
 import { Text, Image } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { stylesGlobal, storageResult, theme, lng } from "../../../utils";
+import { stylesGlobal, storageResult, theme, lng, screen } from "../../../utils";
 import { styles } from "./LoginScreen.styles";
 import { LoginForm } from "../../../components/Auth";
 import SwitchSelector from "react-native-switch-selector";
 import { useFocusEffect } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+
 
 export function LoginScreen() {
   const [valueRadio, setValueRadio] = React.useState("pt");
   const { t, i18n } = lng.useTranslation();
+  const navigation = useNavigation();
+
 
   useFocusEffect(
     useCallback(() => {
@@ -61,9 +65,19 @@ export function LoginScreen() {
             <Text style={styles.lblTitle}>{t("Home.title")}</Text>
             <Text style={styles.lblSubTitle}>
               {t("Home.subTitle")}{" "}
-              <Text style={styles.lblSubTitleLink}>
-                {t("Home.subTitleAct")}
+
+              <TouchableOpacity
+        onPress={() =>
+          navigation.navigate(screen.recoveryPassword.tab, {
+            screen: screen.recoveryPassword.emailRecovery,
+          })
+        }
+      >
+        <Text style={styles.lblSubTitleLink}>
+                {t("Home.subTitleAct")} 
               </Text>
+      </TouchableOpacity>
+              
             </Text>
             <LoginForm />
 

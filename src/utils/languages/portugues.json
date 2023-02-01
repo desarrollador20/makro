@@ -117,6 +117,10 @@
       "textNoConfirm": "O sistema não encontrou um usuário ativo para o e-mail registrado. Enviaremos um e-mail solicitando acesso ao administrador do sistema. Sugerimos que você entre em contato com a equipe do grupo makro HSE para confirmar sua ativação de acesso.",
       "btnConfirmHome": "Voltar ao início",
       "textConfirm2": "Esqueça minha senha"
+    },
+    "InspeccionComplete":{
+      "title": "A inspeção foi enviada de forma satisfatória",
+      "back": "Saia"
     }
   }
 }
