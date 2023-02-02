@@ -5,14 +5,18 @@ import Toast from "react-native-toast-message";
 import normalize from "react-native-normalize";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
-import { screen, stylesGlobal, theme, lng } from "../../../utils";
+import { screen, stylesGlobal, theme, lng, apis } from "../../../utils";
 import { styles } from "./EmailRecoveryScreen.styles";
+import axios from "axios";
+
 
 
 export function EmailRecoveryScreen() {
   const navigation = useNavigation();
   const { t } = lng.useTranslation();
   const [inputEmail, setInputEmail] = useState("");
+  const [downloadingData, setDownloadingData] = useState(false);
+
   const emailRegex =
     /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
   const {
@@ -25,6 +29,8 @@ export function EmailRecoveryScreen() {
     },
   });
   const onSubmit = (data) => {
+    setDownloadingData(true);
+
     if (!emailRegex.test(inputEmail) && inputEmail) {
       Toast.show({
         type: "error",
@@ -32,6 +38,8 @@ export function EmailRecoveryScreen() {
         text1: "Aviso",
         text2: t("EmailRecovery.alertNoEmailValide"),
       });
+    setDownloadingData(false);
+
     } else if (!inputEmail) {
       Toast.show({
         type: "error",
@@ -39,19 +47,42 @@ export function EmailRecoveryScreen() {
         text1: "Aviso",
         text2: t("EmailRecovery.alertNoEmail"),
       });
+    setDownloadingData(false);
+
       return false;
     } else {
-      if (inputEmail == "correo@gmail.com") {
+      getDataEmail();
+    }
+  };
+
+
+  const getDataEmail = async () => {
+
+
+    axios({
+      method: "post",
+      url: apis.GlobalApis.url_get_surveys_movil_users_validate+"?userEmail="+inputEmail,
+    }).then(async (response) => {
+      const data = response.data;
+     setDownloadingData(false);
+      
+
+      if (data) {
+  
         navigation.navigate(screen.recoveryPassword.tab, {
           screen: screen.recoveryPassword.confirmRecovery,
         });
-      } else {
-        navigation.navigate(screen.recoveryPassword.tab, {
-          screen: screen.recoveryPassword.noConfirm,
-        });
-      }
-    }
-  };
+
+      } 
+
+    }).catch((error) => {
+      navigation.navigate(screen.recoveryPassword.tab, {
+        screen: screen.recoveryPassword.noConfirm,
+      });
+    }).finally(() => {
+
+    });
+  }
 
   const onChange = (event) => {
     setInputEmail(event.target.value);
@@ -98,6 +129,8 @@ export function EmailRecoveryScreen() {
                 backgroundColor: theme.GlobalColorsApp.lblGrayPrimary,
               }}
               onPress={handleSubmit(onSubmit)}
+              disabled={downloadingData}
+              loading={downloadingData}
             />
           </View>
 

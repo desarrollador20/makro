@@ -15,6 +15,8 @@ export function NickRecoveryScreen() {
   const navigation = useNavigation();
   const { t } = lng.useTranslation();
   const [inputEmail, setInputEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(""); 
+  const [downloadingData, setDownloadingData] = useState(false);
   const emailRegex =
     /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
   const {
@@ -26,50 +28,65 @@ export function NickRecoveryScreen() {
       userName: "",
     },
   });
-  const onSubmit = async (data) => {
-
-    axios({
-      method: "get",
-      url: apis.GlobalApis.url_get_remenber_password+"?userName=jay&sendEmail=true",
-    }).then(async (response) => {
-      const data = response;
-      console.log(data.data);
-
-    }).catch((error) => {
-      console.log("Error en peticion: " + error);
-    }).finally(() => {
-
-    });
-
-    return false;
-    if (!emailRegex.test(inputEmail) && inputEmail) {
+  const onSubmit = (data) => {
+    setDownloadingData(true);
+    
+    if (!inputEmail) {
       Toast.show({
         type: "error",
         position: "bottom",
         text1: "Aviso",
-        text2: t("EmailRecovery.alertNoEmailValide"),
+        text2: "Digite el nombre de usuario",
+
       });
-    } else if (!inputEmail) {
-      Toast.show({
-        type: "error",
-        position: "bottom",
-        text1: "Aviso",
-        text2: t("EmailRecovery.alertNoEmail"),
-      });
+     setDownloadingData(false);
+
       return false;
     } else {
-      if (inputEmail == "correo@gmail.com") {
-        navigation.navigate(screen.recoveryPassword.tab, {
-          screen: screen.recoveryPassword.confirmRecovery,
-        });
+      getDataEmail();
+    }
+  };
+  const getDataEmail = async () => {
+ 
+    axios({
+      method: "get",
+      url: apis.GlobalApis.url_get_remenber_password+"?userName="+inputEmail+"&sendEmail=true",
+    }).then(async (response) => {
+      const data = response.data;
+     setDownloadingData(false);
+      
+
+      if (data.password) {
+  
+      setShowPassword(data.password)
+
       } else {
+        Toast.show({
+          type: "error",
+          position: "bottom",
+          text1: "Aviso",
+          text2: "Usuario no encontrado.",
+  
+        });
         navigation.navigate(screen.recoveryPassword.tab, {
           screen: screen.recoveryPassword.noConfirm,
         });
       }
-    }
-  };
 
+    }).catch((error) => {
+      console.log("Error en peticion: " + error);
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "Aviso",
+        text2: "Usuario no encontrado.",
+
+      });
+      setShowPassword("");
+    }).finally(() => {
+
+    });
+  }
   const onChange = (event) => {
     setInputEmail(event.target.value);
     console.log(event.target.value);
@@ -87,7 +104,7 @@ export function NickRecoveryScreen() {
 
           <View style={styles.containerValidationError}>
             <Input
-              placeholder="E-mail"
+              placeholder="Usuario"
               style={styles.fontCustom}
               inputContainerStyle={styles.input}
               textStyle={styles.lblTitleRadio}
@@ -97,7 +114,7 @@ export function NickRecoveryScreen() {
                 <Icon
                   type="ionicon"
                   size={normalize(30)}
-                  name="ios-mail"
+                  name="person-circle-outline"
                   iconStyle={styles.icon}
                   color="#EA0100"
                 />
@@ -117,9 +134,16 @@ export function NickRecoveryScreen() {
                 backgroundColor: theme.GlobalColorsApp.lblGrayPrimary,
               }}
               onPress={handleSubmit(onSubmit)}
+              disabled={downloadingData}
+              loading={downloadingData}
             />
           </View>
+          
+          <View>
+          <Text style={{textAlign:"center"}}>{showPassword}</Text>
 
+          </View>
+          
           <View style={styles.containerLogo}>
             <Image
               source={require("../../../../assets/img/logoPulse.png")}
