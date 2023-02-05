@@ -27,10 +27,14 @@ export function LoginScreen() {
     { label: t("Home.langEs"), value: "es" },
   ];
 
-  const loaderInitchangeLanguageCustom = () => {
+  const loaderInitchangeLanguageCustom = async () => {
+    const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
+    if(!DataLenguage){
+      console.log("indefinido");
     i18n.changeLanguage("pt");
     storageResult.setItemValueLanguage("pt");
     setValueRadio("pt");
+    }
   };
 
   return (

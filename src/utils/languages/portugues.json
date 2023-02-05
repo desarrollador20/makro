@@ -121,6 +121,13 @@
     "InspeccionComplete":{
       "title": "A inspeção foi enviada de forma satisfatória",
       "back": "Saia"
+    },
+    "NickRecovery":{
+      "textNick": "Valide seu e-mail",
+      "textUser": "Usuário não encontrado",
+      "textPass": "A senha será enviada para o e-mail cadastrado",
+      "textNameUserInput": "Entre com seu nome de usuário"
+
     }
   }
 }

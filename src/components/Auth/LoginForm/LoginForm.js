@@ -284,7 +284,7 @@ export function LoginForm() {
               }
             />
             {error && (
-              <Text style={styles.lblValidationError}>{error.message}</Text>
+              <Text style={styles.lblValidationError}>{t("Home.requiredUser")}</Text>
             )}
           </View>
         )}
@@ -320,7 +320,7 @@ export function LoginForm() {
               }
             />
             {error && (
-              <Text style={styles.lblValidationError}>{error.message}</Text>
+              <Text style={styles.lblValidationError}>{t("Home.requiredPass")}</Text>
             )}
           </View>
         )}

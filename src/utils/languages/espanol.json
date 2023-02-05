@@ -120,6 +120,13 @@
       "title": "La inspección se envío satisfactoriamente",
       "back": "Salir"
 
+    },
+    "NickRecovery":{
+      "textNick": "Valide su correo electrónico",
+      "textUser": "Usuario no encontrado",
+      "textPass": "La contraseña será enviada a su correo registrado",
+      "textNameUserInput": "Ingrese su nombre de usuario"
+
     }
 
   }

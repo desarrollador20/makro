@@ -21,7 +21,7 @@ export function Footer() {
   const closeSessionOk = async () => {
     await storageResult.removeItemValue("@SessionResponse");
     await storageResult.removeItemValue("@SessionResponseImages");
-    await storageResult.removeItemValue("@SessionLanguage");
+   // await storageResult.removeItemValue("@SessionLanguage");
     await storageResult.removeItemValue("@SessionIdStore");
     await storageResult.removeItemValue("@SessionIdCountry");
     await storageResult.removeItemValue("@SessionResponsibleList");
@@ -30,15 +30,15 @@ export function Footer() {
     await storageResult.removeItemValue("@userName");
     await storageResult.removeItemValue("@IdCheklistNotProcessed");
 
-    const valorLenguage = await storageResult.getDataFormat("@SessionLanguage");
+    const session = await storageResult.getDataFormat("@Session");
     //console.log(DataLenguage2);
-    if (!valorLenguage) {
+    if (!session) {
       navigation.navigate(screen.account.tab, {
         screen: screen.account.login,
       });
     }
     else {
-      console.log(valorLenguage);
+      console.log(session);
     }
 
   };

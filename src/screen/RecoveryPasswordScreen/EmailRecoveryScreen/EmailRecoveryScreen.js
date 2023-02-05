@@ -60,14 +60,15 @@ export function EmailRecoveryScreen() {
 
 
     axios({
-      method: "post",
+      method: "get",
+      
       url: apis.GlobalApis.url_get_surveys_movil_users_validate+"?userEmail="+inputEmail,
     }).then(async (response) => {
       const data = response.data;
      setDownloadingData(false);
-      
-
+    
       if (data) {
+        console.log(data.name);
   
         navigation.navigate(screen.recoveryPassword.tab, {
           screen: screen.recoveryPassword.confirmRecovery,
@@ -76,6 +77,7 @@ export function EmailRecoveryScreen() {
       } 
 
     }).catch((error) => {
+     setDownloadingData(false);
       navigation.navigate(screen.recoveryPassword.tab, {
         screen: screen.recoveryPassword.noConfirm,
       });
@@ -86,7 +88,6 @@ export function EmailRecoveryScreen() {
 
   const onChange = (event) => {
     setInputEmail(event.target.value);
-    console.log(event.target.value);
   };
 
   return (

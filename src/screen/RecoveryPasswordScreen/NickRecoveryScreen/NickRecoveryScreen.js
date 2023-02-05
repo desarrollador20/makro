@@ -15,7 +15,6 @@ export function NickRecoveryScreen() {
   const navigation = useNavigation();
   const { t } = lng.useTranslation();
   const [inputEmail, setInputEmail] = useState("");
-  const [showPassword, setShowPassword] = useState(""); 
   const [downloadingData, setDownloadingData] = useState(false);
   const emailRegex =
     /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
@@ -36,7 +35,8 @@ export function NickRecoveryScreen() {
         type: "error",
         position: "bottom",
         text1: "Aviso",
-        text2: "Digite el nombre de usuario",
+        text2: t("NickRecovery.textNameUserInput"),
+
 
       });
      setDownloadingData(false);
@@ -56,16 +56,26 @@ export function NickRecoveryScreen() {
      setDownloadingData(false);
       
 
-      if (data.password) {
+      if (data) {
+        Toast.show({
+          type: "success",
+          position: "bottom",
+          text1: "Aviso",
+          text2: t("NickRecovery.textNick"),
   
-      setShowPassword(data.password)
+        });
+        navigation.navigate(screen.account.tab, {
+          screen: screen.account.login,
+        });
+      
+  
 
       } else {
         Toast.show({
           type: "error",
           position: "bottom",
           text1: "Aviso",
-          text2: "Usuario no encontrado.",
+          text2: t("NickRecovery.textUser"),
   
         });
         navigation.navigate(screen.recoveryPassword.tab, {
@@ -74,15 +84,13 @@ export function NickRecoveryScreen() {
       }
 
     }).catch((error) => {
-      console.log("Error en peticion: " + error);
       Toast.show({
         type: "error",
         position: "bottom",
         text1: "Aviso",
-        text2: "Usuario no encontrado.",
+          text2: t("NickRecovery.textUser"),
 
       });
-      setShowPassword("");
     }).finally(() => {
 
     });
@@ -100,11 +108,11 @@ export function NickRecoveryScreen() {
             source={require("../../../../assets/img/login_logo.png")}
             style={styles.image}
           />
-          <Text style={styles.lblTitle}>Ingrese su nombre de usuario</Text>
+          <Text style={styles.lblTitle}>{t("NickRecovery.textNameUserInput")}</Text>
 
           <View style={styles.containerValidationError}>
             <Input
-              placeholder="Usuario"
+              placeholder={t("Home.inputUser")}
               style={styles.fontCustom}
               inputContainerStyle={styles.input}
               textStyle={styles.lblTitleRadio}
@@ -120,8 +128,10 @@ export function NickRecoveryScreen() {
                 />
               }
             />
+
+          <Text style={{...styles.lblTitle2, "marginBottom": 10}}>{t("NickRecovery.textPass")}</Text>
+
           </View>
-          <Text style={styles.lblTitle2}>La contraseña será enviada a su correo registrado</Text>
 
 
           <View style={styles.containerSelector}>
@@ -140,7 +150,6 @@ export function NickRecoveryScreen() {
           </View>
           
           <View>
-          <Text style={{textAlign:"center"}}>{showPassword}</Text>
 
           </View>
           
