@@ -29,11 +29,11 @@ export function LoginScreen() {
 
   const loaderInitchangeLanguageCustom = async () => {
     const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
-    if(!DataLenguage){
+    if (!DataLenguage) {
       console.log("indefinido");
-    i18n.changeLanguage("pt");
-    storageResult.setItemValueLanguage("pt");
-    setValueRadio("pt");
+      i18n.changeLanguage("pt");
+      storageResult.setItemValueLanguage("pt");
+      setValueRadio("pt");
     }
   };
 
@@ -68,20 +68,19 @@ export function LoginScreen() {
           <View style={styles.content}>
             <Text style={styles.lblTitle}>{t("Home.title")}</Text>
             <Text style={styles.lblSubTitle}>
-              {t("Home.subTitle")}{" "}
-
+              {t("Home.subTitle")}
               <TouchableOpacity
-        onPress={() =>
-          navigation.navigate(screen.recoveryPassword.tab, {
-            screen: screen.recoveryPassword.emailRecovery,
-          })
-        }
-      >
-        <Text style={styles.lblSubTitleLink}>
-                {t("Home.subTitleAct")} 
-              </Text>
-      </TouchableOpacity>
-              
+                onPress={() =>
+                  navigation.navigate(screen.recoveryPassword.tab, {
+                    screen: screen.recoveryPassword.emailRecovery,
+                  })
+                }
+              >
+                <Text style={styles.lblSubTitleLink}>
+                  {t("Home.subTitleAct")}
+                </Text>
+              </TouchableOpacity>
+
             </Text>
             <LoginForm />
 

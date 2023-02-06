@@ -103,7 +103,7 @@ export function CategoryScreen(props) {
     setShowModal(false);
     setDownloadingData(true);
 
-   
+
     const StorageResponse = await storageResult.getDataFormat("@SessionResponse");
     const StorageResponseImages = await storageResult.getDataFormat("@SessionResponseImages");
     const StorageResponseListResponsible = await storageResult.getDataFormat("@SessionResponsibleList");
@@ -148,6 +148,7 @@ export function CategoryScreen(props) {
               ObservationsProposed: "",
               SurveysMovilDetailsQuestionsPhotos: [{
                 FileBinary: "",
+                FileBase64: "",
                 FileName: "",
                 FileType: "",
               }]
@@ -176,9 +177,9 @@ export function CategoryScreen(props) {
           Object.entries(StorageResponseImages).forEach(([keyImg, valueImg]) => {
             const keyObjImg = keyImg?.split("|");
             if (keyObjImg[2] == value.IdSurveysMovilQuestions) {
-              console.log("imagen: "+ keyObjImg[3]);
               data_formate_image.push({
-                FileBinary: valueImg, // valueImg
+                FileBinary: '',
+                FileBase64: valueImg,
                 FileName: keyObjImg[3],
                 FileType: "image/" + "" + keyObjImg[3]?.split(".")[keyObjImg[3]?.split(".").length - 1],
               });
@@ -296,7 +297,7 @@ export function CategoryScreen(props) {
     } else {
       await storageResult.setIdCheklistSentNotProcessed([idChecklist]);
     }
-  
+
 
     Alert.alert(
       "Alerta",
@@ -368,7 +369,7 @@ export function CategoryScreen(props) {
                     : "#F2F2F2",
                 }}
                 onPress={() => finishInspection()}
-                
+
               />
             }
           />
