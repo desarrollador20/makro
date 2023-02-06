@@ -45,13 +45,14 @@ const recoveryPasswordStack = {
   tab: "RecoveryPasswordTab",
   confirmRecovery: 'ConfirmRecovery',
   noConfirm: 'NoConfirm',
-  emailRecovery: "EmailRecovery"
+  emailRecovery: "EmailRecovery",
+  nickRecovery: "NickRecovery"
 }
 
 
 
 export const screen = {
-  account: accountStack,
+  account: accountStack,  
   category: categoryStack,
   home: homeStack,
   question: questionStack,

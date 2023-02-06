@@ -284,7 +284,7 @@ export function LoginForm() {
               }
             />
             {error && (
-              <Text style={styles.lblValidationError}>{error.message}</Text>
+              <Text style={styles.lblValidationError}>{t("Home.requiredUser")}</Text>
             )}
           </View>
         )}
@@ -320,7 +320,7 @@ export function LoginForm() {
               }
             />
             {error && (
-              <Text style={styles.lblValidationError}>{error.message}</Text>
+              <Text style={styles.lblValidationError}>{t("Home.requiredPass")}</Text>
             )}
           </View>
         )}
@@ -329,12 +329,13 @@ export function LoginForm() {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate(screen.recoveryPassword.tab, {
-            screen: screen.recoveryPassword.emailRecovery,
+            screen: screen.recoveryPassword.nickRecovery,
           })
         }
       >
         <Text style={styles.lblSubTitleTwo}>{t("Home.lblSubTitleTwo")} </Text>
       </TouchableOpacity>
+
       <Button
         title={t("Home.btnLogin")}
         containerStyle={stylesGlobal.btnContainer}

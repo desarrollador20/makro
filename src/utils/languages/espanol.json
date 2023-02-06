@@ -115,6 +115,19 @@
       "textNoConfirm": "El sistema no encontró un usuario activo para el correo electrónico registrado. Enviaremos un correo electrónico solicitando acceso al administrador del sistema. Le sugerimos contactar al equipo de HSE de makro group para confirmar la activación de su acceso.",
       "btnConfirmHome": "Volver al inicio",
       "textConfirm2": "Olvide mi contraseña"
+    },
+    "InspeccionComplete":{
+      "title": "La inspección se envío satisfactoriamente",
+      "back": "Salir"
+
+    },
+    "NickRecovery":{
+      "textNick": "Valide su correo electrónico",
+      "textUser": "Usuario no encontrado",
+      "textPass": "La contraseña será enviada a su correo registrado",
+      "textNameUserInput": "Ingrese su nombre de usuario"
+
     }
+
   }
 }

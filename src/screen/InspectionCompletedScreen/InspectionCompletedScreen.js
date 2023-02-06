@@ -21,9 +21,9 @@ export function InspectionCompletedScreen(props) {
                 style={styles.image}
             />
             <View style={styles.container}>
-                <Text style={styles.lblTitle}>A inspeção foi enviada de forma satisfatória</Text>
+                <Text style={styles.lblTitle}>{t("InspeccionComplete.title")}</Text>
                 <Button
-                    title={`Salir`}
+                    title={t("InspeccionComplete.back")}
                     titleStyle={styles.fontCustom}
                     containerStyle={stylesGlobal.btnContainer}
                     buttonStyle={{ ...stylesGlobal.btn, marginTop: normalize(30), alignSelf: 'center', width: '85%', backgroundColor: '#E25D62' }}

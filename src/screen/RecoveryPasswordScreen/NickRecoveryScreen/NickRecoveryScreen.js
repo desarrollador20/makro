@@ -6,17 +6,16 @@ import normalize from "react-native-normalize";
 import { useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import { screen, stylesGlobal, theme, lng, apis } from "../../../utils";
-import { styles } from "./EmailRecoveryScreen.styles";
+import { styles } from "./NickRecoveryScreen.style";
 import axios from "axios";
 
 
 
-export function EmailRecoveryScreen() {
+export function NickRecoveryScreen() {
   const navigation = useNavigation();
   const { t } = lng.useTranslation();
   const [inputEmail, setInputEmail] = useState("");
   const [downloadingData, setDownloadingData] = useState(false);
-
   const emailRegex =
     /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
   const {
@@ -30,64 +29,75 @@ export function EmailRecoveryScreen() {
   });
   const onSubmit = (data) => {
     setDownloadingData(true);
-
-    if (!emailRegex.test(inputEmail) && inputEmail) {
+    
+    if (!inputEmail) {
       Toast.show({
         type: "error",
         position: "bottom",
         text1: "Aviso",
-        text2: t("EmailRecovery.alertNoEmailValide"),
-      });
-    setDownloadingData(false);
+        text2: t("NickRecovery.textNameUserInput"),
 
-    } else if (!inputEmail) {
-      Toast.show({
-        type: "error",
-        position: "bottom",
-        text1: "Aviso",
-        text2: t("EmailRecovery.alertNoEmail"),
+
       });
-    setDownloadingData(false);
+     setDownloadingData(false);
 
       return false;
     } else {
       getDataEmail();
     }
   };
-
-
   const getDataEmail = async () => {
-
-
+ 
     axios({
       method: "get",
-      
-      url: apis.GlobalApis.url_get_surveys_movil_users_validate+"?userEmail="+inputEmail,
+      url: apis.GlobalApis.url_get_remenber_password+"?userName="+inputEmail+"&sendEmail=true",
     }).then(async (response) => {
       const data = response.data;
      setDownloadingData(false);
-    
-      if (data) {
-        console.log(data.name);
-  
-        navigation.navigate(screen.recoveryPassword.tab, {
-          screen: screen.recoveryPassword.confirmRecovery,
-        });
+      
 
-      } 
+      if (data) {
+        Toast.show({
+          type: "success",
+          position: "bottom",
+          text1: "Aviso",
+          text2: t("NickRecovery.textNick"),
+  
+        });
+        navigation.navigate(screen.account.tab, {
+          screen: screen.account.login,
+        });
+      
+  
+
+      } else {
+        Toast.show({
+          type: "error",
+          position: "bottom",
+          text1: "Aviso",
+          text2: t("NickRecovery.textUser"),
+  
+        });
+        navigation.navigate(screen.recoveryPassword.tab, {
+          screen: screen.recoveryPassword.noConfirm,
+        });
+      }
 
     }).catch((error) => {
-     setDownloadingData(false);
-      navigation.navigate(screen.recoveryPassword.tab, {
-        screen: screen.recoveryPassword.noConfirm,
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "Aviso",
+          text2: t("NickRecovery.textUser"),
+
       });
     }).finally(() => {
 
     });
   }
-
   const onChange = (event) => {
     setInputEmail(event.target.value);
+    console.log(event.target.value);
   };
 
   return (
@@ -98,11 +108,11 @@ export function EmailRecoveryScreen() {
             source={require("../../../../assets/img/login_logo.png")}
             style={styles.image}
           />
-          <Text style={styles.lblTitle}>{t("EmailRecovery.title")}</Text>
+          <Text style={styles.lblTitle}>{t("NickRecovery.textNameUserInput")}</Text>
 
           <View style={styles.containerValidationError}>
             <Input
-              placeholder="E-mail"
+              placeholder={t("Home.inputUser")}
               style={styles.fontCustom}
               inputContainerStyle={styles.input}
               textStyle={styles.lblTitleRadio}
@@ -112,13 +122,17 @@ export function EmailRecoveryScreen() {
                 <Icon
                   type="ionicon"
                   size={normalize(30)}
-                  name="ios-mail"
+                  name="person-circle-outline"
                   iconStyle={styles.icon}
                   color="#EA0100"
                 />
               }
             />
+
+          <Text style={{...styles.lblTitle2, "marginBottom": 10}}>{t("NickRecovery.textPass")}</Text>
+
           </View>
+
 
           <View style={styles.containerSelector}>
             <Button
@@ -134,7 +148,11 @@ export function EmailRecoveryScreen() {
               loading={downloadingData}
             />
           </View>
+          
+          <View>
 
+          </View>
+          
           <View style={styles.containerLogo}>
             <Image
               source={require("../../../../assets/img/logoPulse.png")}
