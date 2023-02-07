@@ -84,6 +84,8 @@ export function NickRecoveryScreen() {
       }
 
     }).catch((error) => {
+     setDownloadingData(false);
+
       Toast.show({
         type: "error",
         position: "bottom",
