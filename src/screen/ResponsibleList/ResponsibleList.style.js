@@ -92,6 +92,11 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
     paddingLeft: normalize(10),
   },
+  containerLabelsQuestion: {
+    flex: 5,
+    alignSelf: "center",
+    paddingLeft: normalize(10),
+  },
 
   containerArrow: {
     flex: 1,
