@@ -8,17 +8,26 @@ import { styles } from './CheckboxCustom.style';
 
 export function CheckboxCustom(props) {
 
-  const { checkboxSelected, setCheckboxSelected, toDisabledOne, toDisabledTwo, color, icon, title, number, idCategory, idQuestion, idCheckList, numberQuestion, isAnswersImages, imageAnswer, idConfiguration, idAnswer } = props;
+  const { checkboxSelected, setCheckboxSelected, toDisabledOne, toDisabledTwo, color, icon, title, number, idCategory, idQuestion, idCheckList, numberQuestion, isAnswersImages, imageAnswer, idConfiguration, idAnswer, nameQuestion } = props;
   const { managerScreenQuestion } = useClickButtom();
+ 
 
-  const validateCheckbox = async (checkboxSelected, setCheckboxSelected, toDisabledOne, toDisabledTwo, number, idCategory, idQuestion, idCheckList, idConfiguration, idAnswer) => {
+  const validateCheckbox = async (checkboxSelected, setCheckboxSelected, toDisabledOne, toDisabledTwo, number, idCategory, idQuestion, idCheckList, idConfiguration, idAnswer, nameQuestion) => {
     toDisabledOne(false);
     toDisabledTwo(false);
+    console.log(nameQuestion);
     await storageResult.setItemValue(idCheckList, idCategory, idQuestion, 'checkboxSelected', number);
+    await storageResult.setItemValue(idCheckList, idCategory, idQuestion,'nameQuestion', nameQuestion);
     await storageResult.setItemValue(idCheckList, idCategory, idQuestion, 'IdSurveysMovilResponses', idAnswer);
     await storageResult.setItemValue(idCheckList, idCategory, idQuestion, 'idConfiguration', idConfiguration);
     setCheckboxSelected(!checkboxSelected);
     managerScreenQuestion(idCategory, numberQuestion, idQuestion, 0, 0, idCheckList, 'next', number);
+    const StorageResponse = await storageResult.getDataFormat(
+      "@SessionResponse"
+    );
+ 
+
+
   }
 
 
@@ -54,7 +63,7 @@ export function CheckboxCustom(props) {
           checkedColor={checkboxSelected ? color : theme.GlobalColorsApp.colorOptionInactive}
           checked={checkboxSelected}
           containerStyle={{ ...styles.containerCheckbox, borderColor: checkboxSelected ? color : theme.GlobalColorsApp.colorOptionInactive }}
-          onPress={() => validateCheckbox(checkboxSelected, setCheckboxSelected, toDisabledOne, toDisabledTwo, number, idCategory, idQuestion, idCheckList, idConfiguration, idAnswer)}
+          onPress={() => validateCheckbox(checkboxSelected, setCheckboxSelected, toDisabledOne, toDisabledTwo, number, idCategory, idQuestion, idCheckList, idConfiguration, idAnswer, nameQuestion)}
         />
       </View>
     )
@@ -71,7 +80,7 @@ export function CheckboxCustom(props) {
                 checkedColor={checkboxSelected ? color : theme.GlobalColorsApp.colorOptionInactive}
                 checked={checkboxSelected}
                 containerStyle={styles.checkboxWithIMG}
-                onPress={() => validateCheckbox(checkboxSelected, setCheckboxSelected, toDisabledOne, toDisabledTwo, number, idCategory, idQuestion, idCheckList, idConfiguration, idAnswer)}
+                onPress={() => validateCheckbox(checkboxSelected, setCheckboxSelected, toDisabledOne, toDisabledTwo, number, idCategory, idQuestion, idCheckList, idConfiguration, idAnswer, nameQuestion)}
               />
               <View style={styles.containerAsnwerWithIMG}>
                 <Image

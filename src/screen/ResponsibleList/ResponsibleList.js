@@ -20,9 +20,11 @@ import axios from "axios";
 export function ResponsibleList(props) {
   const { route } = props;
   const [listResponsible, setListResponsible] = useState([]);
+  const [nameQuestionArray, setNameQuestionArray] = useState([]);
   const { t } = lng.useTranslation();
   const [dataResponsable, setDataResponsable] = useState(false);
   const [noConforme, setNoConforme] = useState("");
+  const [showData, setShowData] = useState(false);
 
   const loaderListResponsible = async () => {
     const StorageResponsibleList = await storageResult.getDataFormat("@SessionResponsibleList");
@@ -39,12 +41,21 @@ export function ResponsibleList(props) {
     const StorageResponse = await storageResult.getDataFormat("@SessionResponse");
     let no_conforme = 0;
     if (typeof StorageResponse !== undefined && StorageResponse) {
+       
+      const dataNameQuestion = [];
       Object.entries(StorageResponse).forEach(([key, value]) => {
-        if (key?.split("|")[1].includes(idCategory) && key.includes("checkboxSelected") && value == "2") {
+       if (key?.split("|")[1].includes(idCategory) && key.includes("nameQuestion") ) {
+        dataNameQuestion.push(value);
+
+
+      }
+        if (key?.split("|")[1].includes(idCategory) && key.includes("checkboxSelected") && value == "2" ) {
           no_conforme = no_conforme + 1;
+
         }
-      });
+      });   
       setNoConforme(no_conforme);
+      setNameQuestionArray(dataNameQuestion);
     }
   };
 
@@ -179,7 +190,12 @@ export function ResponsibleList(props) {
       </View>
     );
   };
+  const showNameQuestion = () => {
 
+    setShowData(showData == true ? false : true);
+  }
+
+ 
 
   if (!dataResponsable) {
     return (<Loading show />);
@@ -195,7 +211,7 @@ export function ResponsibleList(props) {
           numberQuestion={route.params.numberQuestion + 1}
           insideQuestion={"1"}
         />
-        <View style={styles.container}>
+        <View style={{...styles.container, marginBottom: normalize(0, "height")}}>
           <View style={styles.containerHeader}>
             <Text style={styles.lblTitle}>{t("ResponsableList.title")}</Text>
             <View style={styles.emulateStyleCombo}>
@@ -233,12 +249,13 @@ export function ResponsibleList(props) {
             }
           })}
         </View>
-        <View style={styles.container}>
+        <View style={{...styles.container, marginBottom: normalize(19, "height")}}>
           <TouchableOpacity
             style={{
               ...styles.item,
               borderColor: theme.GlobalColorsApp.colorOptionActiveDisagreed,
             }}
+            onPress={() => showNameQuestion()}
           // onPress={() => managerScreen(navigation, id, module, idCheckList)}
           // key={id}
           >
@@ -277,13 +294,55 @@ export function ResponsibleList(props) {
             <View style={styles.containerArrow}>
               <Icon
                 type="ionicon"
-                name="arrow-down-circle-outline"
+                name={showData == false ? "arrow-down-circle-outline" : "arrow-up-circle-outline" }
                 color={theme.GlobalColorsApp.colorOptionActiveDisagreed}
                 size={normalize(30)}
               />
             </View>
           </TouchableOpacity>
         </View>
+        <View style={{...styles.container, marginTop:normalize(-20, "height")}}>
+
+        {showData && nameQuestionArray.map((item, key) => {
+            //console.log("victor: " +JSON.stringify(item));
+              return (
+                <TouchableOpacity
+                style={{
+                  ...styles.item,
+                  borderColor: theme.GlobalColorsApp.colorOptionActiveDisagreed,
+                }}
+                key={key}
+                
+              >
+               
+                <View style={styles.containerLabelsQuestion}>
+                 
+                  <Text style={styles.lblNumQuestions}>
+                    <Text
+                      style={{
+                        color: theme.GlobalColorsApp.colorOptionActiveDisagreed,
+                      }}
+                    >
+                      <Text style={{ color: theme.GlobalColorsApp.lblGrayPrimary }}>
+                        {item}
+                      </Text>
+                    </Text>
+                  </Text>
+                </View>
+                <View style={styles.containerArrow}>
+                  <Icon
+                    type="ionicon"
+                    name="thumbs-down-outline"
+                    color={theme.GlobalColorsApp.colorOptionActiveDisagreed}
+                    size={normalize(30)}
+                  />
+                </View>
+              </TouchableOpacity>
+              );
+            
+          })}
+        </View>
+
 
         <ButtonsQuestion
           idCategory={route.params.id}

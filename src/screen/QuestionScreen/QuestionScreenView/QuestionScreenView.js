@@ -290,6 +290,7 @@ export function QuestionScreen(props) {
               isAnswersImages={dataQuestion.is_answers_images}
               imageAnswer={dataQuestion.answer_options[0].img}
               idConfiguration={dataQuestion.IdSurveysMovilConfiguration}
+             
             />
 
             <CheckboxCustom
@@ -313,6 +314,12 @@ export function QuestionScreen(props) {
               isAnswersImages={dataQuestion.is_answers_images}
               imageAnswer={dataQuestion.answer_options[1].img}
               idConfiguration={dataQuestion.IdSurveysMovilConfiguration}
+              nameQuestion={
+                t("Global.flag") == "pt"
+                  ? dataQuestion.titlePortuguese
+                  : dataQuestion.titleSpanish
+              }
+            
             />
             <CheckboxCustom
               checkboxSelected={notApplicable}
@@ -334,6 +341,7 @@ export function QuestionScreen(props) {
               isAnswersImages={dataQuestion.is_answers_images}
               imageAnswer={dataQuestion.answer_options[2].img}
               idConfiguration={dataQuestion.IdSurveysMovilConfiguration}
+             
             />
           </View>
         </View>
