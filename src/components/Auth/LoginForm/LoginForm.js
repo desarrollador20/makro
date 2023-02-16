@@ -227,8 +227,8 @@ export function LoginForm() {
               await storageResult.removeItemValue("@SessionResponsibleList");
               await storageResult.removeItemValue("@IdCheklistNotProcessed");
               setDownloadingData(false);
-              navigation.navigate(screen.account.tab, {
-                screen: screen.account.geocalizacion,
+              navigation.navigate(screen.detectLocation.tab, {
+                screen: screen.detectLocation.home,
               });
             })
           )

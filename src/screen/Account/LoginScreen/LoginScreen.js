@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 
 
 export function LoginScreen() {
-  const [valueRadio, setValueRadio] = React.useState("pt");
+  const [valueRadio, setValueRadio] = React.useState("es");
   const { t, i18n } = lng.useTranslation();
   const navigation = useNavigation();
 
@@ -31,9 +31,9 @@ export function LoginScreen() {
     const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
     if (!DataLenguage) {
       console.log("indefinido");
-      i18n.changeLanguage("pt");
-      storageResult.setItemValueLanguage("pt");
-      setValueRadio("pt");
+      i18n.changeLanguage("es");
+      storageResult.setItemValueLanguage("es");
+      setValueRadio("es");
     }
   };
 
