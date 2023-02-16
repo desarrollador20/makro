@@ -62,6 +62,31 @@ export function PreviousInspection(props) {
       .then(async (response) => {
         const data = response.data.data;
         const createSplit = data[0].create.split(" ");
+        var statusPosition;
+        if(data[0].position == 1){
+          statusPosition = {
+            label: t("PreviousInspection.btnlike"),
+            color: theme.GlobalColorsApp.colorOptionActive,
+            icono: "thumbs-up-outline"
+          }
+        }
+        else if(data[0].position == 2){
+          statusPosition = {
+            label: t("PreviousInspection.btnDislike"),
+            color: theme.GlobalColorsApp.colorOptionActiveDisagreed,
+            icono: "thumbs-up-outline"
+          }
+
+        }
+        else{
+          statusPosition = {
+            label: t("PreviousInspection.btnNoAplica"),
+            color: theme.GlobalColorsApp.colorOptionInactive,
+            icono: "md-help-circle"
+          }
+
+        }
+
         const objData = {
           id: data[0].id,
           create: createSplit[0],
@@ -73,6 +98,7 @@ export function PreviousInspection(props) {
           nameRisk: data[0].nameRisk,
           nameSeverity: data[0].nameSeverity,
           position: data[0].position == 2 ? true : false,
+          statusPosition: statusPosition
         };
         setObjData(objData);
       })
@@ -121,9 +147,9 @@ export function PreviousInspection(props) {
                 Resultado:
               </Text>
               <CheckboxHistory
-                color={objData.position == true ? theme.GlobalColorsApp.colorOptionActiveDisagreed: theme.GlobalColorsApp.colorOptionActive}
-                icon={objData.position == true ? "thumbs-down-outline": "thumbs-up-outline"}
-                title={objData.position == true ? t("PreviousInspection.btnDislike"): t("PreviousInspection.btnlike") }
+                color={objData.statusPosition.color}
+                icon={objData.statusPosition.icono}
+                title={objData.statusPosition.label}
               />
             </View>
          

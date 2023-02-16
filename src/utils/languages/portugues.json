@@ -54,6 +54,7 @@
     "PreviousInspection": {
       "showPreIns": "Ver inspeção anterior",
       "btnDislike": "Não Conforme",
+      "btnNoAplica": "Não aplicável",
       "textQuestionHistory": "Data da Inspeção Prévia:",
       "btnlike": "Conforme",
 
