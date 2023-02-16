@@ -54,6 +54,7 @@
     "PreviousInspection": {
       "showPreIns": "Ver inspección anterior",
       "btnDislike": "No conforme",
+      "btnlike": "Conforme",
       "textQuestionHistory": "Fecha de Inspección Previa:",
       "textObs": "Observaciones",
       "textMp": "Medidas propuestas",

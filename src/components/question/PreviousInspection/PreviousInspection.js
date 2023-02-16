@@ -50,45 +50,43 @@ export function PreviousInspection(props) {
   };
 
   const getDataDisagreed = async () => {
-
-    const dataIdCountry = await storageResult.getDataFormat("@SessionIdCountry");
+    const dataIdCountry = await storageResult.getDataFormat(
+      "@SessionIdCountry"
+    );
     const dataIdStore = await storageResult.getDataFormat("@SessionIdStore");
 
     axios({
       method: "get",
       url: `${apis.GlobalApis.url_get_surveys_movil_details_questions_last}?PiIdIndicatorsLanguages=${lang}&PiIdIndicatorsCountry=${dataIdCountry}&PiIdIncidentsStore=${dataIdStore}&PiIdSurveysMovilQuestions=${idQuestion}`,
-    }).then(async (response) => {
-
-      const data = response.data.data;
-      const createSplit = data[0].create.split(' ');
-      const objData = {
-        id: data[0].id,
-        create: createSplit[0],
-        //create: Date(data[0].create),
-        nameResponses: data[0].nameResponses,
-        observations: data[0].observations,
-        observationsProposed: data[0].observationsProposed,
-        nameSector: data[0].nameSector,
-        nameRisk: data[0].nameRisk,
-        nameSeverity: data[0].nameSeverity
-      }
-      setObjData(objData);
-
-    }).catch((error) => {
-      console.log("Error en peticion: " + error);
-    }).finally(() => {
-
-    });
-
+    })
+      .then(async (response) => {
+        const data = response.data.data;
+        const createSplit = data[0].create.split(" ");
+        const objData = {
+          id: data[0].id,
+          create: createSplit[0],
+          //create: Date(data[0].create),
+          nameResponses: data[0].nameResponses,
+          observations: data[0].observations,
+          observationsProposed: data[0].observationsProposed,
+          nameSector: data[0].nameSector,
+          nameRisk: data[0].nameRisk,
+          nameSeverity: data[0].nameSeverity,
+          position: data[0].position == 2 ? true : false,
+        };
+        setObjData(objData);
+      })
+      .catch((error) => {
+        console.log("Error en peticion: " + error);
+      })
+      .finally(() => {});
   };
 
   useFocusEffect(
     useCallback(() => {
-
       getDataDisagreed();
     }, [])
   );
-
 
   return (
     <>
@@ -110,50 +108,55 @@ export function PreviousInspection(props) {
 
       {getHistory && (
         <View style={styles.containerHistorial}>
-          <View style={styles.row}>
-            <Text style={styles.lblQuestionHistory}>
-              {t("PreviousInspection.textQuestionHistory")}
-            </Text>
-            <Text style={styles.lblResponseHistory}>{objData.create}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={{ ...styles.lblQuestionHistory, flex: 3 }}>
-              Resultado:
-            </Text>
-            <CheckboxHistory
-              color={theme.GlobalColorsApp.colorOptionActiveDisagreed}
-              icon={"thumbs-down-outline"}
-              title={t("PreviousInspection.btnDislike")}
+         
+            <View style={styles.row}>
+              <Text style={styles.lblQuestionHistory}>
+                {t("PreviousInspection.textQuestionHistory")}
+              </Text>
+              <Text style={styles.lblResponseHistory}>{objData.create}</Text>
+            </View>
+         
+            <View style={styles.row}>
+              <Text style={{ ...styles.lblQuestionHistory, flex: 3 }}>
+                Resultado:
+              </Text>
+              <CheckboxHistory
+                color={objData.position == true ? theme.GlobalColorsApp.colorOptionActiveDisagreed: theme.GlobalColorsApp.colorOptionActive}
+                icon={objData.position == true ? "thumbs-down-outline": "thumbs-up-outline"}
+                title={objData.position == true ? t("PreviousInspection.btnDislike"): t("PreviousInspection.btnlike") }
+              />
+            </View>
+         
+          {objData.position && (
+            <RowColumnHistory
+              title={t("PreviousInspection.textObs")}
+              description={objData.observations}
             />
-          </View>
-
-          <RowColumnHistory
-            title={t("PreviousInspection.textObs")}
-            description={
-              objData.observations
-            }
-          />
-          <RowColumnHistory
-            title={t("PreviousInspection.textMp")}
-            description={
-              objData.observationsProposed
-            }
-          />
-          <RowColumnHistory
-            title={t("PreviousInspection.textS")}
-
-            description={objData.nameSector}
-          />
-          <RowColumnHistory
-            title={t("PreviousInspection.textPa")}
-            description={objData.nameRisk}
-
-          />
-          <RowColumnHistory
-            title={t("PreviousInspection.textGpo")}
-            description={objData.nameSeverity}
-
-          />
+          )}
+          {objData.position && (
+            <RowColumnHistory
+              title={t("PreviousInspection.textMp")}
+              description={objData.observationsProposed}
+            />
+          )}
+          {objData.position && (
+            <RowColumnHistory
+              title={t("PreviousInspection.textS")}
+              description={objData.nameSector}
+            />
+          )}
+          {objData.position && (
+            <RowColumnHistory
+              title={t("PreviousInspection.textPa")}
+              description={objData.nameRisk}
+            />
+          )}
+          {objData.position && (
+            <RowColumnHistory
+              title={t("PreviousInspection.textGpo")}
+              description={objData.nameSeverity}
+            />
+          )}
         </View>
       )}
     </>
