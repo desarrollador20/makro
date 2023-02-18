@@ -278,6 +278,7 @@ export function CategoryScreen(props) {
           }
         }).catch(function (err) {
           console.log("Error de conexión " + err);
+          checkedWon(route.params.idCheckList);
           setDownloadingData(false);
 
         });

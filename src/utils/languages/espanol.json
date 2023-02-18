@@ -49,7 +49,7 @@
       "btnEnd": "Finalizar inspección",
       "textModal": "Confirme que desea enviar la inspección.",
       "btnModal": "Enviar",
-      "textNoSend": "Error no se pudo guardar la data."
+      "textNoSend": "La inspección no se pudo guardar por favor verifica tu conexión a internet."
     },
     "PreviousInspection": {
       "showPreIns": "Ver inspección anterior",
