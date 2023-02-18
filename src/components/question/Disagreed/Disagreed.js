@@ -208,9 +208,6 @@ export function Disagreed(props) {
     );
   };
 
-  if (!sector) {
-    return (<View />);
-  }
 
   return (
     <View style={styles.container}>

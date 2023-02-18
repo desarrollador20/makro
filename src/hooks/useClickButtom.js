@@ -12,16 +12,8 @@ export function useClickButtom() {
     setConnectStatus(res);
   });
 
-  const managerScreenQuestion = async (
-    idCategory,
-    numberQuestion,
-    idQuestion,
-    screenPositiveComments = 0,
-    screenResponsileList = 0,
-    idCheckList,
-    action,
-    numberOption
-  ) => {
+  const managerScreenQuestion = async (idCategory, numberQuestion, idQuestion, screenPositiveComments = 0, screenResponsileList = 0, idCheckList, action, numberOption) => {
+    // cuando es no conforme no paso automaticamente a la otra pregunta 
     if (parseInt(numberOption) == 2) {
       return;
     }
