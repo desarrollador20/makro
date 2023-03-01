@@ -57,12 +57,13 @@
       "btnNoAplica": "Não aplicável",
       "textQuestionHistory": "Data da Inspeção Prévia:",
       "btnlike": "Conforme",
-
       "textObs": "Observaçãoes",
       "textMp": "Medidas propostas",
       "textS": "Setor",
       "textPa": "Probabilidade de Acidente",
-      "textGpo": "Gravidade que poderia ocorrer"
+      "textGpo": "Gravidade que poderia ocorrer",
+      "textNoData": "Não há registro de inspeção anterior"
+
     },
     "QuestionScreen": {
       "unploadImage": "Carregar provas fotográficas",
