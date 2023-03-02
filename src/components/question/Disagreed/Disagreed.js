@@ -46,6 +46,7 @@ export function Disagreed(props) {
         const item = {
           label: t("Global.flag") == "es" ? value.name : value.namePortuguese,
           value: value.id.toString(),
+          key
         };
         probability.push(item);
       }
