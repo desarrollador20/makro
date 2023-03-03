@@ -61,7 +61,12 @@ export function PreviousInspection(props) {
     })
       .then(async (response) => {
         const data = response.data.data;
+      
+        if (data) {
+        
         const createSplit = data[0].create.split(" ");
+      
+        console.log("paso por aca victor");
         var statusPosition;
         if(data[0].position == 1){
           statusPosition = {
@@ -101,6 +106,7 @@ export function PreviousInspection(props) {
           statusPosition: statusPosition
         };
         setObjData(objData);
+      }
       })
       .catch((error) => {
         console.log("Error en peticion: " + error);
@@ -132,7 +138,7 @@ export function PreviousInspection(props) {
         </Text>
       </Pressable>
 
-      {getHistory && (
+      {getHistory &&  (
         <View style={styles.containerHistorial}>
          
             <View style={styles.row}>
@@ -141,17 +147,26 @@ export function PreviousInspection(props) {
               </Text>
               <Text style={styles.lblResponseHistory}>{objData.create}</Text>
             </View>
+            {objData.statusPosition ? (
          
             <View style={styles.row}>
               <Text style={{ ...styles.lblQuestionHistory, flex: 3 }}>
                 Resultado:
               </Text>
               <CheckboxHistory
-                color={objData.statusPosition.color}
-                icon={objData.statusPosition.icono}
-                title={objData.statusPosition.label}
+                color={objData.statusPosition ? objData.statusPosition.color : theme.GlobalColorsApp.colorOptionInactive}
+                icon={objData.statusPosition ? objData.statusPosition.icono : "md-help-circle"}
+                title={objData.statusPosition ? objData.statusPosition.label: t("PreviousInspection.btnNoAplica")}
               />
             </View>
+              )
+              : (
+                <View style={styles.row}>
+                  <Text style={{ ...styles.lblQuestionHistory, flex: 3 }}>
+                    {t("PreviousInspection.textNoData")}
+                  </Text>
+                </View>
+              )}
          
           {objData.position && (
             <RowColumnHistory

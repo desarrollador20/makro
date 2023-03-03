@@ -61,7 +61,8 @@
       "textMp": "Medidas propuestas",
       "textS": "Sector",
       "textPa": "Probabilidad de accidente",
-      "textGpo": "Gravedad que podría ocurrir"
+      "textGpo": "Gravedad que podría ocurrir",
+      "textNoData": "No hay registro de inspección anterior"
     },
     "QuestionScreen": {
       "unploadImage": "Subir evidencia fotográfica",
