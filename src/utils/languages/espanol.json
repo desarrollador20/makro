@@ -2,7 +2,9 @@
   "translation": {
     "Global": {
       "hello": "Buen día",
-      "flag": "es"
+      "flag": "es",
+      "updateApp": "Una nueva actualización se encuentra disponible, es necesario actualizar la aplicación para disfrutar de todos los beneficios.",
+      "updateBotton": "Actualizar"
     },
     "Home": {
       "title": "Inspección de seguridad",
