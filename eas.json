@@ -1,0 +1,36 @@
+{
+  "cli": {
+    "version": ">= 3.9.2"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "ios": {
+        "resourceClass": "m-medium"
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {
+      "ios": {
+        "image": "macos-ventura-13.3-xcode-14.3",
+        "releaseChannel": "v-produccion",
+        "resourceClass": "m-medium"
+      },
+      "android": {
+          "releaseChannel": "v-produccion"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

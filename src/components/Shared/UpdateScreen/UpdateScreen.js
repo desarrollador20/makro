@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import * as Updates from 'expo-updates';
 import { Button } from 'react-native-elements';
-import Modal from "../Modal/Modal";
+import { Modal } from "../Modal/Modal";
 import { lng, theme } from '../../../utils';
 
 const UpdateScreen = () => {
@@ -11,11 +11,14 @@ const UpdateScreen = () => {
   const { t } = lng.useTranslation();
 
   const onUpdatePress = () => {
+    console.log('llgastee');
     Updates.reloadAsync();
   };
 
+
+
   return (
-    <Modal isVisible={true}  >
+    <Modal show={true} >
       <View>
         <Text style={styles.HeaderTitle}>MAKRO</Text>
         <Text style={styles.MensageText}>{t("Global.updateApp")}</Text>

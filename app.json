@@ -1,33 +1,54 @@
 {
   "expo": {
-    "name": "MakroAudit",
-    "slug": "MakroAudit",
-    "version": "1.0.0",
+    "name": "MAKRO PULSE CHECKLIST",
+    "slug": "MAKRO_PULSE_CHECKLIST",
+    "privacy": "public",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.1.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "checkAutomatically": "ON_ERROR_RECOVERY"
     },
     "assetBundlePatterns": [
-      "**/*" 
+      "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pulse.makropulsechecklist",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.pulse.makropulsechecklist",
+      "versionCode": 9,
+      "permissions": [
+        "CAMERA_ROLL",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "description": "Aplicación para auditoria MAKRO",
+    "extra": {
+      "eas": {
+        "projectId": "94bd4d5f-7426-444d-a0aa-9065af7d91af"
+      }
     }
   }
 }

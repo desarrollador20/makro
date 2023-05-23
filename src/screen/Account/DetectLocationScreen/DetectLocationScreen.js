@@ -112,13 +112,13 @@ export function DetectLocationScreen() {
 
   const saveData = () => {
     if (itemValueCountry == undefined || itemValueStore == undefined) {
-  
+
       Toast.show({
         type: "error",
         position: "bottom",
         text1: "Aviso",
-        text2:  t("Global.flag") == "pt" ? "Os campos país e loja são obrigatórios." : "Los campos de país y tienda son obligatorios.",
-        
+        text2: t("Global.flag") == "pt" ? "Os campos país e loja são obrigatórios." : "Los campos de país y tienda son obligatorios.",
+
       });
     }
     else {

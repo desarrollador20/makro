@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 
 
 export function LoginScreen() {
-  const [valueRadio, setValueRadio] = React.useState("es");
+  const [valueRadio, setValueRadio] = React.useState("pt");
   const { t, i18n } = lng.useTranslation();
   const navigation = useNavigation();
 
@@ -28,13 +28,13 @@ export function LoginScreen() {
   ];
 
   const loaderInitchangeLanguageCustom = async () => {
-    const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
-    if (!DataLenguage) {
-      console.log("indefinido");
-      i18n.changeLanguage("es");
-      storageResult.setItemValueLanguage("es");
-      setValueRadio("es");
-    }
+    //const DataLenguage = await storageResult.getDataFormat('@SessionLanguage');
+    //if (!DataLenguage) {
+    console.log("indefinido");
+    i18n.changeLanguage("pt");
+    storageResult.setItemValueLanguage("pt");
+    setValueRadio("pt");
+    // }
   };
 
   return (
@@ -47,6 +47,7 @@ export function LoginScreen() {
           />
 
           <View style={styles.containerSelector}>
+
             <SwitchSelector
               style={styles.containerSwith}
               selectedTextStyle={styles.lblTitleRadio}
